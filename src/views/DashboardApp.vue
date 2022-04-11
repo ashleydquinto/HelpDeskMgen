@@ -56,6 +56,7 @@
 </template>
 
 <script>
+//import axios from 'axios'
 export default {
     name: "DashboardApp",
     data(){
@@ -89,6 +90,32 @@ export default {
         240,
       ],         
         }
+    },
+    methods:{
+      /* MGA INIBA KO TODAY (04-08-2022) 1:30pm */
+      //sample func
+      changeNum(){
+        this.activities[1].amounts = 2;
+        var num = this.activities[1];
+        console.log("var1",num);
+      },
+      /*getTicketNum(){
+        axios.get('http://localhost/helpdesk/helpdesk/get_ticketno.php')
+          .then((response)=>{
+            console.log(response.data)
+            this.activities[1].amounts = response.data.ongoing_rows;
+            this.activities[2].amounts = response.data.pending_rows;
+            this.activities[3].amounts = response.data.resolved_rows;
+            this.activities[4].amounts = response.data.closed_rows;
+            this.activities[5].amounts = response.data.cancelled_rows;
+            //var num = this.activities[3]
+            //console.log('resolved'+ num)
+          })
+      }*/
+    },
+    created: function(){
+      //this.changeNum();
+      this.getTicketNum();
     }
 }
 </script>

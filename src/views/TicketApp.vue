@@ -2,14 +2,12 @@
     <div class="ticketapp">
         <v-subheader class="d-flex justify-space-between align-center">
               <v-col
-            cols="12"
-            sm="6"
-            md="9"
+          
             >
             <h1>Ticket</h1>
             </v-col>
-            <v-row justify="space-around">
-    <v-col cols="auto">
+            <v-row justify="end">
+    
       <v-dialog
         transition="dialog-bottom-transition"
         max-width="600"
@@ -29,16 +27,21 @@
             <v-card-text>
              <v-form>
                 <v-container>
-                    <v-row>
+                    <v-row no-gutters>
+                      
                      <v-col
-                    cols="12"
-                    sm="6"                    
+                     cols="12"
+                     sm="6"  
+                                      
                      >
+                     <!--Requestor-->
                      <v-text-field
-                    label="Requestor"
-                    outlined
-                    clearable
-                    ></v-text-field>
+                      label="Requestor"
+                      outlined
+                      clearable
+                      >
+                      </v-text-field>
+                    <!--Contact Number-->
                     </v-col>
                      <v-col
                     cols="12"
@@ -46,27 +49,37 @@
                      >
                      <v-text-field
                     label="Contact Number"
+                    class="pl-4" 
                     outlined
                     clearable
-                    ></v-text-field>
+                    >
+                    </v-text-field>
                     </v-col>
+
                      <v-col                 
                      >
+                     <!--Department-->
                      <v-text-field
                     label="Department"
                     outlined
                     clearable
                     ></v-text-field>
+
+                    <!--Issue-->
                     <v-text-field
                     label="Issue"
                     outlined
                     clearable
                     ></v-text-field>
+
+                    <!--Description-->
                      <v-text-field
                     label="Description"
                     outlined
                     clearable
                     ></v-text-field>
+
+                    <!--Justification-->
                      <v-text-field
                     label="Justification"
                     outlined
@@ -74,38 +87,33 @@
                     ></v-text-field>
                     </v-col>
                     </v-row>
-            <v-card-actions class="justify-center">
-              <v-btn
-                style="background-color: #388E3C; color: white;"
-                text
-              >Submit</v-btn>
-              <v-btn
-                style="background-color: #D32F2F; color: white;"
-                text
-                @click="dialog.value = false"
-              >Close</v-btn>
-            </v-card-actions>
+
+                    <!--buttons-->
+                    <v-card-actions class="justify-center">
+
+                      <v-btn
+                      style="background-color: #388E3C; color: white;"
+                      text
+                      @click="submitTicket(), dialog.value = false">
+                      Submit
+                      </v-btn>
+
+                      <v-btn
+                      style="background-color: #D32F2F; color: white;"
+                      text
+                      @click="dialog.value = false">
+                      Close
+                      </v-btn>
+                      
+                    </v-card-actions>
+
                  </v-container>
              </v-form>
             </v-card-text>
           </v-card>
         </template>
       </v-dialog>
-    </v-col>
     </v-row>
-            <v-col
-            md="2"
-            >
-            <v-combobox
-             v-model="select"
-             class="pt-7 pr-2"
-            :items="items"
-             label="Filter"
-            multiple
-            outlined
-            dense
-            ></v-combobox>
-            </v-col>
             </v-subheader><br>
             <v-row>
             <v-col lg="12">

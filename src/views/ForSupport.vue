@@ -3,24 +3,56 @@
     <v-header>
             <h2 class="pr-10 header-text">For Support</h2>
         </v-header><br>
-     <v-tabs 
-    fixed-tabs
-    dark
+  <v-tabs 
+  fixed-tabs
+  background-color="#1e6097"
+  slider-color="white"
   >
-    <v-tab to="/AllTicketsTab" style="background-color: #1e6097; color: white;">
+
+    <!--EDITED TODAY (04-08-2022 3:58PM) -->
+
+    <!--Header name AllTickets-->
+    <v-tab href="#AllTickets" style="color: white;"> <!--to="/AllTicketsTab" style: background-color: #1e6097; -->
       All Tickets
     </v-tab>
-    <v-tab to="/RequestsTab" style="background-color: #1e6097; color: white;">
+
+    <v-tab-item id="AllTickets" key="AllTickets" class="custom-tab-items">
+      <AllTicketsTab/>
+    </v-tab-item>
+
+    <!--Header name Requests-->
+    <v-tab href="#Requests" style=" color: white;" > <!--to="/RequestsTab" style: background-color: #1e6097;-->
       Requests
     </v-tab>
-    <v-tab to="/IncidentsTab" style="background-color: #1e6097; color: white;">
+
+    <v-tab-item id="Requests" key="Requests" class="custom-tab-items">
+      <RequestsApp/>
+    </v-tab-item>
+
+    <!--Header name Incidents-->
+    <v-tab href="#Incidents" style="color: white;"> <!--to="/IncidentsTab" style: background-color: #1e6097;-->
       Incidents
     </v-tab>
-    <v-tab to="/ProblemsTab" style="background-color: #1e6097; color: white;">
+
+    <v-tab-item id="Incidents" key="Incidents" class="custom-tab-items">
+      <IncidentsTab/>
+    </v-tab-item>
+
+    <!--Header name Problems-->
+    <v-tab href="#Problems" style="color: white;"> <!--to="/ProblemsTab" style: background-color: #1e6097;-->
       Problems
     </v-tab>
+
+    <v-tab-item id="Problems" key="Problems" class="custom-tab-items">
+      <ProblemsTab/>
+    </v-tab-item>
+
   </v-tabs>
+
+
+  <!--
   <br><br><br><br>
+  
            <v-row>
             <v-col lg="4" cols="8" v-for="(item,index) in activities" :key="index">
                 <v-card elevation="2" class="rounded-lg">
@@ -47,12 +79,28 @@
                 </v-data-table>
             </v-col>
         </v-row>
+  -->
+
   </div>
 </template>
 
 <script>
+//EDITED TODAY (04-08-2022 3:58PM)
+
+//import axios from 'axios'
+import AllTicketsTab from './AllTicketsTab.vue' 
+import RequestsApp from './RequestsApp.vue' 
+import IncidentsTab from './IncidentsTab.vue' 
+import ProblemsTab from './ProblemsTab.vue'
+
 export default {
     name: "ForSupportApp",
+    components:{
+      AllTicketsTab,
+      RequestsApp,
+      IncidentsTab,
+      ProblemsTab
+    },
     data(){
         return{
             activities:[
@@ -112,6 +160,33 @@ export default {
           'Assigned Engr',
         ],
         }
+    },
+    methods:{
+      /* MGA INIBA KO TODAY (04-08-2022) 1:30pm */
+      //sample func
+      changeNum(){
+        this.activities[1].amounts = 2;
+        var num = this.activities[1];
+        console.log("var1",num);
+      },
+      /*
+      getTicketNum(){
+        axios.get('http://localhost/helpdesk/helpdesk/get_ticketno.php')
+          .then((response)=>{
+            console.log(response.data)
+            this.activities[1].amounts = response.data.ongoing_rows;
+            this.activities[2].amounts = response.data.pending_rows;
+            this.activities[3].amounts = response.data.resolved_rows;
+            this.activities[4].amounts = response.data.closed_rows;
+            this.activities[5].amounts = response.data.cancelled_rows;
+            //var num = this.activities[3]
+            //console.log('resolved'+ num)
+          })
+      }*/
+    },
+    created: function(){
+      //this.changeNum();
+      this.getTicketNum();
     }
 }
 </script>
@@ -123,5 +198,8 @@ export default {
      .header-text {
        color: #616161;
     }
-
+    .custom-tab-items {
+        padding:2.5%;
+        background-color: whitesmoke;
+    }
 </style>
