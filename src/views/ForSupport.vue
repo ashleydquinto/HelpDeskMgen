@@ -17,7 +17,7 @@
     </v-tab>
 
     <v-tab-item id="AllTickets" key="AllTickets" class="custom-tab-items">
-      <AllTicketsTab/>
+      <AllTicketsTab/> 
     </v-tab-item>
 
     <!--Header name Requests-->
@@ -183,6 +183,7 @@ export default {
             //console.log('resolved'+ num)
           })
       }*/
+      
     },
     created: function(){
       //this.changeNum();

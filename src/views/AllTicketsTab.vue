@@ -21,9 +21,18 @@
                 :items="tickets"
                  class="pt-4 elevation-1"
                 >
-                <template v-slot:[`item.actions`]="{ }">
-                    <v-btn color="success">View</v-btn>
-                </template>
+                    <!--for ticket ID-->
+                    <template v-slot:[`item.ticket`]="{item}">
+                        {{item.id}}
+                    </template>
+                    <!--for ticket status from DB-->
+                    <template v-slot:[`item.state`]="{item}">
+                        {{item.status}}
+                    </template>
+                     <!--for ticket category chosen by user-->
+                    <template v-slot:[`item.category`]="{item}">
+                        {{item.issue}}
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
@@ -31,7 +40,7 @@
 </template>
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 export default {
     name: "AllTicketsTab",
 
@@ -118,10 +127,34 @@ export default {
             //console.log('resolved'+ num)
           })
       }*/
+      getPosts(){
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+            })
+       },
+       getTicketNum(){
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
+          .then((response)=>{
+            console.log(response.data)
+            this.activities[1].amounts = response.data.ongoing_rows;
+            this.activities[2].amounts = response.data.pending_rows;
+            this.activities[3].amounts = response.data.resolved_rows;
+            this.activities[4].amounts = response.data.closed_rows;
+            this.activities[5].amounts = response.data.cancelled_rows;
+            //var num = this.activities[3]
+            //console.log('resolved'+ num)
+          })
+      }
     },
     created: function(){
       //this.changeNum();
       this.getTicketNum();
+      this.getPosts();
     }
 };
 

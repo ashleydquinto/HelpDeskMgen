@@ -18,6 +18,8 @@
             v-on="on"
           >New Ticket</v-btn>
         </template>
+        
+        <!--new ticket form starts here-->
         <template v-slot:default="dialog">
           <v-card>
             <v-toolbar style="background-color: #1e6097; color: white;"
@@ -39,6 +41,7 @@
                       label="Requestor"
                       outlined
                       clearable
+                      v-model="addTicket.requestor"
                       >
                       </v-text-field>
                     <!--Contact Number-->
@@ -52,6 +55,7 @@
                     class="pl-4" 
                     outlined
                     clearable
+                    v-model="addTicket.contact_no"
                     >
                     </v-text-field>
                     </v-col>
@@ -63,28 +67,43 @@
                     label="Department"
                     outlined
                     clearable
+                    v-model="addTicket.department"
                     ></v-text-field>
 
                     <!--Issue-->
-                    <v-text-field
-                    label="Issue"
-                    outlined
-                    clearable
-                    ></v-text-field>
+                    <v-select
+                      :items="issues"
+                      item-text="title"
+                      label="Issue"
+                      outlined
+                      v-model="addTicket.issue" 
+                    ></v-select>
 
-                    <!--Description-->
-                     <v-text-field
+                    <!--
+                    Description
+                    changed to textarea (04-11)
+                    -->
+                     <v-textarea
                     label="Description"
+                    rows="3"
                     outlined
                     clearable
-                    ></v-text-field>
+                    no-resize
+                    v-model="addTicket.description"
+                    ></v-textarea>
 
-                    <!--Justification-->
-                     <v-text-field
+                    <!--
+                    Justification
+                    changed to textarea (04-11)
+                    -->
+                     <v-textarea
                     label="Justification"
+                    rows="3"
                     outlined
                     clearable
-                    ></v-text-field>
+                    no-resize
+                    v-model="addTicket.justification"
+                    ></v-textarea>
                     </v-col>
                     </v-row>
 
@@ -123,284 +142,83 @@
                 :items="tickets"
                  class="pt-4 elevation-1"
                 >
-                <template v-slot:[`item.actions`]="{ }">
-                    <v-btn color="success">View</v-btn>
-                </template>
+                    <!--for ticket ID-->
+                    <template v-slot:[`item.ticket`]="{item}">
+                        {{item.id}}
+                    </template>
+                    <!--for ticket status from DB-->
+                    <template v-slot:[`item.state`]="{item}">
+                        {{item.status}}
+                    </template>
+                     <!--for ticket category chosen by user-->
+                    <template v-slot:[`item.category`]="{item}">
+                        {{item.issue}}
+                    </template>
+                    <template v-slot:[`item.action`]>
+                        <v-btn @click="insertFuncHere">
+                            <v-icon>mdi-clipboard-edit-outline</v-icon>
+                        </v-btn>
+                    </template>
                 </v-data-table>
             </v-col>
         </v-row>
-        <div v-if="ticketOpen == true">
-            <transition name="modal">
-                <div class="modal-mask">
-                    <div class="modal-wrapper">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div class="col-lg-6">
-                                        <h3 class="modal-title">
-                                            {{dynamicTitle}}
-                                        </h3>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        
-                                        <button class="float-right btn btn-danger" @click="closeAddTicket">
-                                            Close
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="">Requestor</label>
-                                        <input placeholder="Enter requestor" type="text" class="form-control" v-model="addTicket.requestor"/>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label for="">Department</label>
-                                        <input placeholder="Enter department" type="text" class="form-control" v-model="addTicket.department"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Contact Number</label>
-                                        <input placeholder="Enter contact number" type="text" class="form-control" v-model="addTicket.contact_no"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Issue</label>
-                                        <!--<input placeholder="Enter issue" type="text" class="form-control" v-model="addTicket.issue"/>-->
-                                        <br>
-                                        <select class="form-control" v-model="addTicket.issue" required>
-                                            <option></option>
-                                            <option v-for="issue in issues" :key='issue.id'>{{issue.title}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Description</label>
-                                        <!--<input type="text" class="form-control" v-model="addTicket.description"/>-->
-                                        <textarea rows="5" cols="20" class="form-control issue" placeholder="Enter description" v-model="addTicket.description" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Justification</label>
-                                        <!--<input type="text" class="form-control" v-model="addTicket.justification"/>-->
-                                        <textarea rows="5" cols="20" class="form-control issue" placeholder="Enter justification" v-model="addTicket.justification" required></textarea>
-                                    </div>
-                                    <br>
-                                    <div align="center">
-                                        <input type="hidden" v-model="addTicket.hiddenId"/>
-                                        <button class="btn btn-success" @click="submitTicket">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </transition>
-        </div>
     </div>   
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: "TicketApp",
     data(){
         return{
-            ticketOpen: false,
-            activities:[
-                {title:'New Tickets',amounts:0},
-                {title:'Ongoing Tickets',amounts:0},
-                {title:'Pending Tickets',amounts:0},
-                {title:'Resolved Tickets',amounts:0},
-                {title:'Closed Tickets',amounts:0},
-                {title:'Cancelled Tickets',amounts:0},
-            ],
-            headers: [
-          { text: 'TICKET NO.', value: 'ticket' },
-          { text: 'REQUESTOR', value: 'requestor' },
-          { text: 'DEPARTMENT', value: 'department' },
-          { text: 'CATEGORY', value: 'category' },
-          { text: 'DESCRIPTION', value: 'description' },
-          { text: 'STATE', value: 'state' },
-          { text: 'CREATED', value: 'created' },
-          { text: 'RESOLVED', value: 'resolved' },
-          { text: 'ASSIGNED ENGR', value: 'assignedengr' },
-          { text: 'ACTION', value: 'action' },
-
-        ],
-        tickets: [
-          {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
+          issues:'',
+          activities:[
+              {title:'New Tickets',amounts:0},
+              {title:'Ongoing Tickets',amounts:0},
+              {title:'Pending Tickets',amounts:0},
+              {title:'Resolved Tickets',amounts:0},
+              {title:'Closed Tickets',amounts:0},
+              {title:'Cancelled Tickets',amounts:0},
+          ],
+          headers: [
+            { text: 'TICKET NO.', value: 'ticket' },
+            { text: 'REQUESTOR', value: 'requestor' },
+            { text: 'DEPARTMENT', value: 'department' },
+            { text: 'CATEGORY', value: 'category' },
+            { text: 'DESCRIPTION', value: 'description' },
+            { text: 'STATE', value: 'state' },
+            { text: 'CREATED', value: 'created' },
+            { text: 'RESOLVED', value: 'resolved' },
+            { text: 'ASSIGNED ENGR', value: 'assignedengr' },
+            { text: 'ACTION', value: 'action' },
+          ],
+          tickets: [
+            //Deleted na yung nilagay ni ash
+          ],
+          items: [
+            'Ticket No.',
+            'Requestor',
+            'Department',
+            'Category',
+            'Description',
+            'State',
+            'Created',
+            'Resolved',
+            'Assigned Engr',
+            'Action'
+          ],
+          addTicket:{
+            hiddenId:'',
+            requestor:'',
+            department:'',
+            contact_no:'',
+            issue:'',
+            description:'',
+            justification:'',
+            status:'New'
           },
-           {
-            ticket: '5359',
-            requestor: 'John Eric Diwa',
-            deparment: 'Sales and Marketing',
-            category: 'Others',
-            description: 'For Client - helpdesk support -VPN configuration on PA',
-            state: 'Resolved',
-            created: '3/22/2022 4:12 pm',
-            resolved: '3/23/2022 6:32 pm',
-            assignedengr: 'Jules Stephen Mayo',
-          },
-           {
-            ticket: '5387',
-            requestor: 'Louise Sarmiento',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/21/2022 2:45 pm',
-            resolved: '3/22/2022 1:31 pm',
-            assignedengr: 'John Eric Diwa',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-           {
-            ticket: '5360',
-            requestor: 'Jules Stephen Mayo',
-            deparment: 'Technical Services Department',
-            category: 'Laptop',
-            description: 'Checking of Laptop (Left and Right Button on touch pad is not working) Lenovo E480 ',
-            state: 'Resolved',
-            created: '3/22/2022 2:45 pm',
-            resolved: '3/22/2022 2:45 pm',
-            assignedengr: 'Ashley Dominique Quinto',
-          },
-        ],
-        items: [
-          'Ticket No.',
-          'Requestor',
-          'Department',
-          'Category',
-          'Description',
-          'State',
-          'Created',
-          'Resolved',
-          'Assigned Engr',
-        ],
         }
     },
     methods: {
@@ -411,7 +229,67 @@ export default {
       closeAddTicket(){
         this.ticketOpen =false;
         }, 
-    }
+      getPosts(){
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+            })
+       },
+       getIssue(){
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
+                .then((response)=>{
+                    console.log(response.data)
+                    this.issues=response.data
+                })
+                .catch((error)=> {
+                console.log(error)
+                })
+        },
+        submitTicket(){
+            if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != ''){
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket.php',
+                    {
+                        requestor:this.addTicket.requestor,
+                        department:this.addTicket.department,
+                        contact_no:this.addTicket.contact_no,
+                        issue:this.addTicket.issue,
+                        description:this.addTicket.description,
+                        justification:this.addTicket.justification,
+                        status:this.addTicket.status
+                    })
+                    .then((response)=>{
+                        console.log(response.data.message);
+                        this.addTicket.requestor=""
+                        this.addTicket.department=""
+                        this.addTicket.contact_no=""
+                        this.addTicket.issue=""
+                        this.addTicket.description=""
+                        
+                        //location.reload();
+                        alert(response.data.message);
+                        location.reload()
+                        //this.closeAddTicket()
+                        //this.refreshPage()
+                    })
+                    .catch((error)=> {
+                        console.log(error)
+                    });
+            }
+           else{
+               alert("Fill all the fields");
+           }
+
+          
+        },
+    },
+    created: function(){
+     this.getPosts()
+     this.getIssue()
+   },
 }
 </script>
 

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 export default {
     name: "DashboardApp",
     data(){
@@ -99,8 +99,8 @@ export default {
         var num = this.activities[1];
         console.log("var1",num);
       },
-      /*getTicketNum(){
-        axios.get('http://localhost/helpdesk/helpdesk/get_ticketno.php')
+      getTicketNum(){
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
           .then((response)=>{
             console.log(response.data)
             this.activities[1].amounts = response.data.ongoing_rows;
@@ -111,7 +111,7 @@ export default {
             //var num = this.activities[3]
             //console.log('resolved'+ num)
           })
-      }*/
+      }
     },
     created: function(){
       //this.changeNum();
