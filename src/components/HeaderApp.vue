@@ -8,17 +8,22 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu>
-        <template v-slot:activator="{ on, attrs }">
-          <span v-bind="attrs" v-on="on" class="mx-5 mr-10">
-              <h4 class="font-italic primary-text">Welcome, Ashley Quinto</h4>
-          </span>
-        </template>
-      </v-menu>
+      <h4 class=" mx-5 mr-10 font-italic primary-text">Welcome, {{user}}</h4>
     </v-app-bar>
 </template>
 
 <script>
+
+export default{
+  name:'HeaderApp',
+
+  data(){
+    return{
+      user:'User 1',
+    }
+  }
+}
+  
    
 </script>
 
