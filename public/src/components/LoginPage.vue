@@ -108,7 +108,7 @@
                           
                           />
                             
-                          <v-btn color="#2d78b1" dark block tile>Log in</v-btn>
+                          <v-btn color="blue" dark block tile>Log in</v-btn>
                      
                          
                          

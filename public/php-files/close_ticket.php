@@ -14,41 +14,21 @@
     //variable declaration
     $response = array();
     $data = array();
-    
+
     //assigning received data to variables
     $id = $received_data->id;
-    $assigned_engineer = $received_data->assigned_engineer;
-    $sla = $received_data->sla;
-    $status = $received_data->status;
-    $diagnostic = $received_data->diagnostic;
-    $resolution = $received_data->resolution;
-    $comments = $received_data->comments;
-    $request_category = $received_data->request_category;
- 
+
+    //closed string var
+    $closed = 'Closed';
 
     if($id != ''){
-        mysqli_query($conn,"UPDATE ticket SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
-            request_category = '".$request_category."',
-            comments= '".$comments."'
-            WHERE id = '".$id."'
-        ");
-
-        
-
-        $message = 'Updated Successfully';
+        mysqli_query($conn,"UPDATE ticket SET status= '".$closed."' WHERE id = '".$id."' ");
+        $message = 'Ticket Closed';
     }   
     else{
         $message = 'Will not proceed';
     }
 
-    
-    
-    
     //creating response which will be sent to VUE file
     $response = array(
         "message" => $message
@@ -57,11 +37,4 @@
     echo json_encode($response);
 
     $conn->close();
-
-
-
-    
-
-
 ?>
-
