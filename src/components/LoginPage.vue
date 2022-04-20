@@ -44,7 +44,9 @@
 -->
 
 <template>
-  <v-container class='primary-color' fill-height fluid>
+
+  <v-container class='primary-color' fill-height fluid >
+
       <v-row align="center" justify="center" >
           <v-col cols="12" sm="10">
             <v-card class="elevation-6"  >
@@ -91,7 +93,8 @@
                           <v-col cols="12" sm="8">
                            
                           <v-text-field
-                            label="Email"
+                           v-model="FormData.username"
+                            label="Username"
                             outlined
                             dense
                             color="blue"
@@ -99,6 +102,7 @@
                            class="mt-5"
                           />
                           <v-text-field
+                           v-model="FormData.password"
                             label="Password"
                             outlined
                             dense
@@ -108,7 +112,7 @@
                           
                           />
                             
-                          <v-btn color="#2d78b1" dark block tile>Log in</v-btn>
+                          <v-btn type="submit" v-on:click="getlogin(FormData.username,FormData.password)" color="#2d78b1" dark block tile>Log in</v-btn>
                      
                          
                          
@@ -150,16 +154,63 @@ export default {
 
 
 <script>
-  
 
+import axios from 'axios'
   export default {
-   data: () => ({
-    step: 1
-  }),
-  props: {
-    source: String
-  } 
+  name: 'LoginPage',
 
+  data(){
+    
+            return{
+                FormData:{
+                    username:"",
+                    password:""
+                    
+                },
+                loggedin: "false"
+            }
+        },
+        props: {
+          
+          getlogin:Function
+          
+        },
+        methods: {
+          submitData: function(){
+            
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
+                    {
+                        username:this.FormData.username,
+                        password:this.FormData.password,
+                        
+                    })
+                    
+                    .then((response)=>{
+                      
+                            
+                            
+                            
+
+                            this.FormData.username ='';
+                            this.FormData.password ='';
+                            this.loggedin = "true";
+                            
+                            /*
+                            console.log(
+                                this.formData.username,
+                                this.formData.password,
+                              
+                            )
+                            */
+
+                            
+                            alert(response.data.message);
+                            
+                            
+
+                        })
+          }
+        }
     
   }
 </script>
