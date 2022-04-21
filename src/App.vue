@@ -53,7 +53,9 @@ import axios from 'axios';
 
                             username ='';
                             password ='';
+                            if(response.data.message != ""){
                             alert(response.data.message);
+                            }
                             this.loggedin = response.data.loginstatus;
                             
                             /*
