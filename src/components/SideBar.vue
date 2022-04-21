@@ -9,7 +9,7 @@
         </div>
       </v-sheet>
       <v-divider></v-divider>
-      <v-list>
+      <v-list fill-height>
 
         <h5 class="ml-3 pt-3 pb-1 white-text">GENERAL</h5>
 
@@ -86,19 +86,48 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      
+      <template v-slot:append>
+        <v-list class="pl-4 pb-4" fill-height>
+          <v-menu>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-power
+              </v-icon>
+            </template>
+            <v-list>
+              <v-list-item
+                link
+              >
+                <v-list-item-title v-on:click="logout(logkey)">Logout</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list>
+      </template>
     </v-navigation-drawer>
 </template>
 
 <script>
     export default {
-        props:"drawer",
+        data: () => ({
+          logkey:"false",
+      items: [
+        { title: 'Logout' },
+      ],
+    }),
+        props:{/*"drawer",*/ 
+          logout:Function
+        },
         name: "SideBar",
-        data(){
-            return{
-              //data here
-            }
+
+       
         }
-    }
+    
 </script>
 
 

@@ -103,12 +103,16 @@
                           />
                           <v-text-field
                            v-model="FormData.password"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="[rules.required, rules.min]"
+                            :type="show1 ? 'text' : 'password'"
+                            name="input-10-1"
                             label="Password"
                             outlined
                             dense
                             color="blue"
-                          autocomplete="false"
-                           type="password"
+                            autocomplete="false"
+                            @click:append="show1 = !show1"
                           
                           />
                             
@@ -162,6 +166,15 @@ import axios from 'axios'
   data(){
     
             return{
+              show1: false,
+              show2: true,
+              show3: false,
+              show4: false,
+            rules: {
+          required: value => !!value || 'Required.',
+          min: v => v.length >= 8 || 'Min 8 characters',
+          emailMatch: () => (`The email and password you entered don't match`),
+        },
                 FormData:{
                     username:"",
                     password:""

@@ -2,8 +2,8 @@
 
   <v-app id="inspire">
   <HeaderApp v-if="loggedin=='true'"/>
-  <SideBar v-if="loggedin=='true'"/>
-  <LoginPage v-if="loggedin=='false'" :getlogin="getstatus"/>
+  <SideBar v-if="loggedin=='true' " :logout="getLoggedOut" />
+  <LoginPage v-if="loggedin=='false' " :getlogin="getstatus"/>
   <!--<TryLang v-if="loggedin==true"/>-->
   <!--<HeaderApp @handeDrawer="drawer = !drawer" />
   <SideBar :drawer="drawer" />-->
@@ -33,7 +33,7 @@ import axios from 'axios';
             return{
                 
                 
-                loggedin:'false'
+                loggedin:'true'
             }
         },
         methods: {
@@ -73,6 +73,11 @@ import axios from 'axios';
 
                         })
           
+          },
+          getLoggedOut(state){
+            console.log(state);
+            this.loggedin = state;
+            alert('You have logged out of the system')
           }
         }
 }
