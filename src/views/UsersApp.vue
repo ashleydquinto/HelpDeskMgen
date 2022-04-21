@@ -148,13 +148,13 @@
                 :search="search"
                  class="elevation-1"
                 >
-                <template v-slot:[`item.actions`]="{ }">
+                <template v-slot:[`item.actions`]="{item}">
                     <v-btn
                             color="#1e6097"
                             fab
                             small
                             dark
-                            @click="editItem(item)"
+                            @click="editUser(item)"
                           >
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -163,7 +163,7 @@
             </v-col>
             <v-dialog
         transition="dialog-bottom-transition"
-        max-width="900"
+        max-width="500"
         v-model="updateModal" 
         >
 
@@ -198,33 +198,33 @@
 
                       <!--column 1 STARTS HERE-->
                       <v-col
-                      cols="12"
-                      sm="6"
                       >
                       <!--Name-->
                       <v-text-field
                       label="Name"
-                      value="dapat makita name niya dito"
-                      class="mr-1"
                       outlined
+                      v-model="editedUser.name"
                       >
                       </v-text-field>
+
+                      <!--Status-->
+                        <v-select
+                        :items="user_status"
+                        label="Status"
+                        outlined
+                        v-model="editedUser.status" 
+                        ></v-select>
                       </v-col>
 
-                      <!--column 2 STARTS HERE-->
+                      <!--column 2 STARTS HERE
                       <v-col
                       cols="12"
                       sm="6"                    
                       >
-                        <!--Status-->
-                        <v-select
-                        class="ml-1"
-                        :items="user_status"
-                        label="Status"
-                        outlined
-                        ></v-select>
+                        
                       
                       </v-col>
+                      -->
                       
                       </v-row>
                       <!--buttons-->
@@ -232,7 +232,7 @@
                         <v-btn
                         style="background-color: #388E3C; color: white;"
                         text
-                        @click="sampleUpdateFunc">
+                        @click="updateUser()">
                         Update
                         </v-btn>
                       </v-card-actions>
@@ -259,7 +259,9 @@ export default {
           { text: 'USERS', value: 'name' },
           { text: 'ROLE', value: 'role' },
           { text: 'CREATED AT', value: 'datecreated' },
+          { text: 'STATUS' , value:'status'},
           { text: 'ACTION', value: 'actions' }
+          
         ],
         users: [],
         items: [
@@ -287,13 +289,7 @@ export default {
                 },
                 updateModal:false,
         //pwedeng i-edit, eto lang yung cinopy ko sa AllTicketsTab, taga fetch lang ng data to (added 4-20)
-          editedItem:{
-            id:'',
-            ticket:'',
-            status:'',
-            created:'',
-            assigned_engineer:'',
-            request_category:'',
+          editedUser:{
           },
         //user status, data that is used for select tags in update user (added 4-20)
           user_status:[
@@ -304,10 +300,11 @@ export default {
     },
     
         methods: {
-          editItem (item) {
+          editUser (item) {
 
           //assign values to editedItem
           //this.editedItem = Object.assign({}, item)
+          this.editedUser = Object.assign({}, item)
           console.log(item)
           //console.log(this.editedItem)
           //console.log(this.editedItem.id)
@@ -317,9 +314,10 @@ export default {
 
       },
       getUsers(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_user.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_user.php')
             .then((response)=>{
                 console.log(response.data)
+                console.log(response.data.status)
                 this.users=response.data;
             })
             .catch((error)=> {
@@ -328,13 +326,13 @@ export default {
       },
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/register.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/register.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,
                         email:this.FormData.email,
                         name:this.FormData.name,
-                        role:this.FormData.role
+                        role:this.FormData.role,
                         
                     })
                     
@@ -368,6 +366,22 @@ export default {
                             
 
                         })
+          },
+          updateUser(){
+          
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_user.php',
+                    {
+                        id: this.editedUser.id,
+                        name: this.editedUser.name,
+                        status: this.editedUser.status
+                    })
+                    .then((response)=>{
+                        alert(response.data.message);
+                        location.reload()
+                    })
+                    .catch((error)=> {
+                        console.log(error)
+                    });
           }
         },
         

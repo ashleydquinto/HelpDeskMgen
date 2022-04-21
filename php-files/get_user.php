@@ -22,7 +22,7 @@
     $response = array();
 
     if($action == 'show'){
-        $sel = $conn -> query('SELECT name,role,datecreated FROM user_management');//AND status ="available"
+        $sel = $conn -> query('SELECT id,name,role,datecreated,status FROM user_management');//AND status ="available"
 
         while($row = $sel -> fetch_assoc()){
             $temporal = $row;

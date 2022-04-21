@@ -16,7 +16,7 @@
     $username = $received_data->username;
     $password = $received_data->password;
     
-    $get_data = mysqli_query($conn, "SELECT * FROM user_management where username = '$username'");
+    $get_data = mysqli_query($conn, "SELECT * FROM user_management where username = '$username' AND status = 'active' ");
 
     if(mysqli_num_rows($get_data) > 0)
     {
