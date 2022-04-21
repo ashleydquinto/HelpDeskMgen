@@ -22,7 +22,7 @@
     $response = array();
 
     if($action == 'show'){
-        $sel = $conn -> query(' SELECT * FROM ticket WHERE requestor !="" ');//AND status ="available"
+        $sel = $conn -> query(' SELECT * FROM ticket WHERE requestor !="" ORDER BY date_created DESC ');//AND status ="available"
 
         while($row = $sel -> fetch_assoc()){
             $temporal = $row;
