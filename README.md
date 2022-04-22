@@ -20,5 +20,9 @@ npm run build
 npm run lint
 ```
 
+### Lints and fixes files
+```
+created by TEAM 1 - ITSD
+```
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

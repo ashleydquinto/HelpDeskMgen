@@ -1,9 +1,9 @@
 <template>
 
   <v-app id="inspire">
-  <HeaderApp v-if="loggedin=='true'"/>
-  <SideBar v-if="loggedin=='true' " :logout="getLoggedOut" />
-  <LoginPage v-if="loggedin=='false' " :getlogin="getstatus"/>
+  <HeaderApp v-if="loggedin=='true'" :name="name_of_user"/>
+  <SideBar v-if="loggedin=='true' " :logout="getLoggedOut" :role="user_role"/>
+  <LoginPage v-if="loggedin=='false'" :getlogin="getstatus"/>
   <!--<TryLang v-if="loggedin==true"/>-->
   <!--<HeaderApp @handeDrawer="drawer = !drawer" />
   <SideBar :drawer="drawer" />-->
@@ -33,7 +33,9 @@ import axios from 'axios';
             return{
                 
                 
-                loggedin:'true'
+                loggedin:'false',
+                name_of_user:'',
+                user_role:''
             }
         },
         methods: {
@@ -46,15 +48,15 @@ import axios from 'axios';
                     })
                     
                     .then((response)=>{
-                      
-                            
-                            
-                            
-
                             username ='';
                             password ='';
-                            if(response.data.message != ""){
-                            alert(response.data.message);
+                            this.name_of_user = response.data.name;
+                            this.user_role = response.data.role;
+                            if(response.data.message == "" ||response.data.message == undefined){
+                              alert("Hello, " + response.data.name + " you are logged in as a/an " + response.data.role);
+                            }
+                            else{
+                              alert(response.data.message);
                             }
                             this.loggedin = response.data.loginstatus;
                             
@@ -65,12 +67,6 @@ import axios from 'axios';
                               
                             )
                             */
-
-                            
-                            
-                            
-                            
-
                         })
           
           },

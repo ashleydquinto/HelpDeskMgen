@@ -29,7 +29,6 @@
             array_push($response, $temporal);
             
         }
-
     }
     
     /*will be used once search is added
@@ -45,11 +44,18 @@
     }
     */
 
-    
+    /*
+    $role = mysqli_query($conn,"SELECT role, name FROM user_management where status = 'Active'");
 
-    
+
+    $hi = mysqli_fetch_assoc($role);
+
+    $try = array_push($hi);
+    */
 
     echo json_encode($response);
+
+    //echo json_encode($hi);
 
     $sel->close();
     $conn->close();

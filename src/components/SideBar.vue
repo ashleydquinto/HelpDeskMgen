@@ -40,9 +40,9 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list><h5 class="ml-3 white-text">MSP</h5></v-list>
+        <v-list><h5 v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'" class="ml-3 white-text">MSP</h5></v-list>
 
-        <v-list-item to="/ForSupport">
+        <v-list-item to="/ForSupport"  v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'">
           <!--icon-->
           <v-list-item-icon>
             <v-icon color="white">mdi-face-agent</v-icon>
@@ -53,7 +53,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/GraphicalReport">
+        <v-list-item to="/GraphicalReport" v-if="role == 'Administrator'|| role == 'Manager'">
           <!--icon-->
           <v-list-item-icon>
             <v-icon color="white">mdi-chart-line</v-icon>
@@ -63,7 +63,7 @@
             <v-list-item-title class="white-text">Graphical Report</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-          <v-list-item to="/ExportReport">
+          <v-list-item to="/ExportReport" v-if="role == 'Administrator'|| role == 'Manager'">
           <!--icon-->
           <v-list-item-icon>
             <v-icon color="white">mdi-file-export</v-icon>
@@ -74,8 +74,8 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list><h5 class="ml-3 white-text">ADMINISTRATOR</h5></v-list>
-        <v-list-item to="/UsersApp">
+        <v-list  v-if="role == 'Administrator'"><h5 class="ml-3 white-text">ADMINISTRATOR</h5></v-list>
+        <v-list-item to="/UsersApp" v-if="role == 'Administrator'">
           <!--icon-->
           <v-list-item-icon>
             <v-icon color="white">mdi-account-multiple</v-icon>
@@ -121,7 +121,8 @@
       ],
     }),
         props:{/*"drawer",*/ 
-          logout:Function
+          logout:Function,
+          role:String
         },
         name: "SideBar",
 

@@ -57,10 +57,13 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
 export default {
     name: "DashboardApp",
     data(){
         return{
+            date1: "2022-09-14 12:00:00",
+            date2: "2022-12-15 12:21:00",
             activities:[
                 {title:'New Tickets',amounts:0},
                 {title:'Ongoing Tickets',amounts:0},
@@ -112,11 +115,23 @@ export default {
             //var num = this.activities[3]
             //console.log('resolved'+ num)
           })
+      },
+      //logic for SLA (time difference)
+      differenciate(){
+        //own assigned values
+        var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss");
+        var date1 = moment(this.date1,"YYYY-MM-DD HH:mm:ss");
+        //differenciating here
+        var diffdays = date2.diff(date1)
+        var moment1 = moment(diffdays).format('D[ day(s)] H[ hour(s)] m[ minute(s)] s[ second(s)]')
+        console.log(moment1)
       }
     },
     created: function(){
       //this.changeNum();
       this.getTicketNum();
+      //logic for SLA (time difference) execution
+      //this.differenciate(); <cinomment ko muna>
     }
 }
 </script>
