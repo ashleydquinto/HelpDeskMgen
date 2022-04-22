@@ -515,7 +515,7 @@ export default {
         this.ticketOpen =false;
         }, 
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -525,7 +525,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -536,7 +536,7 @@ export default {
         },
         submitTicket(){
             if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != ''){
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/add_ticket.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
