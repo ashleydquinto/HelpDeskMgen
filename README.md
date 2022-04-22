@@ -3,6 +3,8 @@
 ## Project setup
 ```
 npm install
+npm install axios
+npm install vue-json-excel
 ```
 
 ### Compiles and hot-reloads for development
