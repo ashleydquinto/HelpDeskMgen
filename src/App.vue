@@ -59,6 +59,8 @@ import axios from 'axios';
                               alert(response.data.message);
                             }
                             this.loggedin = response.data.loginstatus;
+
+                            this.$router.push({name: 'DashboardApp'})
                             
                             /*
                             console.log(

@@ -2,21 +2,75 @@
     <!--added for support content here (5:11pm - 04-08-2022)-->
     <div>
         <v-row>
-            <v-col lg="4" cols="8" v-for="(item,index) in activities" :key="index">
-                <v-card elevation="2" class="rounded-lg">
+            <v-col lg="4" cols="8" > <!--v-for="(item,index) in activities" :key="index"-->
+                <!--
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: boxActive }" @click="toggleBox()">
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
+                            <regular >{{item.title}}</regular><br><br>
+                            <h1 >{{item.amounts}}</h1>
                         </div>
                     </v-card-text>
                 </v-card>
+                -->
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.new }" @click="filterNew()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[0].title}}</regular><br><br>
+                    <h1 >{{this.activities[0].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col lg="4" cols="8" >
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.ongoing }" @click="filterOngoing()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[1].title}}</regular><br><br>
+                    <h1 >{{this.activities[1].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col lg="4" cols="8" >
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.pending }" @click="filterPending()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[2].title}}</regular><br><br>
+                    <h1 >{{this.activities[2].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col lg="4" cols="8" >
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.resolved }" @click="filterResolved()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[3].title}}</regular><br><br>
+                    <h1 >{{this.activities[3].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col lg="4" cols="8" >
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.closed }" @click="filterClosed()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[4].title}}</regular><br><br>
+                    <h1 >{{this.activities[4].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col lg="4" cols="8" >
+                <v-card elevation="2" class="rounded-lg" v-bind:class="{ active: activeness.cancelled }" @click="filterCancelled()">
+                  <v-card-text class="justify-space-between align-center">
+                    <regular >{{this.activities[5].title}}</regular><br><br>
+                    <h1 >{{this.activities[5].amounts}}</h1>
+                  </v-card-text>
+                </v-card>
             </v-col>
           </v-row>
+          
      <v-row>
             <v-col lg="12">
                 <v-data-table
-                caption="ALL TICKETS"
+                caption="TICKETS"
                 :headers="headers"
                 :items="tickets"
                  class="pt-4 elevation-1"
@@ -342,6 +396,14 @@ export default {
     //<!--added for support content here (5:11pm - 04-08-2022)-->
     data(){
         return{
+          activeness:{
+            'new':false,
+            'ongoing':false,
+            'pending':false,
+            'resolved':false,
+            'closed':false,
+            'cancelled':false,
+          },
           state:[
             'Ongoing',
             'Pending',
@@ -417,7 +479,7 @@ export default {
         console.log("var1",num);
       },
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=show')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -440,20 +502,168 @@ export default {
             //console.log('resolved'+ num)
           })
       },
-      trial(){
+      filterNew(){
+        //filter new (ginawa 8:12pm apr22)
         
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
-          .then((response)=>{
-            this.yValues.total = response.data.total_rows;
-            this.yValues.new = response.data.new_rows;
-            console.log("yvalue new:",this.yValues.new + " yvalue total:",this.yValues.total )
-          })
-          .catch((error)=> {
-            console.log(error)
-          })
+        this.activeness.new = !this.activeness.new
+        //everything else false
+        this.activeness.ongoing = false
+        this.activeness.pending = false
+        this.activeness.resolved = false
+        this.activeness.closed = false
+        this.activeness.cancelled = false
+        //this.activeness.new = true
 
-          
+        if(this.activeness.new  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=new')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+        else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+
+        console.log(this.activeness.new)
+        //change tickets based on response (must be new tickets only)
       },
+
+      filterOngoing(){
+        this.activeness.ongoing = !this.activeness.ongoing
+        //everything else false
+        this.activeness.new = false
+        this.activeness.pending = false
+        this.activeness.resolved = false
+        this.activeness.closed = false
+        this.activeness.cancelled = false
+
+        if(this.activeness.ongoing  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=ongoing')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+       else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+      },
+      filterPending(){
+        
+        this.activeness.pending = !this.activeness.pending
+        //everything else false
+        this.activeness.ongoing = false
+        this.activeness.new = false
+        this.activeness.resolved = false
+        this.activeness.closed = false
+        this.activeness.cancelled = false
+
+        if(this.activeness.pending  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=pending')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+        else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+      },
+      filterResolved(){
+        
+        this.activeness.resolved = !this.activeness.resolved
+        //everything else false
+        this.activeness.ongoing = false
+        this.activeness.pending = false
+        this.activeness.new = false
+        this.activeness.closed = false
+        this.activeness.cancelled = false
+
+        if(this.activeness.resolved  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=resolved')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+        else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+      },
+      filterClosed(){
+        
+        this.activeness.closed = !this.activeness.closed
+        //everything else false
+        this.activeness.ongoing = false
+        this.activeness.pending = false
+        this.activeness.resolved = false
+        this.activeness.new = false
+        this.activeness.cancelled = false
+
+        if(this.activeness.closed  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=closed')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+        else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+      },
+      filterCancelled(){
+        
+        this.activeness.cancelled = !this.activeness.cancelled
+        //everything else false
+        this.activeness.ongoing = false
+        this.activeness.pending = false
+        this.activeness.resolved = false
+        this.activeness.closed = false
+        this.activeness.new = false
+
+        if(this.activeness.cancelled  == true){
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=cancelled')
+            .then((response)=>{
+                console.log(response.data)
+                this.tickets=response.data;
+            })
+            .catch((error)=> {
+                console.log(error)
+          })
+        }
+        
+
+        else if(this.activeness.new  == false || this.activeness.ongoing  == false || this.activeness.pending  == false || this.activeness.resolved  == false || this.activeness.closed  == false || this.activeness.cancelled  == false){
+          this.getPosts()
+        }
+      },
+
 
       editItem (item) {
 
@@ -521,4 +731,7 @@ export default {
 
 <style scoped>
 
+.active{
+  background-color:rgb(206, 204, 204);
+}
 </style>
