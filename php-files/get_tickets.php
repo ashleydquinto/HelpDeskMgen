@@ -98,11 +98,9 @@
 
     }
     /*will be used once search is added
-
     if($action == 'search'){
         $keyword = $_POST['keyword'];
         $sel = $conn -> query("SELECT * FROM table_users WHERE status = 'available' AND (firstName LIKE '%$keyword%' OR lastName LIKE '%$keyword%' OR email LIKE '%$keyword%')");
-
         while($row = $sel -> fetch_assoc()){
             $temporal = $row;
             array_push($response, $temporal);
