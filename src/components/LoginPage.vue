@@ -116,7 +116,7 @@
                           
                           />
                             
-                          <v-btn type="submit" v-on:click="getlogin(FormData.username,FormData.password)" color="#2d78b1" dark block tile>Log in</v-btn>
+                          <v-btn type="submit"  v-on:click="getlogin(FormData.username,FormData.password)" color="#2d78b1" dark block tile>Log in</v-btn>
                      
                          
                          
