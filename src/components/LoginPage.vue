@@ -172,7 +172,7 @@ import axios from 'axios'
               show4: false,
             rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
+          min: v => v.length >= 8, //|| 'Min 8 characters',
           emailMatch: () => (`The email and password you entered don't match`),
         },
                 FormData:{
@@ -191,7 +191,7 @@ import axios from 'axios'
         methods: {
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,

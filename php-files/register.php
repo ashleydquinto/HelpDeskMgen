@@ -25,6 +25,10 @@
                                         {
     if ($username != '' && $password != '' && $email != '' && $name != '' && $role != '') {
     mysqli_query($conn,"INSERT INTO user_management(username, password, email, name, role, status) VALUES('".$username."','".$epass."','".$email."','".$name."','".$role."','".$status."')");
+
+    $response = array(
+        "message" => "User successfully created."
+    );
 }
 else {
     $response = array(

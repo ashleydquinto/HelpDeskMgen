@@ -208,19 +208,8 @@
                       <!--Issue-->
                       <h3 class="title  mb-1">Issue</h3>
                       <p class="body-2 update-font">{{this.editedItem.issue}}</p>
-                      
 
-                      <!--Justification
-                      <v-textarea
-                      label="Justification"
-                      class="ml-1"
-                      rows="3"
-                      outlined
-                      no-resize
-                      v-model="editedItem.justification"
-                      >
-                      </v-textarea>
-                      -->
+
                       
                       </v-col>
 
@@ -242,11 +231,27 @@
 
                     
 
-                    <v-col cols="12">
-                    <!--State pag closed na-->
-                    <h3 v-if="editedItem.status == 'Closed'" class="title  mb-1">State</h3>
-                    <p v-if="editedItem.status == 'Closed'" style="color: #D32F2F" class="body-2 update-font">{{this.editedItem.status}}</p>
+                    <v-col sm="4" cols="12">
+                      <!--State pag closed na-->
+                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">State</h3>
+                      <p v-if="editedItem.status == 'Closed'" style="color: #D32F2F" class="body-2 update-font">{{this.editedItem.status}}</p>
+                      <p v-if="editedItem.status == 'Resolved'" style="color: green" class="body-2 update-font">{{this.editedItem.status}}</p>
 
+                    </v-col>
+
+                    
+                    <v-col sm="4" cols="12">
+                      <!---->
+                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title mb-1">Request Category</h3>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.request_category != ''" class="body-2 update-font">{{this.editedItem.request_category}}</p>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.request_category == ''" class="body-2 update-font">No request category.</p>
+                    </v-col>
+
+                    <v-col sm="4" cols="12">
+                      <!--Assigned Engineer pag closed/resolved na-->
+                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Assigned Engineer</h3>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.assigned_engineer != ''" class="body-2 update-font">{{this.editedItem.assigned_engineer}}</p>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.assigned_engineer == ''" class="body-2 update-font">No engineer assigned.</p>
                     </v-col>
 
 
@@ -260,16 +265,17 @@
                       class="mr-1"
                       outlined
                       v-model="editedItem.assigned_engineer"
+                      v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                       >
                       </v-text-field>
-                      
+
                     </v-col>
 
                     <v-col
                       cols="12"
                       sm="6"                    
                       >
-                    <!--SLA-->
+                        <!--SLA no longer needed (this will be automatically computed)
                         <v-text-field
                         class="ml-1"
                         label="SLA"
@@ -277,19 +283,25 @@
                         v-model="editedItem.sla"
                         >
                         </v-text-field>
+                        -->
+
+                        <!--Request Category-->
+                        <v-select
+                        :items="request_categories"
+                        class="ml-1"
+                        label="Request Category"
+                        outlined
+                        v-model="editedItem.request_category" 
+                        v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
+                        ></v-select>
+
+                        
 
                     </v-col>
 
 
                       <v-col>
-                        <!--Request Category-->
-                        <v-select
-                        :items="request_categories"
-                        class=""
-                        label="Request Category"
-                        outlined
-                        v-model="editedItem.request_category" 
-                        ></v-select>
+                        
 
                         <!--State-->
                         <v-select
@@ -299,7 +311,7 @@
                         label="State"
                         outlined
                         v-model="editedItem.status" 
-                        v-if="editedItem.status != 'Closed'"
+                        v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                         ></v-select>
 
                         <v-textarea
@@ -309,7 +321,13 @@
                         clearable
                         no-resize
                         v-model="editedItem.diagnostic"
+                        v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                         ></v-textarea>
+
+                        <!--Diagnostic pag closed/resolved na-->
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Diagnostic</h3>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.diagnostic != ''" class="body-2 update-font">{{this.editedItem.diagnostic}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.diagnostic == ''" class="body-2 update-font">No diagnostics.</p>
 
                         <v-textarea
                         label="Resolution"
@@ -318,7 +336,18 @@
                         clearable
                         no-resize
                         v-model="editedItem.resolution"
+                        v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                         ></v-textarea>
+
+                        <!--Resolution pag closed/resolved na-->
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution</h3>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
+
+                        <!--SLA-->
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">SLA</h3>
+                        <p v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="body-2 update-font sla-fontstyle">SLA should be placed here.</p>
+
 
                         <v-textarea
                         label="Comments"
@@ -327,7 +356,13 @@
                         clearable
                         no-resize
                         v-model="editedItem.comments"
+                        v-if="editedItem.status != 'Closed'"
                         ></v-textarea>
+
+                        <!--Comment pag closed na-->
+                        <h3 v-if="editedItem.status == 'Closed'" class="title  mb-1">Comments</h3>
+                        <p v-if="(editedItem.status == 'Closed') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.comments}}</p>
+                        <p v-if="(editedItem.status == 'Closed') && this.editedItem.resolution == ''" class="body-2 update-font">No comment inserted.</p>
 
                       </v-col>
 
@@ -360,8 +395,20 @@
                         <v-btn
                         style="background-color: #388E3C; color: white;"
                         text
-                        @click="updateTicket()">
+                        @click="updateTicket()"
+                        v-if="editedItem.status != 'Closed'"
+                        >
                         Update
+                        </v-btn>
+
+                        <v-btn
+                        style="background-color:#0275d8; color: white;"
+                        class="color-primary"
+                        text
+                        v-if="editedItem.status != 'Resolved' && editedItem.status != 'Closed'"
+                        @click="settoResolved()"
+                        >
+                        Resolve Ticket
                         </v-btn>
 
 
@@ -369,7 +416,7 @@
                         style="background-color: yellow; color: black;"
                         text
                         @click="settoClosed()"
-                        v-if="editedItem.status != 'Closed'"
+                        v-if="editedItem.status == 'Resolved'"
                         >
                         Close Ticket
                         </v-btn>
@@ -407,7 +454,6 @@ export default {
           state:[
             'Ongoing',
             'Pending',
-            'Resolved',
             'Cancelled'
           ],
           request_categories:[
@@ -442,7 +488,7 @@ export default {
           { text: 'DESCRIPTION', value: 'description' },
           { text: 'STATE', value: 'state' },
           { text: 'CREATED', value: 'date_created' },
-          { text: 'RESOLVED', value: 'resolved' },
+          { text: 'RESOLVED', value: 'date_resolved' },
           { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
           { text: 'ACTION', value: 'action' },
 
@@ -706,7 +752,8 @@ export default {
         },
         settoClosed(){
           console.log(this.editedItem.id)
-          axios.post(
+          if(confirm('Are you sure you want to close this ticket?')){
+            axios.post(
             'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/close_ticket.php',
             {
               id:this.editedItem.id
@@ -718,6 +765,25 @@ export default {
             .catch((error)=> {
               console.log(error)
             });
+          }
+        },
+
+        settoResolved(){
+          console.log(this.editedItem.id)
+          if(confirm('Are you sure you want to resolve this ticket?')){
+            axios.post(
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/resolve_ticket.php',
+            {
+              id:this.editedItem.id
+            })
+            .then((response)=>{
+              alert(response.data.message);
+              location.reload()
+            })
+            .catch((error)=> {
+              console.log(error)
+            });
+          }
         }
     },
     created: function(){
@@ -733,5 +799,9 @@ export default {
 
 .active{
   background-color:rgb(206, 204, 204);
+}
+
+.sla-fontstyle{
+  font-style: italic;
 }
 </style>

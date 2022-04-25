@@ -58,6 +58,7 @@
                     outlined
                     clearable
                     v-model="addTicket.contact_no"
+                    maxlength="11"
                     >
                     </v-text-field>
                     </v-col>
@@ -468,7 +469,7 @@ export default {
             { text: 'JUSTIFICATION', value: 'justification', align:' d-none'}, //' d-none' hides the column but keeps the search ability
             { text: 'STATE', value: 'state' },
             { text: 'CREATED', value: 'date_created' },
-            { text: 'RESOLVED', value: 'resolved' },
+            { text: 'RESOLVED', value: 'date_resolved' },
             { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
             { text: 'SLA', value: 'sla', align:' d-none'},
             { text: 'DIAGNOSTIC', value: 'diagnostic', align:' d-none'},
@@ -515,7 +516,7 @@ export default {
         this.ticketOpen =false;
         }, 
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -525,7 +526,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -536,7 +537,7 @@ export default {
         },
         submitTicket(){
             if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != ''){
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/add_ticket.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
