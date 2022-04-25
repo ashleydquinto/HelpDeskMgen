@@ -5,6 +5,7 @@
 npm install
 npm install axios
 npm install vue-json-excel
+npm install chart.js
 ```
 
 ### Compiles and hot-reloads for development
