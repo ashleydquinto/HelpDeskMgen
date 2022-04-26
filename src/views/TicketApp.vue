@@ -63,15 +63,66 @@
                     </v-text-field>
                     </v-col>
 
-                     <v-col                 
+                     <v-col     
+                     cols="12"
+                      sm="4"                     
                      >
                      <!--Department-->
                      <v-text-field
                     label="Department"
+                    class="" 
                     outlined
                     clearable
                     v-model="addTicket.department"
                     ></v-text-field>
+                    
+                     </v-col>
+
+                     <v-col     
+                     cols="12"
+                      sm="4"                     
+                     >
+                     <!--SLA
+                     <v-text-field
+                    label="SLA"
+                    class="pl-4" 
+                    outlined
+                    clearable
+                    v-model="addTicket.sla"
+                    ></v-text-field>
+                    -->
+
+                    <!--SLA-->
+                    <v-select
+                      :items="sla"
+                      label="SLA"
+                      outlined
+                      class="pl-4" 
+                      v-model="addTicket.sla" 
+                    ></v-select>
+                    
+                     </v-col>
+
+                     <v-col     
+                     cols="12"
+                      sm="4"                     
+                     >
+                     <!--Insert file
+                     <v-text-field
+                    label=""
+                    outlined
+                    clearable
+                    v-model="addTicket.department"
+                    ></v-text-field>
+                    -->
+
+                    
+                    <label style="font-weight:600; font-size: 120%;" class="pl-5">Upload File: </label>
+                    <input class="pl-5" type="file" id="file" ref="file" v-on:change="onChangeFileUpload()"/>
+
+                     </v-col>
+
+                     <v-col>
 
                     <!--Issue-->
                     <v-select
@@ -325,6 +376,8 @@
                         >
                         </v-text-field>
 
+                        
+
                     </v-col>
 
 
@@ -437,6 +490,19 @@ export default {
     data(){
         return{
           issues:'',
+          sla:[
+            '30 minutes',
+            '1 hour',
+            '2 hours',
+            '4 hours',
+            '8 hours',
+            '1 day',
+            '3 days',
+            '7 days',
+            '14 days',
+            '30 days',
+            'More than 30 days'
+          ],
           /*
           state:[
             'New',
@@ -500,11 +566,11 @@ export default {
             issue:'',
             description:'',
             justification:'',
-            status:'New'
+            status:'New',
+            file:'',
+            sla:''
           },
-          /*
-          updateModal:false,
-          */
+          imgFetcher:''
         }
     },
     methods: {
@@ -536,7 +602,63 @@ export default {
                 })
         },
         submitTicket(){
-            if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != ''){
+            if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != '' ){
+
+              let formData = new FormData();
+
+              formData.append('file', this.addTicket.file);
+
+              //IF FILE IS NOT EMPTY, THIS WILL EXECUTE (26-04-2022)
+              if(this.addTicket.file != ''){
+                
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/upload.php',
+                  formData,
+                  {
+                    headers:{
+                      'Content-Type': 'multipart/form-data'
+                  }
+                  }).then(function(response){
+                      alert(response.data.message);
+                  })
+                    .catch((error) =>{
+                      alert('FAILURE!!');
+                      console.log(error)
+                  });
+
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket-with-file.php',
+                    {
+                        requestor:this.addTicket.requestor,
+                        department:this.addTicket.department,
+                        contact_no:this.addTicket.contact_no,
+                        issue:this.addTicket.issue,
+                        description:this.addTicket.description,
+                        justification:this.addTicket.justification,
+                        status:this.addTicket.status,
+                        sla:this.addTicket.sla,
+                        attached_file:this.imgFetcher
+                    })
+                    .then((response)=>{
+                      alert(response.data.message);
+                      console.log('reponse message: ' + response.data.message);
+                      this.addTicket.requestor=""
+                      this.addTicket.department=""
+                      this.addTicket.contact_no=""
+                      this.addTicket.issue=""
+                      this.addTicket.description=""
+                      this.$refs.fileupload.value=null;
+                    })
+                    .catch((error)=> {
+                        console.log(error)
+                    });
+
+                //RELOAD
+                //location.reload()
+
+                  
+              }
+              //ELSE IF FILE IS EMPTY/NULL/UNDEFINED, THIS WILL EXECUTE (26-04-2022)
+              else if(this.addTicket.file == '' || this.addTicket.file == null || this.addTicket.file == undefined){
+
                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket.php',
                     {
                         requestor:this.addTicket.requestor,
@@ -546,117 +668,40 @@ export default {
                         description:this.addTicket.description,
                         justification:this.addTicket.justification,
                         status:this.addTicket.status,
+                        sla:this.addTicket.sla
                         
                     })
                     .then((response)=>{
-                        console.log(response.data.message);
+                        alert(response.data.message);
+
                         this.addTicket.requestor=""
                         this.addTicket.department=""
                         this.addTicket.contact_no=""
                         this.addTicket.issue=""
                         this.addTicket.description=""
+                        this.addTicket.sla=""
                         
-                        //location.reload();
-                        alert(response.data.message);
+                        
                         location.reload()
-                        //this.closeAddTicket()
-                        //this.refreshPage()
                     })
                     .catch((error)=> {
                         console.log(error)
                     });
+              }
             }
-           else{
+            //ELSE (FIELDS ARE INCOMPLETE)
+            else{
                alert("Fill all the fields");
            }
 
           
         },
-        /* 
-        //update function (cinomment na dahil di na magagamit for this page)
-
-
-        updateTicket(){
-          console.log(this.editedItem.id, this.editedItem.requestor, this.editedItem.contact_no, this.editedItem.issue, this.editedItem.description,this.editedItem.diagnostic)
-          alert("Update functionality" + " "+ this.editedItem.id); 
-          
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
-                    {
-                        id: this.editedItem.id,
-                        assigned_engineer: this.editedItem.assigned_engineer,
-                        sla: this.editedItem.sla,
-                        status:this.editedItem.status,
-                        request_category:this.editedItem.request_category,
-                        diagnostic:this.editedItem.diagnostic,
-                        resolution: this.editedItem.resolution,
-                        comments: this.editedItem.comments
-                    })
-                    .then((response)=>{
-                        alert(response.data.message);
-                        location.reload()
-                    })
-                    .catch((error)=> {
-                        console.log(error)
-                    });
-            
-        },
-        */
-
-        /*
-        editItem (item) {
-
-          //assign values to editedItem
-          this.editedItem = Object.assign({}, item)
-          //console.log(this.editedItem)
-          console.log(this.editedItem.id)
-          
-          //open update ticket modal
-          this.updateModal = true;
+        //method for assigning the uploaded file
+        onChangeFileUpload(){
+          this.addTicket.file = this.$refs.file.files[0];
+          this.imgFetcher = event.target.files[0].name;
 
         }
-        */
-
-        /*
-          USELESS STUFF BELOW
-
-        rowClick: function(item,row){
-          row.select(false);
-
-          //assign value
-          this.updateVariables.requestor = item.requestor;
-          this.updateVariables.contact_no = item.contact_no;
-          this.updateVariables.department = item.department;
-          this.updateVariables.issue = item.issue;
-          this.updateVariables.description = item.description;
-          this.updateVariables.justification = item.justification;
-
-
-          //open update ticket modal
-          this.updateTicket = true;
-
-          console.log(
-            "item id: " + item.id,
-            "item requestor: " + item.requestor,
-            "item justification: " + item.justification
-            
-            this.updateVariables.requestor,
-            this.updateVariables.issue
-          )
-
-        },
-        */
-        /*
-        openUpdate(item){
-          //HAYST DI KO LAM PANO GAMITIN YUNG BUTTON
-          this.updateTicket = true;
-          //row.select(true);
-          //this.selected = item.ticket
-          //console.log(e);
-          this.editedItem = item
-          console.log(this.editedItem)
-
-        },
-        */
     },
     created: function(){
      this.getPosts()

@@ -128,7 +128,9 @@
             dense
             ></v-combobox>
             </v-col>
-            </v-subheader><br>
+            </v-subheader>
+            <br>
+
             <v-card-title>
             Users
             <v-spacer></v-spacer>

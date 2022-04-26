@@ -66,7 +66,7 @@
     }
     
     if($action == 'resolved'){
-        $sel = $conn -> query(' SELECT * FROM ticket WHERE (requestor !="" AND status = "Resolved") ORDER BY date_created DESC');//AND status ="available"
+        $sel = $conn -> query(' SELECT * FROM ticket WHERE (requestor !="" AND status = "Resolved") ORDER BY date_resolved DESC');//AND status ="available"
 
         while($row = $sel -> fetch_assoc()){
             $temporal = $row;

@@ -229,6 +229,24 @@
 
                     </v-col>
 
+                    <v-col sm = "6" cols="12">
+
+                      <!--Justification-->
+                      <h3 class="title">Attached File</h3>
+                      <p class="body-2 update-font" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL">{{this.editedItem.attached_file}}</p>
+                      <p class="body-2 update-font" v-if="editedItem.attached_file == '' || editedItem.attached_file == NULL || editedItem.attached_file == undefined">No file was uploaded for this ticket.</p>
+
+                    </v-col>
+
+                    <v-col sm = "6" cols="12">
+
+                      <!--SLA-->
+                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title">SLA</h3>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && editedItem.sla != ''" style="font-style:italic;" class="body-2 update-font">{{this.editedItem.sla}}</p>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && editedItem.sla == ''" style="font-style:italic;" class="body-2 update-font">SLA not found.</p>
+
+                    </v-col>
+
                     
 
                     <v-col sm="4" cols="12">
@@ -242,9 +260,9 @@
                     
                     <v-col sm="4" cols="12">
                       <!---->
-                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title mb-1">Request Category</h3>
+                      <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title mb-1">Ticket Category</h3>
                       <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.request_category != ''" class="body-2 update-font">{{this.editedItem.request_category}}</p>
-                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.request_category == ''" class="body-2 update-font">No request category.</p>
+                      <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.request_category == ''" class="body-2 update-font">No ticket category.</p>
                     </v-col>
 
                     <v-col sm="4" cols="12">
@@ -285,11 +303,11 @@
                         </v-text-field>
                         -->
 
-                        <!--Request Category-->
+                        <!--Request Category change to ticket category-->
                         <v-select
                         :items="request_categories"
                         class="ml-1"
-                        label="Request Category"
+                        label="Ticket Category"
                         outlined
                         v-model="editedItem.request_category" 
                         v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
@@ -299,20 +317,35 @@
 
                     </v-col>
 
-
-                      <v-col>
-                        
-
-                        <!--State-->
+                    <v-col sm="6" cols="12">
+                    <!--State-->
                         <v-select
                         :items="state"
-                        class=""
+                        class="mr-1"
                         item-text="title"
                         label="State"
                         outlined
                         v-model="editedItem.status" 
                         v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                         ></v-select>
+
+                      </v-col>
+
+                      <v-col sm="6" cols="12">
+                      <!--State-->
+                        <v-select
+                        :items="sla"
+                        class="ml-1"
+                        item-text="title"
+                        label="SLA"
+                        outlined
+                        v-model="editedItem.sla" 
+                        v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
+                        ></v-select>
+                      </v-col>
+                        
+
+                      <v-col>
 
                         <v-textarea
                         label="Diagnostic"
@@ -345,8 +378,8 @@
                         <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
 
                         <!--SLA-->
-                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">SLA</h3>
-                        <p v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="body-2 update-font sla-fontstyle">SLA should be placed here.</p>
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution Time</h3>
+                        <p v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="body-2 update-font sla-fontstyle">Resolution time should be placed here.</p>
 
 
                         <v-textarea
@@ -481,7 +514,7 @@ export default {
              },
              headers: [
           { text: 'TICKET NO.', value: 'ticket' },
-          { text: 'REQUEST CATEGORY', value: 'request_category' },
+          { text: 'TICKET CATEGORY', value: 'request_category' },
           { text: 'REQUESTOR', value: 'requestor' },
           { text: 'DEPARTMENT', value: 'department' },
           { text: 'CATEGORY', value: 'category' },
@@ -490,6 +523,7 @@ export default {
           { text: 'CREATED', value: 'date_created' },
           { text: 'RESOLVED', value: 'date_resolved' },
           { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
+          { text: 'SLA', value: 'sla', align:' d-none' },
           { text: 'ACTION', value: 'action' },
 
         ],
@@ -501,6 +535,7 @@ export default {
             created:'',
             assigned_engineer:'',
             request_category:'',
+            sla:''
           },
         tickets: [],
         items: [
@@ -514,6 +549,19 @@ export default {
           'Resolved',
           'Assigned Engr',
         ],
+        sla:[
+            '30 minutes',
+            '1 hour',
+            '2 hours',
+            '4 hours',
+            '8 hours',
+            '1 day',
+            '3 days',
+            '7 days',
+            '14 days',
+            '30 days',
+            'More'
+        ]
         }
     },
     methods:{

@@ -85,6 +85,17 @@
             <v-list-item-title class="white-text">Users</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item to="/CategoryApp" v-if="role == 'Administrator'">
+          <!--icon-->
+          <v-list-item-icon>
+            <v-icon color="white">mdi-newspaper-variant</v-icon>
+          </v-list-item-icon>
+          <!--text-->
+          <v-list-item-content>
+            <v-list-item-title class="white-text">Issue Category</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
       
       <template v-slot:append>

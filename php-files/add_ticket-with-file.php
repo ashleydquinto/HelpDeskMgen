@@ -23,11 +23,12 @@
     $description = $received_data->description;
     $justification = $received_data->justification;
     $status = $received_data->status;
+    $attached_file = $received_data->attached_file;
     $sla = $received_data->sla;
 
     //query executed if fields are not empty    
 
-    if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != ''){
+    if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != '' && $attached_file != ''){
         //PREVIOUS QUERY (DI NA GAGAMITIN)
         //mysqli_query($conn,"INSERT INTO ticket(requestor,department,contact_no,issue,description,justification,status,assigned_engineer, sla, diagnostic,resolution,comments) VALUES('".$requestor."','".$department."','".$contact_no."','".$issue."','".$description."','".$justification."','','','','','','')");
 
@@ -41,6 +42,7 @@
             description,
             justification,
             status,
+            attached_file,
             sla
             ) 
             VALUES(
@@ -51,16 +53,20 @@
             '".$description."',
             '".$justification."',
             '".$status."',
+            '".$attached_file."',
             '".$sla."'
             )
         ");
 
-        $message = 'Form Inserted';
+        $message = 'Form Inserted and filename uploaded to database.';
     }   
     else{
         $message = 'Please input all fields';
     }
 
+    
+    
+    
     //creating response which will be sent to VUE file
     $response = array(
         "message" => $message

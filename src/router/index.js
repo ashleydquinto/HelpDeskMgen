@@ -5,6 +5,7 @@ import TicketApp from '../views/TicketApp.vue'
 import ExportReport from '../views/ExportReport.vue'
 import GraphicalReport from '../views/GraphicalReport.vue'
 import UsersApp from '../views/UsersApp.vue'
+import CategoryApp from '../views/CategoryApp.vue'
 
 
 
@@ -41,6 +42,12 @@ const routes = [
     path: '/UsersApp',
     name: 'UsersApp',
     component:UsersApp
+  },
+
+  {
+    path: '/CategoryApp',
+    name: 'CategoryApp',
+    component:CategoryApp
   },
 ]
 
