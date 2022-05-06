@@ -21,10 +21,13 @@
 </template>
 
 <script>
+
 import HeaderApp from "./components/HeaderApp.vue";
 import SideBar from "./components/SideBar.vue" 
 import LoginPage from "./components/LoginPage.vue"; 
 import axios from 'axios';
+
+                              
 //import TryLang from "./components/may-try-lang.vue";
   export default {
     components: {HeaderApp,SideBar,LoginPage},// TryLang
@@ -39,8 +42,18 @@ import axios from 'axios';
             }
         },
         methods: {
+          getSession() {
+
+            let val = localStorage.getItem('ses');
+            let val2 = localStorage.getItem('uRole');
+            if (val != '' || val != undefined) {
+            this.loggedin = val;
+            this.user_role = val2;
+            }
+            
+          },
           getstatus(username,password) {
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
                     {
                         username:username,
                         password:password,
@@ -54,6 +67,8 @@ import axios from 'axios';
                             this.user_role = response.data.role;
                             if(response.data.message == "" ||response.data.message == undefined){
                               alert("Hello, " + response.data.name + " you are logged in as a/an " + response.data.role);
+                              localStorage.setItem('ses', 'true');
+                              localStorage.setItem('uRole', response.data.role);
                             }
                             else{
                               alert(response.data.message);
@@ -74,9 +89,18 @@ import axios from 'axios';
           },
           getLoggedOut(state){
             console.log(state);
-            this.loggedin = state;
+            
+            this.loggedin = "false";
+            localStorage.setItem('ses', 'false');
+            
             alert('You have logged out of the system')
           }
+        },
+        
+        created: function(){
+          
+          
+          this.getSession();
         }
 }
 </script>
