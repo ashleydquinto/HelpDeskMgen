@@ -43,17 +43,17 @@ import axios from 'axios';
         },
         methods: {
           getSession() {
-
-            let val = localStorage.getItem('ses');
-            let val2 = localStorage.getItem('uRole');
-            if (val != '' || val != undefined) {
-            this.loggedin = val;
-            this.user_role = val2;
+            if (localStorage.getItem('ses') != '' || localStorage.getItem('ses') != undefined) {
+              let val = localStorage.getItem('ses');
+              let val2 = localStorage.getItem('uRole');
+              
+              this.loggedin = val;
+              this.user_role = val2;
             }
             
           },
           getstatus(username,password) {
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
                     {
                         username:username,
                         password:password,
@@ -98,7 +98,6 @@ import axios from 'axios';
         },
         
         created: function(){
-          
           
           this.getSession();
         }
