@@ -3,7 +3,7 @@
   <v-app id="inspire">
   <HeaderApp v-if="loggedin=='true'" :name="name_of_user"/>
   <SideBar v-if="loggedin=='true' " :logout="getLoggedOut" :role="user_role"/>
-  <LoginPage v-if="loggedin=='false'" :getlogin="getstatus"/>
+  <LoginPage v-if="loggedin=='false' || loggedin==null || loggedin=='null'" :getlogin="getstatus"/>
   <!--<TryLang v-if="loggedin==true"/>-->
   <!--<HeaderApp @handeDrawer="drawer = !drawer" />
   <SideBar :drawer="drawer" />-->
