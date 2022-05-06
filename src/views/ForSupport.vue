@@ -11,14 +11,19 @@
 
     <!--EDITED TODAY (04-08-2022 3:58PM) -->
 
+    <!--NO MORE ALL TICKETS (05-06-2022 1:14 pm)-->
     <!--Header name AllTickets-->
-    <v-tab href="#AllTickets" style="color: white;"> <!--to="/AllTicketsTab" style: background-color: #1e6097; -->
-      All Tickets
-    </v-tab>
+    <!--<v-tab href="#AllTickets" style="color: white;">--> <!--to="/AllTicketsTab" style: background-color: #1e6097; -->
 
+    <!-- All Tickets
+    </v-tab>
+    --> 
+
+    <!--
     <v-tab-item id="AllTickets" key="AllTickets" class="custom-tab-items">
       <AllTicketsTab/> 
     </v-tab-item>
+    --> 
 
     <!--Header name Requests-->
     <v-tab href="#Requests" style=" color: white;" > <!--to="/RequestsTab" style: background-color: #1e6097;-->
@@ -88,7 +93,7 @@
 //EDITED TODAY (04-08-2022 3:58PM)
 
 //import axios from 'axios'
-import AllTicketsTab from './AllTicketsTab.vue' 
+//import AllTicketsTab from './AllTicketsTab.vue' 
 import RequestsApp from './RequestsApp.vue' 
 import IncidentsTab from './IncidentsTab.vue' 
 import ProblemsTab from './ProblemsTab.vue'
@@ -96,7 +101,7 @@ import ProblemsTab from './ProblemsTab.vue'
 export default {
     name: "ForSupportApp",
     components:{
-      AllTicketsTab,
+      //AllTicketsTab,
       RequestsApp,
       IncidentsTab,
       ProblemsTab

@@ -17,12 +17,13 @@
 
     //assigning received data to variables
     $id = $received_data->id;
+    $action = $received_data->action;
 
     //closed string var
     $resolved = 'Resolved';
 
-    if($id != ''){
-        mysqli_query($conn,"UPDATE ticket SET 
+    if ($id != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE incident_table SET 
             status= '".$resolved."', 
             date_resolved = CURRENT_TIMESTAMP()
             WHERE id = '".$id."' 
@@ -30,6 +31,24 @@
 
         $message = 'Ticket Resolved';
     }   
+    elseif ($id != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE request_table SET 
+            status= '".$resolved."', 
+            date_resolved = CURRENT_TIMESTAMP()
+            WHERE id = '".$id."' 
+        ");
+
+        $message = 'Ticket Resolved';
+    }   
+    elseif ($id != '' AND $action == 'problem' AND $action != 'request' AND $action != 'incident'){
+        mysqli_query($conn,"UPDATE problem_table SET 
+            status= '".$resolved."', 
+            date_resolved = CURRENT_TIMESTAMP()
+            WHERE id = '".$id."' 
+        ");
+
+        $message = 'Ticket Resolved';
+    }
     else{
         $message = 'Will not proceed';
     }

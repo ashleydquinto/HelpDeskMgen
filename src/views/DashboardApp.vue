@@ -103,7 +103,9 @@ export default {
         console.log("var1",num);
       },
       getTicketNum(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+          action:'tickets-table'
+        })
           .then((response)=>{
             console.log(response.data)
             this.activities[0].amounts = response.data.new_rows;

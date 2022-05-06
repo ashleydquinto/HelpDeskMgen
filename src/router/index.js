@@ -6,6 +6,9 @@ import ExportReport from '../views/ExportReport.vue'
 import GraphicalReport from '../views/GraphicalReport.vue'
 import UsersApp from '../views/UsersApp.vue'
 import CategoryApp from '../views/CategoryApp.vue'
+import RequestPage from '../views/ticket-categories/RequestPage.vue'
+import IncidentPage from '../views/ticket-categories/IncidentPage.vue'
+import ProblemPage from '../views/ticket-categories/ProblemPage.vue'
 
 
 
@@ -49,6 +52,23 @@ const routes = [
     name: 'CategoryApp',
     component:CategoryApp
   },
+    //ticket categories
+  {
+    path: '/RequestPage',
+    name: 'RequestPage',
+    component:RequestPage
+  },
+  {
+    path: '/IncidentPage',
+    name: 'IncidentPage',
+    component:IncidentPage
+  },
+  {
+    path: '/ProblemPage',
+    name: 'ProblemPage',
+    component:ProblemPage
+  },
+
 ]
 
 const router = new VueRouter({

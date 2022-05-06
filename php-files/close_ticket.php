@@ -17,14 +17,35 @@
 
     //assigning received data to variables
     $id = $received_data->id;
+    $action = $received_data->action;
 
     //closed string var
     $closed = 'Closed';
 
-    if($id != ''){
-        mysqli_query($conn,"UPDATE ticket SET status= '".$closed."' WHERE id = '".$id."' ");
+    if($id != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE incident_table SET 
+            status= '".$closed."'
+            WHERE id = '".$id."' 
+        ");
+
         $message = 'Ticket Closed';
     }   
+    elseif($id != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE request_table SET 
+            status= '".$closed."'
+            WHERE id = '".$id."' 
+        ");
+
+        $message = 'Ticket Closed';
+    }   
+    elseif($id != '' AND $action == 'problem' AND $action != 'request' AND $action != 'incident'){
+        mysqli_query($conn,"UPDATE problem_table SET 
+            status= '".$closed."'
+            WHERE id = '".$id."' 
+        ");
+
+        $message = 'Ticket Closed';
+    }
     else{
         $message = 'Will not proceed';
     }

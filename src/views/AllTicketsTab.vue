@@ -1,4 +1,9 @@
 <template>
+
+
+  <!--NOTICE: THIS WON'T BE USED ANYMORE, BUT WE CAN STILL USE IT AS REFERENCE-->
+
+  
     <!--added for support content here (5:11pm - 04-08-2022)-->
     <div>
         <v-row>
@@ -583,7 +588,9 @@ export default {
             })
        },
        getTicketNum(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+          action:'tickets-table'
+        })
           .then((response)=>{
             console.log(response.data)
             this.activities[0].amounts = response.data.new_rows;

@@ -14,7 +14,10 @@
     //variable declaration
     $response = array();
     $data = array();
-    
+
+
+    //$problem = 'notproceed';
+
     //assigning received data to variables
     $id = $received_data->id;
     $assigned_engineer = $received_data->assigned_engineer;
@@ -23,18 +26,52 @@
     $diagnostic = $received_data->diagnostic;
     $resolution = $received_data->resolution;
     $comments = $received_data->comments;
-    $request_category = $received_data->request_category;
+    $priority = $received_data->priority;
+
+    //to decide what to do
+    $action = $received_data->action;
  
 
-    if($id != ''){
-        mysqli_query($conn,"UPDATE ticket SET
+    /*
+    if($id != '' AND $action != '' AND $action = 'problem' AND $action != 'request' AND $action != 'incident'){
+        mysqli_query($conn,"UPDATE problem_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            request_category = '".$request_category."',
-            comments= '".$comments."'
+            comments= '".$comments."',
+            priority= '".$priority."'
+            WHERE id = '".$id."'
+        ");
+
+        $message = 'Updated Successfully';
+
+        //creating response which will be sent to VUE file
+        $response = array(
+            "message" => $message
+        );
+
+        echo json_encode($response);
+
+        $conn->close();
+
+        die();
+    }
+    else{
+        echo "Proceeding to other statements";
+    }
+    */
+
+    if($id != '' AND $action != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE request_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."'
             WHERE id = '".$id."'
         ");
 
@@ -42,6 +79,34 @@
 
         $message = 'Updated Successfully';
     }   
+    elseif($id != '' AND $action != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
+        mysqli_query($conn,"UPDATE incident_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."'
+            WHERE id = '".$id."'
+        ");
+
+        $message = 'Updated Successfully';
+    }
+    elseif($id != '' AND $action != '' AND $action == 'problem' AND $action != 'request' AND $action != 'incident'){
+        mysqli_query($conn,"UPDATE problem_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."'
+            WHERE id = '".$id."'
+        ");
+
+        $message = 'Updated Successfully';
+    }
     else{
         $message = 'Will not proceed';
     }

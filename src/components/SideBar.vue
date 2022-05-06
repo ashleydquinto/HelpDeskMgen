@@ -29,14 +29,58 @@
           
         </v-list-item>
 
+
+        <!-- this it the ticket tab
+          (commented dahil di kailangan) 05-04-2022
+
         <v-list-item to="/TicketApp">
-          <!--icon-->
+
           <v-list-item-icon>
             <v-icon color="white">mdi-ticket-confirmation</v-icon>
           </v-list-item-icon>
-          <!--text-->
+
           <v-list-item-content>
             <v-list-item-title class="white-text">Ticket</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        -->
+
+        <!--tickets starts here-->
+
+        <!--Requests-->
+        <v-list-item to="/RequestPage">
+          <!--icon-->
+          <v-list-item-icon>
+            <v-icon color="white">mdi-alpha-r-box</v-icon>
+          </v-list-item-icon>
+          <!--text-->
+          <v-list-item-content>
+            <v-list-item-title class="white-text">Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!--Incident-->
+        <v-list-item to="/IncidentPage">
+          <!--icon-->
+          <v-list-item-icon>
+            <v-icon color="white">mdi-alpha-i-box</v-icon>
+          </v-list-item-icon>
+          <!--text-->
+          <v-list-item-content>
+            <v-list-item-title class="white-text">Incident</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!--Problem-->
+        <v-list-item to="/ProblemPage">
+          <!--icon-->
+          <v-list-item-icon>
+            <v-icon color="white">mdi-alpha-p-box</v-icon>
+          </v-list-item-icon>
+          <!--text-->
+          <v-list-item-content>
+            <v-list-item-title class="white-text">Problem</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
