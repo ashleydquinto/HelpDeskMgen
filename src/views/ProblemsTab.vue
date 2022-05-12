@@ -329,6 +329,9 @@
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.diagnostic != ''" class="body-2 update-font">{{this.editedItem.diagnostic}}</p>
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.diagnostic == ''" class="body-2 update-font">No diagnostics.</p>
 
+                          <!-- 
+                          useless resolution textarea 
+
                           <v-textarea
                           label="Resolution"
                           rows="3"
@@ -338,15 +341,12 @@
                           v-model="editedItem.resolution"
                           v-if="editedItem.status != 'Closed' && editedItem.status != 'Resolved'"
                           ></v-textarea>
+                          -->
 
                           <!--Resolution pag closed/resolved na-->
                           <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution</h3>
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
-
-                          <!--SLA-->
-                          <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution Time</h3>
-                          <p v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="body-2 update-font sla-fontstyle">Resolution time should be placed here.</p>
 
 
                           <v-textarea
@@ -438,6 +438,7 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
 export default {
     name: "ProblemsTab",
     data(){
@@ -448,9 +449,10 @@ export default {
                 { text: 'REQUESTOR', value: 'requestor' },
                 { text: 'DEPARTMENT', value: 'department' },
                 { text: 'CATEGORY', value: 'category' },
-                { text: 'DESCRIPTION', value: 'description' },
+                { text: 'DESCRIPTION', value: 'description', align:' d-none' },
                 { text: 'STATE', value: 'state' },
                 { text: 'CREATED', value: 'date_created' },
+                { text: 'RESPONDED', value: 'date_responded' },
                 { text: 'RESOLVED', value: 'date_resolved' },
                 { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
                 { text: 'ACTION', value: 'action' },
@@ -543,6 +545,67 @@ export default {
           this.editedItem = Object.assign({}, item)
           //open update ticket modal
           this.updateModal = true;
+
+          axios.post(
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get-closed-resolved.php',
+            {
+              id:this.editedItem.id
+            })
+            .then((response)=>{
+              console.log("id: " + response.data.id + " date created: " + response.data.date_created + " date resolved: " + response.data.date_resolved)
+
+              this.date1 = response.data.date_created;
+              this.date2 = response.data.date_resolved;
+              
+
+              //own assigned values
+              var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss");
+              var date1 = moment(this.date1,"YYYY-MM-DD HH:mm:ss");
+
+
+              /* YOU WERE DOING THE DIFFERENCE BETWEEN TWO TIMES 05-10-2022 */
+              //differenciating here
+              var diff = moment.duration(date2.diff(date1));
+              
+              //var moment1 = moment(diffdays).format('D[ day(s)] H[ hour(s)] m[ minute(s)] s[ second(s)]')\
+              let diff_mins = 0;
+              let diff_days = 0;
+              let diff_hours = diff.asHours().toFixed(2);
+
+
+              //getting difference
+              if(diff_hours < 1){
+                  this.mins = true;
+                 diff_mins = diff.asMinutes().toFixed(2);
+              }
+              else if (diff_hours >= 24){
+                this.mins = false;
+                this.days = true;
+                 diff_days = diff.asDays().toFixed(2);
+              }
+              else{
+                 diff_hours = diff.asHours().toFixed(2);
+              }
+
+              
+              //depends on which is satisfied
+              if(this.days == true && this.mins == false ){
+                this.editedItem.resolution = diff_days + " days ";
+              }
+              else if(this.mins == true){
+                this.editedItem.resolution = diff_mins + " minutes ";
+              }
+              else if(this.mins == false){
+                this.editedItem.resolution = diff_hours + " hours ";
+              }
+              else{
+                this.editedItem.resolution = "could not proceed";
+              }
+              
+            })
+            .catch((error)=> {
+              console.log(error)
+            });
 
         },
         updateTicket(){

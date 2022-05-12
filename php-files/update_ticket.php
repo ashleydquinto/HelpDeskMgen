@@ -64,7 +64,21 @@
     */
 
     if($id != '' AND $action != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
-        mysqli_query($conn,"UPDATE request_table SET
+        if($assigned_engineer !=''){
+            mysqli_query($conn,"UPDATE request_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."',
+            date_responded = CURRENT_TIMESTAMP()
+            WHERE id = '".$id."'
+        ");
+        }
+        else{
+            mysqli_query($conn,"UPDATE request_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
@@ -73,14 +87,30 @@
             comments= '".$comments."',
             priority= '".$priority."'
             WHERE id = '".$id."'
-        ");
+            ");
+        }
+        
 
         
 
         $message = 'Updated Successfully';
     }   
     elseif($id != '' AND $action != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
-        mysqli_query($conn,"UPDATE incident_table SET
+        if($assigned_engineer !=''){
+            mysqli_query($conn,"UPDATE incident_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."',
+            date_responded = CURRENT_TIMESTAMP()
+            WHERE id = '".$id."'
+        ");
+        }
+        else{
+            mysqli_query($conn,"UPDATE incident_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
@@ -89,12 +119,27 @@
             comments= '".$comments."',
             priority= '".$priority."'
             WHERE id = '".$id."'
-        ");
+            ");
+        }
 
         $message = 'Updated Successfully';
     }
     elseif($id != '' AND $action != '' AND $action == 'problem' AND $action != 'request' AND $action != 'incident'){
-        mysqli_query($conn,"UPDATE problem_table SET
+        if($assigned_engineer !=''){
+            mysqli_query($conn,"UPDATE problem_table SET
+            assigned_engineer= '".$assigned_engineer."',
+            sla= '".$sla."',
+            status = '".$status."',
+            diagnostic= '".$diagnostic."',
+            resolution= '".$resolution."',
+            comments= '".$comments."',
+            priority= '".$priority."',
+            date_responded = CURRENT_TIMESTAMP()
+            WHERE id = '".$id."'
+        ");
+        }
+        else{
+            mysqli_query($conn,"UPDATE problem_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
@@ -103,7 +148,8 @@
             comments= '".$comments."',
             priority= '".$priority."'
             WHERE id = '".$id."'
-        ");
+            ");
+        }
 
         $message = 'Updated Successfully';
     }

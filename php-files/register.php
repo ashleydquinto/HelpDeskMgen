@@ -29,19 +29,19 @@
     $response = array(
         "message" => "User successfully created."
     );
-}
-else {
-    $response = array(
-        "message" => "Please fill up all fields"
-    );
-}
-}
-else {
-    $response = array(
-        "message" => "Username already exists"
-    );
+    }
+    else {
+        $response = array(
+            "message" => "Please fill up all fields"
+        );
+    }
+    }
+    else {
+        $response = array(
+            "message" => "Username already exists"
+        );
 
-}   
+    }   
 
     echo json_encode($response);
 

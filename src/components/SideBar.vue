@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer style="background-color: #2d78b1" v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" style="background-color: white" app>
       <v-sheet
         class="pa-7 bg-primary"
       >
@@ -11,19 +11,19 @@
       <v-divider></v-divider>
       <v-list fill-height>
 
-        <h5 class="ml-3 pt-3 pb-1 white-text">GENERAL</h5>
+        <h5 class="ml-3 pt-3 pb-1 text-primary">GENERAL</h5>
 
-        <v-list-item to="/">
+        <v-list-item class="dashboard-item dashboardborder-left" to="/">
           <v-list-item-icon>
             
-            <v-icon color="white">mdi-view-dashboard</v-icon>
+            <v-icon color="#00af52">mdi-view-dashboard</v-icon>
 
           </v-list-item-icon>
             
           
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Dashboard</v-list-item-title>
+            <v-list-item-title class="dashboard-color">Dashboard</v-list-item-title>
           </v-list-item-content>
 
           
@@ -49,95 +49,95 @@
         <!--tickets starts here-->
 
         <!--Requests-->
-        <v-list-item to="/RequestPage">
+        <v-list-item class="request-item requestborder-left" to="/RequestPage">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-alpha-r-box</v-icon>
+            <v-icon color="#ff6600">mdi-alpha-r-box</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Request</v-list-item-title>
+            <v-list-item-title class="request-color">Request</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
         <!--Incident-->
-        <v-list-item to="/IncidentPage">
+        <v-list-item class="incident-item incidentborder-left" to="/IncidentPage">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-alpha-i-box</v-icon>
+            <v-icon color="#0170c1">mdi-alpha-i-box</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Incident</v-list-item-title>
+            <v-list-item-title class="incident-color">Incident</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
         <!--Problem-->
-        <v-list-item to="/ProblemPage">
+        <v-list-item class="problem-item problemborder-left" to="/ProblemPage">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-alpha-p-box</v-icon>
+            <v-icon color="#7030a2">mdi-alpha-p-box</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Problem</v-list-item-title>
+            <v-list-item-title class="problem-color">Problem</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list><h5 v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'" class="ml-3 white-text">MSP</h5></v-list>
+        <v-list><h5 v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'" class="ml-3 text-primary">MSP</h5></v-list>
 
-        <v-list-item to="/ForSupport"  v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'">
+        <v-list-item to="/ForSupport" class="msp mspborder-left" v-if="role == 'Administrator' || role == 'Manager' || role == 'Engineer'">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-face-agent</v-icon>
+            <v-icon color="#bb0808">mdi-face-agent</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">For Support</v-list-item-title>
+            <v-list-item-title class="msp-color">For Support</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/GraphicalReport" v-if="role == 'Administrator'|| role == 'Manager'">
+        <v-list-item to="/GraphicalReport" class="msp mspborder-left" v-if="role == 'Administrator'|| role == 'Manager'">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-chart-line</v-icon>
+            <v-icon color="#bb0808">mdi-chart-line</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Graphical Report</v-list-item-title>
+            <v-list-item-title class="msp-color">Graphical Report</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-          <v-list-item to="/ExportReport" v-if="role == 'Administrator'|| role == 'Manager'">
+          <v-list-item to="/ExportReport" class="msp mspborder-left" v-if="role == 'Administrator'|| role == 'Manager'">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-file-export</v-icon>
+            <v-icon color="#bb0808">mdi-file-export</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Export Report</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list  v-if="role == 'Administrator'"><h5 class="ml-3 white-text">ADMINISTRATOR</h5></v-list>
-        <v-list-item to="/UsersApp" v-if="role == 'Administrator'">
-          <!--icon-->
-          <v-list-item-icon>
-            <v-icon color="white">mdi-account-multiple</v-icon>
-          </v-list-item-icon>
-          <!--text-->
-          <v-list-item-content>
-            <v-list-item-title class="white-text">Users</v-list-item-title>
+            <v-list-item-title class="msp-color">Export Report</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/CategoryApp" v-if="role == 'Administrator'">
+        <v-list  v-if="role == 'Administrator'"><h5 class="ml-3 text-primary">ADMINISTRATOR</h5></v-list>
+        <v-list-item to="/UsersApp" class="admin adminborder-left" v-if="role == 'Administrator'">
           <!--icon-->
           <v-list-item-icon>
-            <v-icon color="white">mdi-newspaper-variant</v-icon>
+            <v-icon color="#000080">mdi-account-multiple</v-icon>
           </v-list-item-icon>
           <!--text-->
           <v-list-item-content>
-            <v-list-item-title class="white-text">Issue Category</v-list-item-title>
+            <v-list-item-title class="administrator-color">Users</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/CategoryApp" class="admin adminborder-left" v-if="role == 'Administrator'">
+          <!--icon-->
+          <v-list-item-icon>
+            <v-icon color="#000080">mdi-newspaper-variant</v-icon>
+          </v-list-item-icon>
+          <!--text-->
+          <v-list-item-content>
+            <v-list-item-title class="administrator-color">Issue Category</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -179,8 +179,7 @@
           logout:Function,
           role:String
         },
-        name: "SideBar",
-
+        name: "SideBar"
        
         }
     
@@ -190,6 +189,9 @@
 <style scoped>
   .bg-primary{
     background-color: #1e6097;
+    }
+  .text-primary{
+    color: #1e6097;
     }
   .white-text {
     color: white;
@@ -201,4 +203,112 @@
   background-color: #1e6097;
   color: white;
 } 
+
+  .border-left{
+    border-left: 3px solid;
+    border-color: white;
+  }
+
+  .sidebar-item:hover, .v-list-item--active{
+    border-left: 7.5px solid;
+    border-color: white;
+    transition: 0.25s;
+  }
+
+  .dashboard-color{
+    color:#00af52;
+  }
+
+  .request-color{
+    color:#ff6600;
+  }
+  .incident-color{
+    color: #0170c1;
+  }
+  .problem-color{
+    color: #7030a2;
+  }
+ 
+  /* for dashboard hover and active */
+  .dashboard-item:hover, .dashboard-item.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #00af52;
+    transition: 0.25s;
+  }
+  .dashboardborder-left{
+    border-left: 3px solid;
+    border-color: #00af52;
+  }
+
+  /* for request hover and active */
+  .request-item:hover, .request-item.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #ff6600;
+    transition: 0.25s;
+  }
+  .requestborder-left{
+    border-left: 3px solid;
+    border-color: #ff6600;
+  }
+
+  /* for incident hover and active */
+  .incident-item:hover, .incident-item.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #0170c1;
+    transition: 0.25s;
+  }
+  .incidentborder-left{
+    border-left: 3px solid;
+    border-color: #0170c1;
+  }
+
+  /* for problem hover and active */
+  .problem-item:hover, .problem-item.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #7030a2;
+    transition: 0.25s;
+  }
+  .problemborder-left{
+    border-left: 3px solid;
+    border-color: #7030a2;
+  }
+
+  /* for msp hover and active */
+  .msp:hover, .msp.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #bb0808;
+    transition: 0.25s;
+  }
+  .mspborder-left{
+    border-left: 3px solid;
+    border-color: #bb0808;
+  }
+
+  .msp-color{
+    color: #bb0808;
+  }
+
+  /* for msp hover and active */
+  .admin:hover, .admin.v-list-item--active{
+    border-left: 7.5px solid;
+    border-color:  #000080;
+    transition: 0.25s;
+  }
+  .adminborder-left{
+    border-left: 3px solid;
+    border-color: #000080;
+  }
+
+
+  .administrator-color{
+    color:#000080;
+  }
+  
+  /*
+  .v-list-item-active{
+    border-left: 5px solid;
+    border-color: yellow;
+  }
+  */
+
 </style>
