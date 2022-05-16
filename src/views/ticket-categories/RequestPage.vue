@@ -200,21 +200,9 @@
                     <template v-slot:[`item.category`]="{item}">
                         {{item.issue}}
                     </template>
-                    
-                    
-                    <!--
+
+                    <!--to view comments-->
                     <template v-slot:[`item.action`]="{ item }">
-                        <!-!- (THIS IS A COMMENT) item.id must be fetched............... @click="openUpdate(item)" DI MAGAMIT AS FUCK-!->
-
-                        <!-!-
-                        <v-icon
-                          medium
-                          @click="editItem(item)"
-                        >
-                          mdi-clipboard-edit-outline
-                        </v-icon>
-                        -!->
-
                         <div class="my-2">
                           <v-btn
                             color="#1e6097"
@@ -223,15 +211,129 @@
                             dark
                             @click="editItem(item)"
                           >
-                            <v-icon>mdi-pencil</v-icon>
+                            <v-icon>mdi-comment</v-icon>
                           </v-btn>
                         </div>
                     </template>
-                    -->
+                    
+                    
+                    
                     
                 </v-data-table>
             </v-col>
         </v-row>
+
+        <v-dialog
+        transition="dialog-bottom-transition"
+        max-width="900"
+        v-model="updateModal" 
+        persistent
+        >
+
+
+            <v-card>
+              <v-toolbar style="background-color: #1e6097; color: white;"
+                dark
+              >
+              <v-col>
+              Update Ticket {{this.editedItem.id}}
+              </v-col>
+              <v-col align="right">
+                <v-btn
+                        style="background-color: #D32F2F; color: white;"
+                        text
+                        @click="updateModal = false;responseNotNaN = false">
+                        <v-icon
+                          small
+                        >
+                          mdi-window-close
+                        </v-icon>
+                        Exit 
+                </v-btn>
+              </v-col>
+              
+              </v-toolbar>
+              <br>
+              <v-card-text>
+              <v-form>
+                  <v-container>
+                      <v-row no-gutters>
+
+                      <v-col col=12>
+                        <h2>Comments</h2>
+                        <p v-if="editedItem.comments != '' " class="comment-content">{{this.editedItem.comments}}</p> 
+                        <p v-if="editedItem.comments == '' " class="comment-content">No comments yet.</p> 
+
+                        <v-textarea
+                        label="Comments"
+                        rows="4"
+                        outlined
+                        clearable
+                        no-resize
+                        ></v-textarea> <!-- no v-model yet -->
+
+                      </v-col>
+
+                      
+
+                      
+                      </v-row>
+                     
+                      <!--buttons-->
+                      <v-card-actions class="justify-center">
+                        
+                        
+
+                        <!-- SUBMIT COMMENT NOT YET ADDED -->
+
+                        <v-btn
+                        style="background-color: #388E3C; color: white;"
+                        text
+                        >
+                          Submit Comment
+                        </v-btn>
+                        
+                        <!--
+                        <v-btn
+                        style="background-color: #388E3C; color: white;"
+                        text
+                        @click="updateTicket()"
+                        v-if="editedItem.status != 'Closed'"
+                        >
+                        Update
+                        </v-btn>
+
+                        <v-btn
+                        style="background-color:#0275d8; color: white;"
+                        class="color-primary"
+                        text
+                        v-if="editedItem.status != 'Resolved' && editedItem.status != 'Closed'"
+                        @click="settoResolved()"
+                        >
+                        Resolve Ticket
+                        </v-btn>
+
+
+                        <v-btn
+                        style="background-color: yellow; color: black;"
+                        text
+                        @click="settoClosed()"
+                        v-if="editedItem.status == 'Resolved'"
+                        >
+                        Close Ticket
+                        </v-btn>
+                        -->
+                        
+                        
+                      </v-card-actions>
+
+                  </v-container>
+              </v-form>
+              </v-card-text>
+            </v-card>
+
+
+        </v-dialog>
 
 
         
@@ -252,6 +354,7 @@ export default {
             'High',
             'Critical'
           ],
+          updateModal:false,
           /*
           state:[
             'New',
@@ -268,12 +371,6 @@ export default {
           ],
           */
           editedItem:{
-            id:'',
-            ticket:'',
-            status:'',
-            created:'',
-            assigned_engineer:'',
-            request_category:'',
           },
           headers: [
             { text: 'TICKET NO.', value: 'ticket' },
@@ -291,7 +388,7 @@ export default {
             { text: 'DIAGNOSTIC', value: 'diagnostic', align:' d-none'},
             { text: 'RESOLUTION', value: 'resolution', align:' d-none'},
             { text: 'COMMENTS', value: 'comments', align:' d-none'},
-            //{ text: 'ACTION', value: 'action', align: 'center'},
+            { text: 'ACTION', value: 'action', align: 'center'},
           ],
           tickets: [
             //Deleted na yung nilagay ni ash
@@ -453,6 +550,13 @@ export default {
           this.addTicket.file = this.$refs.file.files[0];
           this.imgFetcher = event.target.files[0].name;
 
+        },
+        editItem (item) {
+
+          //assign values to editedItem
+          this.editedItem = Object.assign({}, item)
+          //open update ticket modal
+          this.updateModal = true;
         }
     },
     created: function(){
@@ -462,7 +566,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
-
+<style>
+  .comment-content{
+    font-size:130%;
+    margin-top: 2vh;
+  }
 </style>
