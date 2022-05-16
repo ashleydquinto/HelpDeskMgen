@@ -158,7 +158,7 @@
               <v-list-item
                 link
               >
-                <v-list-item-title v-on:click="logout(logkey)">Logout</v-list-item-title>
+                <v-list-item-title class="text-primary" v-on:click="logout(logkey)">Logout</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>

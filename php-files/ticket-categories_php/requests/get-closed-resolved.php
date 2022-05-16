@@ -18,12 +18,16 @@
     if($id != ''){
         $sel = $conn -> query('SELECT date_created FROM request_table WHERE id = "'.$id.'" ');
         $sel2 =  $conn -> query('SELECT date_resolved FROM request_table WHERE id = "'.$id.'" ');
+        $sel3 =  $conn -> query('SELECT date_responded FROM request_table WHERE id = "'.$id.'" ');
     
         $date1 = mysqli_fetch_row($sel);
         $date_created = $date1[0];
 
         $date2 = mysqli_fetch_row($sel2);
         $date_resolved = $date2[0];
+
+        $date3 = mysqli_fetch_row($sel3);
+        $date_responded = $date3[0];
 
         //$date2 = mysqli_fetch_assoc($sel2);
         
@@ -35,7 +39,8 @@
             "id" => $id,
             "message" => 'Successfully captured dates',
             "date_created" => $date_created,
-            "date_resolved" => $date_resolved
+            "date_resolved" => $date_resolved,
+            "date_responded" => $date_responded
         );
     }
     else{

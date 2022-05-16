@@ -272,10 +272,11 @@ export default {
             { text: 'REQUESTOR', value: 'requestor' },
             { text: 'DEPARTMENT', value: 'department' },
             { text: 'CATEGORY', value: 'category' },
-            { text: 'DESCRIPTION', value: 'description' },
+            { text: 'DESCRIPTION', value: 'description', align:' d-none' },
             { text: 'JUSTIFICATION', value: 'justification', align:' d-none'}, //' d-none' hides the column but keeps the search ability
             { text: 'STATE', value: 'state' },
             { text: 'CREATED', value: 'date_created' },
+            { text: 'RESPONDED', value: 'date_responded' },
             { text: 'RESOLVED', value: 'date_resolved' },
             { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
             { text: 'SLA', value: 'sla', align:' d-none'},

@@ -102,6 +102,7 @@
         transition="dialog-bottom-transition"
         max-width="900"
         v-model="updateModal" 
+        persistent
         >
 
 
@@ -116,7 +117,7 @@
                 <v-btn
                         style="background-color: #D32F2F; color: white;"
                         text
-                        @click="updateModal = false">
+                        @click="updateModal = false;responseNotNaN = false">
                         <v-icon
                           small
                         >
@@ -210,16 +211,38 @@
 
                     </v-col>
 
-                    <v-col sm = "6" cols="12">
+                    <v-col sm = "4" cols="12">
 
-                      <!--Justification-->
+                      <!--Attached File-->
                       <h3 class="title">Attached File</h3>
+                      <v-row>
+                        
+                      <v-col cols="4">
                       <p class="body-2 update-font" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL">{{this.editedItem.attached_file}}</p>
+                      </v-col>
+
+                      <v-col cols="8">
+                      <v-btn height="30px" width="125px" @click="downloadFile(editedItem.attached_file)" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL"><v-icon>mdi-download</v-icon> Download</v-btn>
+                      
+                      </v-col>
+
+                      </v-row>
+
                       <p class="body-2 update-font" v-if="editedItem.attached_file == '' || editedItem.attached_file == NULL || editedItem.attached_file == undefined">No file was uploaded for this ticket.</p>
 
                     </v-col>
 
-                    <v-col sm = "6" cols="12">
+                    <v-col sm = "4" cols="12">
+
+                      <!--Response Time-->
+                      <h3 class="title">Response Time</h3>
+                      <p class="body-2 update-font" v-if="responseNotNaN == true">{{this.responseTimeHandler}}</p> <!--v-if="editedItem.response_time != '' && editedItem.response_time != NULL"-->
+                      <p class="body-2 update-font" v-if="editedItem.date_responded == '' || editedItem.date_responded == undefined || editedItem.date_responded ==  null">Response time not computed yet.</p>
+                      <!--<p class="body-2 update-font" v-if="editedItem.response_time == '' || editedItem.response_time == NULL || editedItem.response_time == undefined">Response time not computed.</p>-->
+
+                    </v-col>
+
+                    <v-col sm = "4" cols="12">
 
                       <!--SLA-->
                       <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title">SLA</h3>
@@ -492,6 +515,7 @@ export default {
                 { text: 'RESPONDED', value: 'date_responded' },
                 { text: 'RESOLVED', value: 'date_resolved' },
                 { text: 'ASSIGNED ENGR', value: 'assigned_engineer' },
+                { text: 'RESPONSE TIME', value: 'response_time', align:' d-none' },
                 { text: 'ACTION', value: 'action' },
 
             ],
@@ -530,7 +554,11 @@ export default {
             'Assigned Engr',
             ],
             editedItem:{},
+            responseTimeHandler:'none',
+            responseNotNaN:false,
             updateModal:false,
+            response_mins:false,
+            response_days:false,
             mins:false,
             days:false,
             state:[
@@ -552,7 +580,8 @@ export default {
             'More'
             ],
             date1:'2022-09-14 12:00:00',
-            date2:'2022-12-15 12:21:00' 
+            date2:'2022-12-15 12:21:00' ,
+            downloadURL:'skills.png'
             //gawin mo naman incident and problem
 
         }
@@ -595,28 +624,54 @@ export default {
               id:this.editedItem.id
             })
             .then((response)=>{
-              console.log("id: " + response.data.id + " date created: " + response.data.date_created + " date resolved: " + response.data.date_resolved)
-
+              console.log("id: " + response.data.id + " date created: " + response.data.date_created + " date resolved: " + response.data.date_resolved +  " date responded: " + response.data.date_responded)
+              
               this.date1 = response.data.date_created;
               this.date2 = response.data.date_resolved;
+              this.date3 = response.data.date_responded;
               
 
               //own assigned values
-              var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss");
-              var date1 = moment(this.date1,"YYYY-MM-DD HH:mm:ss");
+              var date3 = moment(this.date3,"YYYY-MM-DD HH:mm:ss"); //responded date
+              var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss"); //resolved date
+              var date1 = moment(this.date1,"YYYY-MM-DD HH:mm:ss"); //created date
 
 
-              /* YOU WERE DOING THE DIFFERENCE BETWEEN TWO TIMES 05-10-2022 */
               //differenciating here
               var diff = moment.duration(date2.diff(date1));
-              
+              var response_diff = moment.duration(date3.diff(date1));
+
+              /* response diff declaration */
+              let response_diff_mins = 0;
+              let response_diff_days = 0;
+              let response_diff_hours = response_diff.asHours().toFixed(2);
+
+              /* resolution diff declaration */
               //var moment1 = moment(diffdays).format('D[ day(s)] H[ hour(s)] m[ minute(s)] s[ second(s)]')\
               let diff_mins = 0;
               let diff_days = 0;
               let diff_hours = diff.asHours().toFixed(2);
 
 
-              //getting difference
+              //getting difference (getting response time) 
+              if(response_diff_hours < 1){
+                  this.response_mins = true;
+                 response_diff_mins = response_diff.asMinutes().toFixed(2);
+                 console.log(" 1st statement "+ response_diff_mins)
+              }
+              else if (response_diff_hours >= 24){
+                this.response_mins = false;
+                this.response_days = true;
+                 response_diff_days = response_diff.asDays().toFixed(2);
+                 console.log(" 2nd statement "+ response_diff_days)
+              }
+              else{
+                 response_diff_hours = response_diff.asHours().toFixed(2);
+                 console.log(" 3rd statement "+ response_diff_hours)
+              }
+
+
+              //getting difference (getting resolution time) 
               if(diff_hours < 1){
                   this.mins = true;
                  diff_mins = diff.asMinutes().toFixed(2);
@@ -631,7 +686,7 @@ export default {
               }
 
               
-              //depends on which is satisfied
+              //depends on which is satisfied (resolution time) 
               if(this.days == true && this.mins == false ){
                 this.editedItem.resolution = diff_days + " days ";
               }
@@ -644,6 +699,35 @@ export default {
               else{
                 this.editedItem.resolution = "could not proceed";
               }
+
+              //depends on which is satisfied (response time) 
+              if(this.response_days == true && this.response_mins == false ){
+                this.responseTimeHandler = response_diff_days + " days ";
+                if((this.editedItem.date_responded != '' || this.editedItem.date_responded != undefined || this.editedItem.date_responded !=  null) && response_diff_days != 0){
+                  this.responseNotNaN = true
+                  console.log(this.responseTimeHandler)
+                }
+              }
+              else if(this.response_mins == true){
+                this.responseTimeHandler  = response_diff_mins + " minutes ";
+                if((this.editedItem.date_responded != '' || this.editedItem.date_responded != undefined || this.editedItem.date_responded !=  null) && response_diff_mins != 0){
+                  this.responseNotNaN = true
+                  console.log(this.responseTimeHandler)
+                }
+              }
+              else if(this.response_mins == false){
+                this.responseTimeHandler  = response_diff_hours + " hours ";
+                if((this.editedItem.date_responded != '' || this.editedItem.date_responded != undefined || this.editedItem.date_responded !=  null) && response_diff_hours != 0){
+                  this.responseNotNaN = true
+                  console.log(this.responseTimeHandler)
+                }
+              }
+              else{
+                this.responseTimeHandler  = "could not proceed";
+              }
+
+              console.log("Resolution Time: " + this.editedItem.resolution);
+              console.log("Response Time: " + this.responseTimeHandler );
               
             })
             .catch((error)=> {
@@ -907,6 +991,25 @@ export default {
           this.getPosts()
         }
       },
+      downloadFile(file){
+        axios.get('http://localhost:8080/HelpDeskMgen-main2/HelpDeskMgen-main/src/upload/'+file,{
+          responseType:'blob'
+        }
+        ).then((response)=>{
+          var fileUrl = window.URL.createObjectURL(new Blob([response.data]))
+          var fileLink = document.createElement('a')
+          fileLink.href = fileUrl
+
+          fileLink.setAttribute('download', file);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })  
+        .catch((error)=> {
+            console.log(error)
+            alert('File does not exist. (The file may have been deleted)')
+        })
+      }
+      
     },
     created: function(){
       this.getPosts();

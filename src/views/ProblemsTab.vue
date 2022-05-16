@@ -196,14 +196,26 @@
 
                       </v-col>
 
-                      <v-col sm = "6" cols="12">
+                      <v-col sm = "4" cols="12">
 
-                        <!--Justification-->
-                        <h3 class="title">Attached File</h3>
-                        <p class="body-2 update-font" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL">{{this.editedItem.attached_file}}</p>
-                        <p class="body-2 update-font" v-if="editedItem.attached_file == '' || editedItem.attached_file == NULL || editedItem.attached_file == undefined">No file was uploaded for this ticket.</p>
-
+                      <!--Attached File-->
+                      <h3 class="title">Attached File</h3>
+                      <v-row>
+                        
+                      <v-col cols="4">
+                      <p class="body-2 update-font" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL">{{this.editedItem.attached_file}}</p>
                       </v-col>
+
+                      <v-col cols="8">
+                      <v-btn height="30px" width="125px" @click="downloadFile(editedItem.attached_file)" v-if="editedItem.attached_file != '' && editedItem.attached_file != NULL"><v-icon>mdi-download</v-icon> Download</v-btn>
+                      
+                      </v-col>
+
+                      </v-row>
+
+                      <p class="body-2 update-font" v-if="editedItem.attached_file == '' || editedItem.attached_file == NULL || editedItem.attached_file == undefined">No file was uploaded for this ticket.</p>
+
+                    </v-col>
 
                       <v-col sm = "6" cols="12">
 
@@ -835,6 +847,24 @@ export default {
           this.getPosts()
         }
       },
+      downloadFile(file){
+        axios.get('http://localhost:8080/HelpDeskMgen-main2/HelpDeskMgen-main/src/upload/'+file,{
+          responseType:'blob'
+        }
+        ).then((response)=>{
+          var fileUrl = window.URL.createObjectURL(new Blob([response.data]))
+          var fileLink = document.createElement('a')
+          fileLink.href = fileUrl
+
+          fileLink.setAttribute('download', file);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })  
+        .catch((error)=> {
+            console.log(error)
+            alert('File does not exist. (The file may have been deleted)')
+        })
+      }
     },
     created: function(){
       this.getPosts();
