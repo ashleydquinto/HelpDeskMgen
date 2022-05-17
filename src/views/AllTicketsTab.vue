@@ -578,7 +578,7 @@ export default {
         console.log("var1",num);
       },
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=show')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=show')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -588,7 +588,7 @@ export default {
             })
        },
        getTicketNum(){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'tickets-table'
         })
           .then((response)=>{
@@ -616,7 +616,7 @@ export default {
         //this.activeness.new = true
 
         if(this.activeness.new  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=new')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=new')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -645,7 +645,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.ongoing  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=ongoing')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=ongoing')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -671,7 +671,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.pending  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=pending')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=pending')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -697,7 +697,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.resolved  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=resolved')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=resolved')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -723,7 +723,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.closed  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=closed')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=closed')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -749,7 +749,7 @@ export default {
         this.activeness.new = false
 
         if(this.activeness.cancelled  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php?action=cancelled')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php?action=cancelled')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -785,7 +785,7 @@ export default {
           alert("Update functionality" + " "+ this.editedItem.id); */
           console.log(this.editedItem.request_category)
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
                     {
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,
@@ -809,7 +809,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to close this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/close_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/close_ticket.php',
             {
               id:this.editedItem.id
             })
@@ -827,7 +827,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to resolve this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/resolve_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/resolve_ticket.php',
             {
               id:this.editedItem.id
             })

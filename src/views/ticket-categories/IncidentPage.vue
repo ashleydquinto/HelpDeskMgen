@@ -391,7 +391,7 @@ export default {
         this.ticketOpen =false;
         }, 
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/get_incidents.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/get_incidents.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -401,7 +401,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -420,7 +420,7 @@ export default {
               //IF FILE IS NOT EMPTY, THIS WILL EXECUTE (26-04-2022)
               if(this.addTicket.file != ''){
                 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/upload.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/upload.php',
                   formData,
                   {
                     headers:{
@@ -434,7 +434,7 @@ export default {
                       console.log(error)
                   });
 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/addincident_with-file.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/addincident_with-file.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -469,7 +469,7 @@ export default {
               //ELSE IF FILE IS EMPTY/NULL/UNDEFINED, THIS WILL EXECUTE (26-04-2022)
               else if(this.addTicket.file == '' || this.addTicket.file == null || this.addTicket.file == undefined){
 
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/add_incident.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/add_incident.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,

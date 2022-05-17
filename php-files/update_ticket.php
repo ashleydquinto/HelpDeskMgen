@@ -25,12 +25,13 @@
     $status = $received_data->status;
     $diagnostic = $received_data->diagnostic;
     $resolution = $received_data->resolution;
-    $comments = $received_data->comments;
+    $comments =  $received_data->commentname . ": " . $received_data->comments;
     $priority = $received_data->priority;
 
+    
     //to decide what to do
     $action = $received_data->action;
- 
+    $test = array();
 
     /*
     if($id != '' AND $action != '' AND $action = 'problem' AND $action != 'request' AND $action != 'incident'){
@@ -64,14 +65,39 @@
     */
 
     if($id != '' AND $action != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
-        if($assigned_engineer !=''){
+        $commentarray = array();
+    $get_data = mysqli_query($conn, "SELECT * FROM request_table where id = '$id'");
+    if(mysqli_num_rows($get_data) > 0)
+    {
+        while($rowcom = mysqli_fetch_assoc($get_data))
+        {
+            
+            
+            if($rowcom['comments'] != '' || $rowcom['comments'] != null) {
+                $test = unserialize($rowcom['comments']);
+                array_push($test, $comments);
+                $savecomment = serialize($test);
+                 }
+                 else {
+                     $commentarray = array();
+                     array_push($commentarray, $comments);
+                     $savecomment = serialize($commentarray);
+                 }
+
+        }
+    }
+    
+    array_push($commentarray, $comments);
+    $savecomment = serialize($commentarray);
+
+    if($assigned_engineer !=''){
             mysqli_query($conn,"UPDATE request_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."',
             date_responded = CURRENT_TIMESTAMP()
             WHERE id = '".$id."'
@@ -84,7 +110,7 @@
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."'
             WHERE id = '".$id."'
             ");
@@ -93,17 +119,41 @@
 
         
 
-        $message = 'Updated Successfully';
+        $message = $savecomment;
     }   
     elseif($id != '' AND $action != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
-        if($assigned_engineer !=''){
+        $commentarray = array();
+    $get_data = mysqli_query($conn, "SELECT * FROM incident_table where id = '$id'");
+    if(mysqli_num_rows($get_data) > 0)
+    {
+        while($rowcom = mysqli_fetch_assoc($get_data))
+        {
+            
+            if($rowcom['comments'] != '' || $rowcom['comments'] != null) {
+                $test = unserialize($rowcom['comments']);
+                array_push($test, $comments);
+                $savecomment = serialize($test);
+                 }
+                 else {
+                     $commentarray = array();
+                     array_push($commentarray, $comments);
+                     $savecomment = serialize($commentarray);
+                 }
+
+        }
+    }
+    
+    array_push($commentarray, $comments);
+    $savecomment = serialize($commentarray);
+
+    if($assigned_engineer !=''){
             mysqli_query($conn,"UPDATE incident_table SET
             assigned_engineer= '".$assigned_engineer."',
             sla= '".$sla."',
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."',
             date_responded = CURRENT_TIMESTAMP()
             WHERE id = '".$id."'
@@ -116,15 +166,40 @@
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."'
             WHERE id = '".$id."'
             ");
         }
 
-        $message = 'Updated Successfully';
+        $message = $savecomment;
     }
     elseif($id != '' AND $action != '' AND $action == 'problem' AND $action != 'request' AND $action != 'incident'){
+        
+    
+    $get_data = mysqli_query($conn, "SELECT * FROM problem_table where id = '$id'");
+    if(mysqli_num_rows($get_data) > 0)
+    {
+        while($rowcom = mysqli_fetch_assoc($get_data))
+        {
+            if($rowcom['comments'] != '' || $rowcom['comments'] != null) {
+           $test = unserialize($rowcom['comments']);
+           array_push($test, $comments);
+           $savecomment = serialize($test);
+            }
+            else {
+                $commentarray = array();
+                array_push($commentarray, $comments);
+                $savecomment = serialize($commentarray);
+            }
+        }
+    }
+    
+    
+    
+    
+
+
         if($assigned_engineer !=''){
             mysqli_query($conn,"UPDATE problem_table SET
             assigned_engineer= '".$assigned_engineer."',
@@ -132,7 +207,7 @@
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."',
             date_responded = CURRENT_TIMESTAMP()
             WHERE id = '".$id."'
@@ -145,13 +220,13 @@
             status = '".$status."',
             diagnostic= '".$diagnostic."',
             resolution= '".$resolution."',
-            comments= '".$comments."',
+            comments= '".$savecomment."',
             priority= '".$priority."'
             WHERE id = '".$id."'
             ");
         }
 
-        $message = 'Updated Successfully';
+        $message = $test;
     }
     else{
         $message = 'Will not proceed';

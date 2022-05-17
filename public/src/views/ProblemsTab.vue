@@ -58,7 +58,7 @@ export default {
     },
     methods:{
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/tabs.php?action=category3')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/tabs.php?action=category3')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;

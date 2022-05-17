@@ -53,7 +53,7 @@ import axios from 'axios';
             
           },
           getstatus(username,password) {
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
                     {
                         username:username,
                         password:password,
@@ -69,6 +69,7 @@ import axios from 'axios';
                               alert("Hello, " + response.data.name + " you are logged in as a/an " + response.data.role);
                               localStorage.setItem('ses', 'true');
                               localStorage.setItem('uRole', response.data.role);
+                              localStorage.setItem('name', response.data.name);
                             }
                             else{
                               alert(response.data.message);
@@ -92,6 +93,9 @@ import axios from 'axios';
             
             this.loggedin = "false";
             localStorage.setItem('ses', 'false');
+            localStorage.setItem('name', '');
+            this.name_of_user = "";
+            this.user_role = "";
             
             alert('You have logged out of the system')
           }
