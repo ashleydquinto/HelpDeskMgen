@@ -295,7 +295,7 @@ export default {
         console.log("var1",num);
       },
       getTicketNum(){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'tickets-table'
         })
           .then((response)=>{
@@ -312,7 +312,7 @@ export default {
       },
       //TO GET TOTAL OF REQUEST (for the ticket numbers)
       getTotalRequest(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'request'
         })
           .then((response)=>{
@@ -336,7 +336,7 @@ export default {
       },
       //TO GET TOTAL OF INCIDENT (for the ticket numbers)
       getTotalIncident(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'incident'
         })
           .then((response)=>{
@@ -358,7 +358,7 @@ export default {
       },
       //TO GET TOTAL OF PROBLEM (for the ticket numbers)
       getTotalProblem(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'problem'
         })
           .then((response)=>{

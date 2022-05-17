@@ -191,7 +191,7 @@ import axios from 'axios'
         methods: {
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,
