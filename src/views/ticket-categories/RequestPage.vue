@@ -260,9 +260,9 @@
                       <v-row no-gutters>
 
                       <v-col col=12>
-                        <h2>Comments</h2>
-                        <p v-if="editedItem.comments != '' " class="comment-content">{{this.editedItem.comments}}</p> 
-                        <p v-if="editedItem.comments == '' " class="comment-content">No comments yet.</p> 
+                        <h2 v-if="editedItem.status != 'Resolved'">Comments</h2>
+                        <p v-if="editedItem.comments != '' && editedItem.status != 'Resolved'" class="comment-content">{{this.editedItem.comments}}</p> 
+                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p> 
 
                         <v-textarea
                         label="Comments"
@@ -270,8 +270,57 @@
                         outlined
                         clearable
                         no-resize
+                        v-if="editedItem.status != 'Resolved'"
                         ></v-textarea> <!-- no v-model yet -->
+                        
+                        <h2 v-if="editedItem.status == 'Resolved'">Ticket Resolved</h2>
 
+                        <!--<p v-if="editedItem.status == 'Resolved'"> Your satisfaction rating would be highly appreciated. </p>-->
+
+                        <br>
+
+
+                        <h3 v-if="editedItem.status == 'Resolved'">Employee Rating</h3>
+
+                          <v-radio-group
+                            v-model="row"
+                            row
+                            v-if="editedItem.status == 'Resolved'"
+                          ><!---->
+                            <v-radio
+                              label="5 (Outstanding)"
+                              value="5"
+
+                            ></v-radio>
+
+                            <v-radio
+                              label="4 (Very Satisfactory)"
+                              value="4"
+                            ></v-radio>
+
+                            <v-radio
+                              label="3 (Satisfactory)"
+                              value="3"
+
+                            ></v-radio>
+
+                            <v-radio
+                              label="2 (Unsatisfactory)"
+                              value="2"
+
+                            ></v-radio>
+
+                            <v-radio
+                              label="1 (Poor)"
+                              value="1"
+
+                            ></v-radio>
+
+
+                          </v-radio-group>
+
+                          
+                        
                       </v-col>
 
                       
@@ -289,8 +338,17 @@
                         <v-btn
                         style="background-color: #388E3C; color: white;"
                         text
+                        v-if="editedItem.status != 'Resolved' || editedItem.status == 'Closed'"
                         >
                           Submit Comment
+                        </v-btn>
+
+                        <v-btn
+                        style="background-color: #1e6097; color: white;"
+                        text
+                        v-if="editedItem.status == 'Resolved' || editedItem.status == 'Closed'"
+                        >
+                          Submit Rating
                         </v-btn>
                         
                         <!--
@@ -355,6 +413,7 @@ export default {
             'Critical'
           ],
           updateModal:false,
+          row:null,
           /*
           state:[
             'New',
