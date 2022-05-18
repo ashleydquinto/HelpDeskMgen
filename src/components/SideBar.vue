@@ -1,4 +1,9 @@
 <template>
+
+    <!-- SIDE BAR COMPONENT (WHERE THE TABS ARE SHOWN) -->
+
+
+    <!--Header above-->
     <v-navigation-drawer v-model="drawer" style="background-color: white" app>
       <v-sheet
         class="pa-7 bg-primary"
@@ -9,6 +14,8 @@
         </div>
       </v-sheet>
       <v-divider></v-divider>
+
+      <!-- tabs start here -->
       <v-list fill-height>
 
         <h5 class="ml-3 pt-3 pb-1 text-primary">GENERAL</h5>
@@ -46,7 +53,7 @@
 
         -->
 
-        <!--tickets starts here-->
+        <!--tickets (segregated request categories) start here-->
 
         <!--Requests-->
         <v-list-item class="request-item requestborder-left" to="/RequestPage">
@@ -141,7 +148,9 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      
+
+
+      <!-- logout button -->
       <template v-slot:append>
         <v-list class="pl-4 pb-4" fill-height>
           <v-menu>
@@ -150,6 +159,7 @@
                 dark
                 v-bind="attrs"
                 v-on="on"
+                color="#1e6097"
               >
                 mdi-power
               </v-icon>
@@ -168,6 +178,7 @@
 </template>
 
 <script>
+    //Javascript
     export default {
         data: () => ({
           logkey:"false",

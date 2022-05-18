@@ -515,7 +515,7 @@ export default {
         this.ticketOpen =false;
         }, 
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -525,7 +525,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -536,7 +536,7 @@ export default {
         },
         submitTicket(){
             if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != ''){
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/add_ticket.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_ticket.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -579,7 +579,7 @@ export default {
           console.log(this.editedItem.id, this.editedItem.requestor, this.editedItem.contact_no, this.editedItem.issue, this.editedItem.description,this.editedItem.diagnostic)
           alert("Update functionality" + " "+ this.editedItem.id); 
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
                     {
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,

@@ -1,5 +1,9 @@
 <template>
 
+          <!--REQUEST TAB COMPONENT - IDENTICAL TO PROBLEMTAB AND INCIDENTTAB -->
+
+          <!-- REFER TO INCIDENT TAB FOR MORE INFO, SINCE THIS IS AN IDENTICAL COMPONENT -->
+
           <div>
 
             <v-row>
@@ -61,6 +65,7 @@
 
           <v-row>
             <v-col lg="12">
+                <!--data table -->
                 <v-data-table
                 caption="REQUESTS"
                 :headers="headers"
@@ -496,8 +501,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import moment from 'moment'
+import axios from 'axios'//axios - db interaction
+import moment from 'moment'//moment - duration computation between dates 
 export default {
     name: "AllTicketsTab",
     data(){
@@ -581,14 +586,13 @@ export default {
             ],
             date1:'2022-09-14 12:00:00',
             date2:'2022-12-15 12:21:00' ,
-            downloadURL:'skills.png'
-            //gawin mo naman incident and problem
+            //downloadURL:'skills.png'
 
         }
     },
     methods:{
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -598,7 +602,7 @@ export default {
             })
        },
        getTicketNum(){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php?action=request',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php?action=request',{
           action:'request'
         })
           .then((response)=>{
@@ -619,7 +623,7 @@ export default {
           this.updateModal = true;
 
           axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get-closed-resolved.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get-closed-resolved.php',
             {
               id:this.editedItem.id
             })
@@ -739,7 +743,7 @@ export default {
           /* console.log(this.editedItem.id, this.editedItem.requestor, this.editedItem.contact_no, this.editedItem.issue, this.editedItem.description,this.editedItem.diagnostic)
           alert("Update functionality" + " "+ this.editedItem.id); */
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
                     {
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,
@@ -766,7 +770,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to close this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/close_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/close_ticket.php',
             {
               id:this.editedItem.id,
               action:'request'
@@ -785,7 +789,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to resolve this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/resolve_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/resolve_ticket.php',
             {
               id:this.editedItem.id,
               action:'request'
@@ -801,31 +805,7 @@ export default {
             
           }
         },
-        trial(){
-          console.log("bat ayaw")
-
-          // GINAGAWA MO NA YUNG DIFFERENCE PERO DI KAYA, UNAHIN MO RAW MUNA FILTER
-          // UNAHIN MUNA RAW FILTER FOR STATUS
-              
-          //own assigned values
-          var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss");
-          var date1 = moment(this.date1,"YYYY-MM-DD HH:mm:ss");
-
-          //differenciating here
-          //var diffdays = date2.diff(date1)
-          //let diffdays = moment.duration(date2.diff(date1), "days")
-
-
-          var diff = date2.diff(date1)
-          var hello = diff.format('M [months] D [day(s)] H [Hour(s)]')
-
-          //let days = diffdays.asDays();
-          //let duration = moment.duration(end.diff(start));
-
-          //var moment1 = moment(diffdays).format('M [month(s)] D[ day(s)] H[ hour(s)] m[ minute(s)] s[ second(s)]')
-          console.log(hello)
-            
-        },
+        
 
         //For filtering
 
@@ -842,7 +822,7 @@ export default {
 
           
           if(this.activeness.new  == true){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=new ')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=new ')
               .then((response)=>{
                   console.log(response.data)
                   this.tickets=response.data;
@@ -872,7 +852,7 @@ export default {
           this.activeness.cancelled = false
 
           if(this.activeness.ongoing  == true){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=ongoing')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=ongoing')
               .then((response)=>{
                   console.log(response.data)
                   this.tickets=response.data;
@@ -898,7 +878,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.pending  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=pending')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=pending')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -924,7 +904,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.resolved  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=resolved')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=resolved')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -950,7 +930,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.closed  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=closed')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=closed')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -976,7 +956,7 @@ export default {
         this.activeness.new = false
 
         if(this.activeness.cancelled  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php?action=cancelled')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php?action=cancelled')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;

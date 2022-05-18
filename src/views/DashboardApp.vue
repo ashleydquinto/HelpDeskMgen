@@ -1,31 +1,15 @@
 <template>
+    <!--DASHBOARD PAGE (HOMEPAGE)-->
+
     <div class="DashboardApp">
-        <!--
-        <v-header>
-            <h2 class="pr-10 header-text">Dashboard</h2>
-        </v-header><br>
-        <v-row>
-            <v-col lg="4" cols="8" v-for="(item,index) in activities" :key="index">
-                <v-card elevation="2" class="rounded-lg">
-                    <v-card-text class="d-flex justify-space-between align-center">
-                        <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-
-        <br>
-        <br>
-        -->
-
+       
         <v-header>
             <h2 class="pr-10 header-text">Request Categories</h2>
         </v-header><br>
 
         <v-row>
+
+            <!-- REQUEST BUTTON THAT ALSO SHOWS THE NUMBER OF TICKETS FOR THAT CATEGORY -->
             <v-col lg="4" cols="8" > <!--v-for="(item,index) in requests" :key="index"-->
                 <v-card elevation="2" class="rounded-lg orange-bg" v-bind:class="{ active: activeness.request }" @click="showRequestTix()">
                     <v-card-text class="d-flex justify-space-between align-center">
@@ -37,6 +21,7 @@
                 </v-card>
             </v-col>
 
+            <!-- INCIDENT BUTTON THAT ALSO SHOWS THE NUMBER OF TICKETS FOR THAT CATEGORY -->
             <v-col lg="4" cols="8" > <!--v-for="(item,index) in requests" :key="index"-->
                 <v-card elevation="2" class="rounded-lg blue-bg" v-bind:class="{ active: activeness.incident }" @click="showIncidentTix()">
                     <v-card-text class="d-flex justify-space-between align-center">
@@ -48,6 +33,7 @@
                 </v-card>
             </v-col>
 
+            <!-- PROBLEM BUTTON THAT ALSO SHOWS THE NUMBER OF TICKETS FOR THAT CATEGORY -->
             <v-col lg="4" cols="8" > <!--v-for="(item,index) in requests" :key="index"-->
                 <v-card elevation="2" class="rounded-lg violet-bg" v-bind:class="{ active: activeness.problem }" @click="showProblemTix()">
                     <v-card-text class="d-flex justify-space-between align-center">
@@ -64,13 +50,15 @@
         <br>
         <br>
 
+        <!-- ONCE A BUTTON IS CLICKED, EVERYTHING BELOW WILL BE SHOWN -->
+
         <v-row v-if="activeness.request == true || activeness.incident == true || activeness.problem == true">
             <v-col lg="4" cols="8" >
                 <v-card elevation="2" class="rounded-lg new-tix">
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>New Tickets</regular><br><br>
-                            <h1>{{ticket_nums[0].amounts}}</h1>
+                            <h1>{{ticket_nums[0].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
@@ -80,7 +68,7 @@
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>Ongoing Tickets</regular><br><br>
-                            <h1>{{ticket_nums[1].amounts}}</h1>
+                            <h1>{{ticket_nums[1].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
@@ -90,7 +78,7 @@
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>Pending Tickets</regular><br><br>
-                            <h1>{{ticket_nums[2].amounts}}</h1>
+                            <h1>{{ticket_nums[2].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
@@ -101,7 +89,7 @@
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>Resolved Tickets</regular><br><br>
-                            <h1>{{ticket_nums[3].amounts}}</h1>
+                            <h1>{{ticket_nums[3].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
@@ -111,7 +99,7 @@
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>Closed Tickets</regular><br><br>
-                            <h1>{{ticket_nums[4].amounts}}</h1>
+                            <h1>{{ticket_nums[4].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
@@ -121,119 +109,25 @@
                     <v-card-text class="d-flex justify-space-between align-center">
                         <div class="">
                             <regular>Cancelled Tickets</regular><br><br>
-                            <h1>{{ticket_nums[5].amounts}}</h1>
+                            <h1>{{ticket_nums[5].amounts}}</h1> <!-- ticket amount which is determined using javascript -->
                         </div>
                     </v-card-text>
                 </v-card>
             </v-col>
         </v-row>
         
-        <!--
-        <v-row v-if="activeness.request == true || activeness.incident == true || activeness.problem == true">
-            <v-col lg="4" cols="8" v-for="(item,index) in ticket_nums" :key="index" >
-                <v-card elevation="2" class="rounded-lg active">
-                    <v-card-text class="d-flex justify-space-between align-center">
-                        <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-
-        -->
-
-        <!--
-        <br>
-        <br>
-
-        <v-header>
-            <h2 class="pr-10 header-text">Incident</h2>
-        </v-header><br>
-
-        <v-row>
-            <v-col lg="4" cols="8" v-for="(item,index) in incidents" :key="index">
-                <v-card elevation="2" class="rounded-lg">
-                    <v-card-text class="d-flex justify-space-between align-center">
-                        <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-        <br> 
-
-        <br>
-        <br>
-
-        <v-header>
-            <h2 class="pr-10 header-text">Problem</h2>
-        </v-header><br>
-
-        <v-row>
-            <v-col lg="4" cols="8" v-for="(item,index) in problems" :key="index">
-                <v-card elevation="2" class="rounded-lg">
-                    <v-card-text class="d-flex justify-space-between align-center">
-                        <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-
-        
-        <br> 
-        -->
-
-        <!--<v-card
-    class="mt-4 mx-auto"
-    max-width="700"
-  >
-    <v-sheet
-      class="v-sheet--offset mx-auto"
-      color="cyan"
-      elevation="12 "
-      max-width="calc(100% - 32px)"
-    >
-      <v-sparkline
-        :labels="labels"
-        :value="value"
-        color="white"
-        line-width="2"
-        padding="16"
-      ></v-sparkline>
-    </v-sheet>
-
-    <v-card-text class="pt-0"><br>
-      <div class="text-h6 font-weight-light mb-2">
-        Opened Tickets
-      </div>
-      <div class="subheading font-weight-light grey--text">
-        Last opened tickets
-      </div>
-      <v-divider class="my-2"></v-divider>
-      <v-icon
-        class="mr-2"
-        small
-      >
-        mdi-clock
-      </v-icon>
-      <span class="text-caption grey--text font-weight-light">last ticket 26 minutes ago</span>
-    </v-card-text>
-  </v-card>-->  
+         
     </div>
 </template>
 
-<script>
-import axios from 'axios'
-import moment from 'moment'
+<script> 
+import axios from 'axios' //axios - for db interaction 
+import moment from 'moment' //this was used for testing (kindly ignore)
 export default {
+    //name of the component
     name: "DashboardApp",
+
+    //data declaration
     data(){
         return{
             date1: "2022-09-14 12:00:00",
@@ -295,7 +189,7 @@ export default {
         console.log("var1",num);
       },
       getTicketNum(){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
           action:'tickets-table'
         })
           .then((response)=>{
@@ -312,7 +206,7 @@ export default {
       },
       //TO GET TOTAL OF REQUEST (for the ticket numbers)
       getTotalRequest(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
           action:'request'
         })
           .then((response)=>{
@@ -336,7 +230,7 @@ export default {
       },
       //TO GET TOTAL OF INCIDENT (for the ticket numbers)
       getTotalIncident(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
           action:'incident'
         })
           .then((response)=>{
@@ -358,7 +252,7 @@ export default {
       },
       //TO GET TOTAL OF PROBLEM (for the ticket numbers)
       getTotalProblem(action){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
           action:'problem'
         })
           .then((response)=>{
@@ -409,6 +303,7 @@ export default {
         }
       },
       //logic for SLA (time difference)
+      /* IGNORE THIS FUNCTION, THIS IS USED IN ANOTHER COMPONENT */
       differenciate(){
         //own assigned values
         var date2 = moment(this.date2,"YYYY-MM-DD HH:mm:ss");
@@ -420,18 +315,16 @@ export default {
       }
     },
     created: function(){
-      //this.changeNum();
       this.getTicketNum();
       this.getTotalRequest('show');
       this.getTotalIncident('show');
       this.getTotalProblem('show');
-      //logic for SLA (time difference) execution
-      //this.differenciate(); <cinomment ko muna>
     }
 }
 </script>
 
 <style scoped>
+    /* CSS */
     .header-text {
        color: #616161;
     }

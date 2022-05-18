@@ -1,4 +1,8 @@
 <template>
+
+  <!-- FOR SUPPORT PAGE -->
+
+  <!-- WHERE ALL TICKETS ARE EDITED -->
   <div class="ForSupport">
     <v-header>
             <h2 class="pr-10 header-text">For Support</h2>
@@ -15,7 +19,7 @@
     <!--Header name AllTickets-->
     <!--<v-tab href="#AllTickets" style="color: white;">--> <!--to="/AllTicketsTab" style: background-color: #1e6097; -->
 
-    <!-- All Tickets
+    <!-- All Tickets            NOTE: NO LONGER BEING USED (line 16-30)
     </v-tab>
     --> 
 
@@ -25,22 +29,24 @@
     </v-tab-item>
     --> 
 
+
+
     <!--Header name Requests-->
     <v-tab href="#Requests" style=" color: white;" > <!--to="/RequestsTab" style: background-color: #1e6097;-->
       Requests
     </v-tab>
 
     <v-tab-item id="Requests" key="Requests" class="custom-tab-items">
-      <RequestsApp/>
+      <RequestsApp/> <!-- COMPONENT REQUESTS TAB IS SHOWN IF IT IS CLICKED--> 
     </v-tab-item>
 
     <!--Header name Incidents-->
     <v-tab href="#Incidents" style="color: white;"> <!--to="/IncidentsTab" style: background-color: #1e6097;-->
-      Incidents
+      Incidents 
     </v-tab>
 
     <v-tab-item id="Incidents" key="Incidents" class="custom-tab-items">
-      <IncidentsTab/>
+      <IncidentsTab/> <!-- COMPONENT INCIDENTS TAB IS SHOWN IF IT IS CLICKED--> 
     </v-tab-item>
 
     <!--Header name Problems-->
@@ -48,43 +54,14 @@
       Problems
     </v-tab>
 
-    <v-tab-item id="Problems" key="Problems" class="custom-tab-items">
-      <ProblemsTab/>
+    <v-tab-item id="Problems" key="Problems" class="custom-tab-items"> 
+      <ProblemsTab/> <!-- COMPONENT PROBLEMS TAB IS SHOWN IF IT IS CLICKED--> 
     </v-tab-item>
 
   </v-tabs>
 
 
-  <!--
-  <br><br><br><br>
-  
-           <v-row>
-            <v-col lg="4" cols="8" v-for="(item,index) in activities" :key="index">
-                <v-card elevation="2" class="rounded-lg">
-                    <v-card-text class="d-flex justify-space-between align-center">
-                        <div class="">
-                            <regular>{{item.title}}</regular><br><br>
-                            <h1>{{item.amounts}}</h1>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-          </v-row>
-     <v-row>
-            <v-col lg="12">
-                <v-data-table
-                caption="ALL TICKETS"
-                :headers="headers"
-                :items="tickets"
-                 class="pt-4 elevation-1"
-                >
-                <template v-slot:[`item.actions`]="{ }">
-                    <v-btn color="success">View</v-btn>
-                </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
-  -->
+
 
   </div>
 </template>
@@ -130,6 +107,7 @@ export default {
 
         ],
         tickets: [
+          //UNNECESSARY DATA
           {
             ticket: '5360',
             requestor: 'Jules Stephen Mayo',
@@ -167,6 +145,8 @@ export default {
         }
     },
     methods:{
+      //i think these methods are unnecessary
+      
       /* MGA INIBA KO TODAY (04-08-2022) 1:30pm */
       //sample func
       changeNum(){
@@ -174,20 +154,7 @@ export default {
         var num = this.activities[1];
         console.log("var1",num);
       },
-      /*
-      getTicketNum(){
-        axios.get('http://localhost/helpdesk/helpdesk/get_ticketno.php')
-          .then((response)=>{
-            console.log(response.data)
-            this.activities[1].amounts = response.data.ongoing_rows;
-            this.activities[2].amounts = response.data.pending_rows;
-            this.activities[3].amounts = response.data.resolved_rows;
-            this.activities[4].amounts = response.data.closed_rows;
-            this.activities[5].amounts = response.data.cancelled_rows;
-            //var num = this.activities[3]
-            //console.log('resolved'+ num)
-          })
-      }*/
+      
       
     },
     created: function(){

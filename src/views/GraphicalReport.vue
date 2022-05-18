@@ -1,4 +1,9 @@
 <template>
+
+    <!--GRAPHICAL REPORT COMPONENT -->
+
+    <!--Developed by our 2nd back-end developer - Mr. Diwa -->
+
     <div class="GraphicalReport">
         <v-header>
             <h2 class="pr-10 header-text">Graphical Report</h2>
@@ -76,7 +81,7 @@
 </template>
 
 <script>
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto'; //used for charts
 import axios from 'axios';
 var yValues = [];
 var yValues2 = [7 ,4, 15];
@@ -122,32 +127,32 @@ export default {
         }
     },
     methods: {
-getTicketNum(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/getanalytics.php')
-          .then((response)=>{
-              
-            console.log(response.data)
-            yValues[0] = response.data.total_rows;
-            yValues[1] = response.data.new_rows;
-            yValues[2] = response.data.ongoing_rows;
-            yValues[3] = response.data.pending_rows;
-            yValues[4] = response.data.resolved_rows;
-            yValues[5] = response.data.closed_rows;
-            yValues[6] = response.data.cancelled_rows;
-           
-            this.total[0].amounts = response.data.total_rows; 
-            this.activities[0].amounts = response.data.new_rows; 
-            this.activities[1].amounts = response.data.ongoing_rows; 
-            this.activities[2].amounts = response.data.pending_rows; 
-            this.activities[3].amounts = response.data.resolved_rows; 
-            this.activities[4].amounts = response.data.closed_rows; 
-            this.activities[5].amounts = response.data.cancelled_rows; 
-            yValues4[0] = response.data.incident;
-            yValues4[1] = response.data.problem;
-            yValues4[2] = response.data.requests;
-            
-            console.log(this.yValues.total);
-          })
+      getTicketNum(){
+              axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/getanalytics.php')
+                .then((response)=>{
+                    
+                  console.log(response.data)
+                  yValues[0] = response.data.total_rows;
+                  yValues[1] = response.data.new_rows;
+                  yValues[2] = response.data.ongoing_rows;
+                  yValues[3] = response.data.pending_rows;
+                  yValues[4] = response.data.resolved_rows;
+                  yValues[5] = response.data.closed_rows;
+                  yValues[6] = response.data.cancelled_rows;
+                
+                  this.total[0].amounts = response.data.total_rows; 
+                  this.activities[0].amounts = response.data.new_rows; 
+                  this.activities[1].amounts = response.data.ongoing_rows; 
+                  this.activities[2].amounts = response.data.pending_rows; 
+                  this.activities[3].amounts = response.data.resolved_rows; 
+                  this.activities[4].amounts = response.data.closed_rows; 
+                  this.activities[5].amounts = response.data.cancelled_rows; 
+                  yValues4[0] = response.data.incident;
+                  yValues4[1] = response.data.problem;
+                  yValues4[2] = response.data.requests;
+                  
+                  console.log(this.yValues.total);
+                })
       }
     },
     

@@ -1,4 +1,11 @@
 <template>
+    <!-- REQUEST PAGE FOR USERS -->
+
+    <!-- same with request and incident, but fetches data from request_table -->
+
+    <!-- FOR DETAILED COMMENTS, CHECK INCIDENT PAGE-->
+
+    
     <div class="ticketapp">
         <v-subheader class="d-flex justify-space-between align-center">
               <v-col
@@ -7,11 +14,13 @@
             <h1>Requests</h1>
             </v-col>
             <v-row justify="end">
-    
+      
+      <!-- new ticket modal -->
       <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
       >
+        <!-- new ticket button -->
         <template v-slot:activator="{ on, attrs }">
           <v-btn style="background-color: #1e6097; color: white;"
             v-bind="attrs"
@@ -223,6 +232,9 @@
             </v-col>
         </v-row>
 
+
+        <!-- comment modal -->
+        <!-- NOTE: comment function is still under development -->
         <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
@@ -280,41 +292,15 @@
                         <br>
 
 
-                        <h3 v-if="editedItem.status == 'Resolved'">Employee Rating</h3>
-
+                        <h3 class="mb-2" v-if="editedItem.status == 'Resolved'">Employee Rating</h3>
                           <v-radio-group
-                            v-model="row"
+                            v-model="selectedOptionId" mandatory
                             row
                             v-if="editedItem.status == 'Resolved'"
-                          ><!---->
-                            <v-radio
-                              label="5 (Outstanding)"
-                              value="5"
+                            
+                          >
 
-                            ></v-radio>
-
-                            <v-radio
-                              label="4 (Very Satisfactory)"
-                              value="4"
-                            ></v-radio>
-
-                            <v-radio
-                              label="3 (Satisfactory)"
-                              value="3"
-
-                            ></v-radio>
-
-                            <v-radio
-                              label="2 (Unsatisfactory)"
-                              value="2"
-
-                            ></v-radio>
-
-                            <v-radio
-                              label="1 (Poor)"
-                              value="1"
-
-                            ></v-radio>
+                            <v-radio v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
 
 
                           </v-radio-group>
@@ -347,6 +333,7 @@
                         style="background-color: #1e6097; color: white;"
                         text
                         v-if="editedItem.status == 'Resolved' || editedItem.status == 'Closed'"
+                        @click="submitRating(selectedOptionId)"
                         >
                           Submit Rating
                         </v-btn>
@@ -399,7 +386,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios' //axios - db interaction
 export default {
     name:'RequestsPage',
 
@@ -414,21 +401,6 @@ export default {
           ],
           updateModal:false,
           row:null,
-          /*
-          state:[
-            'New',
-            'Ongoing',
-            'Pending',
-            'Resolved',
-            'Closed',
-            'Cancelled'
-          ],
-          request_categories:[
-            'Request',
-            'Problem',
-            'Incident'
-          ],
-          */
           editedItem:{
           },
           headers: [
@@ -448,6 +420,18 @@ export default {
             { text: 'RESOLUTION', value: 'resolution', align:' d-none'},
             { text: 'COMMENTS', value: 'comments', align:' d-none'},
             { text: 'ACTION', value: 'action', align: 'center'},
+          ],
+          rating_handler:{
+            requestor:'',
+            assigned_engineer:'',
+            rating:''
+          },
+          options:[
+            { id: 1, label: '5 (Outstanding)', value: 5 },
+            { id: 2, label: '4 (Very Satisfactory)', value: 4 },
+            { id: 3, label: '3 (Satisfactory)', value: 3 },
+            { id: 4, label: '2 (Unsatisfactory)', value: 2 },
+            { id: 5, label: '1 (Poor)', value: 1 },
           ],
           tickets: [
             //Deleted na yung nilagay ni ash
@@ -488,8 +472,9 @@ export default {
       closeAddTicket(){
         this.ticketOpen =false;
         }, 
+      
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -499,7 +484,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -518,7 +503,7 @@ export default {
               //IF FILE IS NOT EMPTY, THIS WILL EXECUTE (26-04-2022)
               if(this.addTicket.file != ''){
                 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/upload.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/upload.php',
                   formData,
                   {
                     headers:{
@@ -532,7 +517,7 @@ export default {
                       console.log(error)
                   });
 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/addrequest_with-file.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/addrequest_with-file.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -567,7 +552,7 @@ export default {
               //ELSE IF FILE IS EMPTY/NULL/UNDEFINED, THIS WILL EXECUTE (26-04-2022)
               else if(this.addTicket.file == '' || this.addTicket.file == null || this.addTicket.file == undefined){
 
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/add_request.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/add_request.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -616,18 +601,37 @@ export default {
           this.editedItem = Object.assign({}, item)
           //open update ticket modal
           this.updateModal = true;
+        },
+        submitRating(rating){
+          alert(
+            "Your rating is: "+ rating 
+          );
         }
     },
     created: function(){
      this.getPosts()
      this.getIssue()
    },
+   computed: {
+     //this is for the satisfaction rating, STILL UNDER DEVELOPMENT (request page pa lang ang meron ng code na ito)
+    selectedOptionType() {
+      if (!this.selectedOptionId) {
+        return "";
+      }
+      return this.options.find(o => o.value === this.selectedOptionId).type;
+    }
+  }
 }
 </script>
 
 <style>
+  /* css */
   .comment-content{
     font-size:130%;
     margin-top: 2vh;
+  }
+  .radio{
+    font-size:110%;
+    margin-right: 20px;
   }
 </style>

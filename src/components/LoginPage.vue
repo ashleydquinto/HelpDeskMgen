@@ -1,50 +1,7 @@
-<!-- GAWA NI ASH
-
-
-<template>
-   <v-app>
-      <v-content style="background-color: #1e6097">
-         <v-container fluid fill-height fill-width>
-            <v-layout align-center justify-center>
-               <v-flex pr12 md4>
-                  <v-card class="elevation-12">
-                     <v-card-text>
-                        <v-form>
-                          <br>
-                          <h2 class="text-center">
-                           Login to your account
-                          </h2><br>
-                           <v-text-field
-                              outlined
-                              name="login"
-                              label="Login"
-                              type="text"
-                           ></v-text-field>
-                           <v-text-field
-                              outlined
-                              id="password"
-                              name="password"
-                              label="Password"
-                              type="password"
-                           ></v-text-field>
-                        </v-form>
-                     </v-card-text>
-                     <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary">Login</v-btn>
-                     </v-card-actions>
-                  </v-card>
-               </v-flex>
-            </v-layout>
-         </v-container>
-      </v-content>
-   </v-app>
-</template>
-
--->
 
 <template>
 
+  <!--Login PAGE Front-end -->
   <v-container class='primary-color' fill-height fluid >
 
       <v-row align="center" justify="center" >
@@ -65,20 +22,6 @@
                     </v-col>
                     <v-col cols="12" md="6" class="" >
                     <div style="  text-align: center; padding: 25% 0;">
-
-                       <!--
-                      <v-card-text class="white--text" >
-                        <h3 class="text-center ">Don't Have an Account Yet?</h3>
-                        <h6
-                          class="text-center"
-                        >Let's get you all set up so you can start creating your your first<br>  onboarding experience</h6>
-                      </v-card-text>
-                      -->
-                      <!--
-                      <div class="text-center">
-                        <v-btn tile outlined dark @click="step++">SIGN UP</v-btn>
-                      </div>
-                      -->
                       <v-card-text>
                         <h1
                           class="text-center"
@@ -138,31 +81,16 @@
 </template>
 
 
-<!--
-
-GAWA ULIT NI ASH
-
-<script>
-export default {
-
-};
-</script>
-
-<style scoped>
-  .bg-primary{
-    background-color: #1e6097;
-    
-} 
-</style>
---> 
-
-
 <script>
 
-import axios from 'axios'
+//Javascript
+
+import axios from 'axios' //tool that creates interaction with the database using PHP
+
   export default {
   name: 'LoginPage',
 
+  //Data declaration
   data(){
     
             return{
@@ -189,9 +117,10 @@ import axios from 'axios'
           
         },
         methods: {
+          //method that creates interaction with db for login function
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,
@@ -200,21 +129,10 @@ import axios from 'axios'
                     
                     .then((response)=>{
                       
-                            
-                            
-                            
-
                             this.FormData.username ='';
                             this.FormData.password ='';
                             this.loggedin = "true";
                             
-                            /*
-                            console.log(
-                                this.formData.username,
-                                this.formData.password,
-                              
-                            )
-                            */
 
                             
                             alert(response.data.message);
@@ -227,7 +145,9 @@ import axios from 'axios'
     
   }
 </script>
+
 <style scoped>
+/* CSS is scoped <only applies to this component */
 .v-application .rounded-bl-xl {
     border-bottom-left-radius: 300px !important;
 }

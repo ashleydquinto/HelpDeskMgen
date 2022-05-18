@@ -1,10 +1,11 @@
 <template>
+
+    <!-- Header Component ( Welcome, <name> )-->
     <v-app-bar app
       color="white"
       elevate-on-scroll
       elevation="4"
     >
-      <!--<v-app-bar-nav-icon @click="$emit('handeDrawer')"></v-app-bar-nav-icon>-->
 
       <v-spacer></v-spacer>
 
@@ -20,6 +21,7 @@ export default{
 
   data(){
     return{
+      //Gets name that is locally stored
       user:localStorage.getItem('name'),
     }
   },

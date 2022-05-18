@@ -417,7 +417,7 @@ export default {
         console.log("var1",num);
       },
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_tickets.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_tickets.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -427,7 +427,7 @@ export default {
             })
        },
        getTicketNum(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
           .then((response)=>{
             console.log(response.data)
             this.activities[0].amounts = response.data.new_rows;
@@ -442,7 +442,7 @@ export default {
       },
       trial(){
         
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php')
           .then((response)=>{
             this.yValues.total = response.data.total_rows;
             this.yValues.new = response.data.new_rows;
@@ -474,7 +474,7 @@ export default {
           alert("Update functionality" + " "+ this.editedItem.id); */
           console.log(this.editedItem.request_category)
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
                     {
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,
@@ -497,7 +497,7 @@ export default {
         settoClosed(){
           console.log(this.editedItem.id)
           axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/close_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/close_ticket.php',
             {
               id:this.editedItem.id
             })

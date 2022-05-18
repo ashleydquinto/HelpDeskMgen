@@ -1,4 +1,7 @@
 <template>
+
+    <!-- THIS IS THE INCIDENT PAGE OF THE USER -->
+
     <div class="ticketapp">
         <v-subheader class="d-flex justify-space-between align-center">
               <v-col
@@ -8,6 +11,7 @@
             </v-col>
             <v-row justify="end">
     
+      <!-- v-dialog is the modal <this modal is for creating new tickets> -->
       <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
@@ -213,7 +217,8 @@
             </v-col>
         </v-row>
 
-
+        <!-- v-dialog is the modal <if the action button is clicked, it shows the comment modal> -->
+          <!-- NOTE: comment function is still under development -->
         <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
@@ -249,10 +254,12 @@
               <v-form>
                   <v-container>
                       <v-row no-gutters>
-
+                      
                       <v-col col=12>
                         <h2>Comments</h2>
+                        <!-- if statement is satisfied, it will show the comment -->
                         <p v-if="editedItem.comments != '' " class="comment-content">{{this.editedItem.comments}}</p> 
+                        <!-- if statement is satisfied, it will show the message below. -->
                         <p v-if="editedItem.comments == '' " class="comment-content">No comments yet.</p> 
 
                         <v-textarea
@@ -294,10 +301,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+//Javascript
+
+import axios from 'axios' //axios - tool being used for DB interaction
 export default {
     name:'IncidentPage',
 
+    //Data declaration
     data(){
         return{
           issues:'',
@@ -308,30 +318,7 @@ export default {
             'Critical'
           ],
           updateModal:false,
-          /*
-          state:[
-            'New',
-            'Ongoing',
-            'Pending',
-            'Resolved',
-            'Closed',
-            'Cancelled'
-          ],
-          request_categories:[
-            'Request',
-            'Problem',
-            'Incident'
-          ],
-          */
           editedItem:{
-            /*
-            id:'',
-            ticket:'',
-            status:'',
-            created:'',
-            assigned_engineer:'',
-            request_category:'',
-            */
           },
           headers: [
             { text: 'TICKET NO.', value: 'ticket' },
@@ -339,7 +326,7 @@ export default {
             { text: 'DEPARTMENT', value: 'department' },
             { text: 'CATEGORY', value: 'category' },
             { text: 'DESCRIPTION', value: 'description', align:' d-none' },
-            { text: 'JUSTIFICATION', value: 'justification', align:' d-none'}, //' d-none' hides the column but keeps the search ability
+            { text: 'JUSTIFICATION', value: 'justification', align:' d-none'}, //' d-none' hides the column but is still part of the array
             { text: 'STATE', value: 'state' },
             { text: 'CREATED', value: 'date_created' },
             { text: 'RESPONDED', value: 'date_responded' },
@@ -383,15 +370,18 @@ export default {
     },
 
     methods: {
+      //opens new ticket modal
       openAddTicket(){
            this.ticketOpen =true; 
            console.log('openticket')
         },
+      //closes new ticket modal
       closeAddTicket(){
         this.ticketOpen =false;
         }, 
+      //gets all the incident tickets
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/get_incidents.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/get_incidents.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -400,8 +390,9 @@ export default {
                 console.log(error)
             })
        },
+       //gets all the issue categories that the user will choose in the new ticket modal
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -410,6 +401,7 @@ export default {
                 console.log(error)
                 })
         },
+        //submit ticket function
         submitTicket(){
             if(this.addTicket.requestor != '' && this.addTicket.department != '' && this.addTicket.contact_no != '' && this.addTicket.issue != '' ){
 
@@ -420,7 +412,7 @@ export default {
               //IF FILE IS NOT EMPTY, THIS WILL EXECUTE (26-04-2022)
               if(this.addTicket.file != ''){
                 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/upload.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/upload.php',
                   formData,
                   {
                     headers:{
@@ -434,7 +426,7 @@ export default {
                       console.log(error)
                   });
 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/addincident_with-file.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/addincident_with-file.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -456,20 +448,20 @@ export default {
                       this.addTicket.description=""
                       this.addTicket.priority=""
                       this.$refs.fileupload.value=null;
+
+                      location.reload()
                     })
                     .catch((error)=> {
                         console.log(error)
                     });
 
-                //RELOAD
-                //location.reload()
 
                   
               }
               //ELSE IF FILE IS EMPTY/NULL/UNDEFINED, THIS WILL EXECUTE (26-04-2022)
               else if(this.addTicket.file == '' || this.addTicket.file == null || this.addTicket.file == undefined){
 
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/incidents/add_incident.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/incidents/add_incident.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -512,6 +504,7 @@ export default {
           this.imgFetcher = event.target.files[0].name;
 
         },
+        //to assign the values when you want to update a ticket
         editItem (item) {
 
           //assign values to editedItem
@@ -521,6 +514,7 @@ export default {
         }
     },
     created: function(){
+      //when the page is created, these functions execute
      this.getPosts()
      this.getIssue()
    },
@@ -529,5 +523,6 @@ export default {
 
 <style scoped>
 
+/* no css yet for this component */
 
 </style>

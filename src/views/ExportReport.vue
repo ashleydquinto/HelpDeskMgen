@@ -1,4 +1,7 @@
 <template>
+  <!-- EXPORT REPORT PAGE -->
+
+  <!-- DEVELOPED BY OUR 2ND BACKEND DEVELOPER - MR. DIWA -->
   <div class="ExportReport">
         <v-header>
             <h2 class="pr-10 header-text">Export Report</h2>
@@ -50,8 +53,8 @@
 </template>
 
 <script>
-import JsonExcel from "vue-json-excel";
-import axios from 'axios';
+import JsonExcel from "vue-json-excel"; //tool used for exporting
+import axios from 'axios'; //db interaction
 
  const current = new Date();
 var date;
@@ -110,7 +113,7 @@ var getmonth = parseInt((current.getMonth()+1));
                 }
                 
         
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/export_tickets.php', {
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/export_tickets.php', {
           date1:firstdate,
           date2:seconddate
         })

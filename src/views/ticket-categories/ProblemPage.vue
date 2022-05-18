@@ -1,4 +1,9 @@
 <template>
+    <!-- PROBLEM PAGE FOR USER -->
+
+    <!-- this is the same with request and incident, it just displays the data from the problem_table -->
+    <!-- view incident page for detailed comments-->
+
     <div class="ticketapp">
         <v-subheader class="d-flex justify-space-between align-center">
               <v-col
@@ -7,11 +12,15 @@
             <h1>Problems</h1>
             </v-col>
             <v-row justify="end">
-    
+
+
+      
+      <!-- modal for new ticket --> 
       <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
       >
+        <!--button to create new ticket-->
         <template v-slot:activator="{ on, attrs }">
           <v-btn style="background-color: #1e6097; color: white;"
             v-bind="attrs"
@@ -211,6 +220,9 @@
             </v-col>
         </v-row>
 
+
+        <!-- comment modal -->
+        <!-- NOTE: comment function is still under development -->
         <v-dialog
         transition="dialog-bottom-transition"
         max-width="900"
@@ -292,7 +304,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios' // axios tool - for db interaction
 export default {
     name:'ProblemPage',
 
@@ -307,14 +319,6 @@ export default {
           ],
           updateModal:false,
           editedItem:{
-            /*
-            id:'',
-            ticket:'',
-            status:'',
-            created:'',
-            assigned_engineer:'',
-            request_category:'',
-            */
           },
           headers: [
             { text: 'TICKET NO.', value: 'ticket' },

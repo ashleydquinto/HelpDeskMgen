@@ -1,4 +1,8 @@
 <template>
+
+    <!-- USERS APP COMPONENT -->
+
+    <!-- THIS COMPONENT IS USED TO CREATE NEW USERS AND/OR UPDATE THEIR STATUS OR NAME -->
     <div class="ticketapp">
         <v-subheader class="d-flex justify-space-between align-center">
               <v-col
@@ -251,7 +255,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios' // AXIOS DB INTERACTION
 export default {
     name: "UsersApp",
     data(){
@@ -290,7 +294,6 @@ export default {
                     
                 },
                 updateModal:false,
-        //pwedeng i-edit, eto lang yung cinopy ko sa AllTicketsTab, taga fetch lang ng data to (added 4-20)
           editedUser:{
           },
         //user status, data that is used for select tags in update user (added 4-20)
@@ -316,7 +319,7 @@ export default {
 
       },
       getUsers(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_user.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_user.php')
             .then((response)=>{
                 console.log(response.data)
                 console.log(response.data.status)
@@ -328,7 +331,7 @@ export default {
       },
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/register.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/register.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,
@@ -371,7 +374,7 @@ export default {
           },
           updateUser(){
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_user.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_user.php',
                     {
                         id: this.editedUser.id,
                         name: this.editedUser.name,
