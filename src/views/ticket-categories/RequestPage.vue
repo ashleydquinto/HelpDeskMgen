@@ -285,28 +285,321 @@
                         v-if="editedItem.status != 'Resolved'"
                         ></v-textarea> <!-- no v-model yet -->
                         
-                        <h2 v-if="editedItem.status == 'Resolved'">Ticket Resolved</h2>
+                        
 
                         <!--<p v-if="editedItem.status == 'Resolved'"> Your satisfaction rating would be highly appreciated. </p>-->
 
+                        <v-row>
+                          <v-col cols="6">
+                            <h3 class="mb-2" v-if="editedItem.status == 'Resolved'">Employee Rating for <i> {{editedItem.assigned_engineer}} </i></h3>
+                          </v-col>
+                          
+                          <v-col cols="6">
+                            <p class ='ticket-resolved' v-if="editedItem.status == 'Resolved'">Ticket {{editedItem.status}}</p>
+                          </v-col>
+                        </v-row>
+
+                        
+
+                        <v-tabs 
+                        fixed-tabs
+                        background-color="#565656"
+                        slider-color="white"
+                        v-if="editedItem.status == 'Resolved'"
+                        >
+
+                          <!--Responsiveness-->
+                          <v-tab href="#Responsiveness" style=" color: white;" @click="show_submit = false">
+                            Responsiveness
+                          </v-tab>
+
+                          <v-tab-item id="Responsiveness" key="Responsiveness" class="custom-tab-items">
+
+                              <br>
+
+                              <!--Review form starts here - Responsiveness -->
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Timely Coordination with the User</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">SLA Awareness</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+                            
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Resiliency Plan</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Proper use of Channel of Communications</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+                          </v-tab-item>
+
+                          <!--Quality of Work-->
+                          <v-tab href="#Quality_of_Work" style="color: white;" @click="show_submit = false"> 
+                            Quality of Work
+                          </v-tab>
+
+                          <v-tab-item id="Quality_of_Work" key="Quality_of_Work" class="custom-tab-items">
+                            
+                            <br>
+
+                              <!--Review form starts here - Quality of Work -->
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Overall Comprehension of the Problem</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">1st Call Resolution</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+                            
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Root Cause Analysis and Quality Assurance</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+
+                          </v-tab-item>
+
+                          <!--Delivery-->
+                          <v-tab href="#Delivery" style="color: white;" @click="show_submit = false"> 
+                            Delivery
+                          </v-tab>
+
+                          <v-tab-item id="Delivery" key="Delivery" class="custom-tab-items" > 
+                            
+                            <br>
+
+                              <!--Review form starts here - Delivery -->
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">No Task Overdue</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Proper utilization of Tools</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+                            
+                              
+
+                          </v-tab-item>
+
+
+                          <!--Soft Skills-->
+                          <v-tab href="#Soft_skills" style="color: white;" @click="show_submit = true"> 
+                            Soft Skills
+                          </v-tab>
+
+                          <v-tab-item id="Soft_skills" key="Soft_skills" class="custom-tab-items" > 
+                            
+                            <br>
+
+                              <!--Review form starts here - Soft Skills -->
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Customer Management</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+
+                              <v-row>
+                                <v-col cols="2">
+
+                                  <p class="review-text labels">Relationship and Conflict Management</p>
+
+                                </v-col>
+
+                                <v-col cols="10">
+
+                                  <v-radio-group
+                                  v-model="selectedOptionId" mandatory
+                                  row
+                                  v-if="editedItem.status == 'Resolved'"
+                                  >
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                  </v-radio-group>
+
+                                </v-col>
+
+                              </v-row>
+                            
+                              
+
+                          </v-tab-item>
+
+                        </v-tabs>
+
                         <br>
 
-
-                        <h3 class="mb-2" v-if="editedItem.status == 'Resolved'">Employee Rating</h3>
-                          <v-radio-group
-                            v-model="selectedOptionId" mandatory
-                            row
-                            v-if="editedItem.status == 'Resolved'"
-                            
-                          >
-
-                            <v-radio v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
-
-
-                          </v-radio-group>
-
                           
-                        
+
                       </v-col>
 
                       
@@ -321,6 +614,8 @@
 
                         <!-- SUBMIT COMMENT NOT YET ADDED -->
 
+
+                        <!--if ticket is closed or not resolved, this will show-->
                         <v-btn
                         style="background-color: #388E3C; color: white;"
                         text
@@ -329,45 +624,16 @@
                           Submit Comment
                         </v-btn>
 
+                        <!--if ticket is closed or resolved, this will show (note: NEEDS FURTHER DEVELOPMENT, this must not show if rating is already submitted)-->
                         <v-btn
                         style="background-color: #1e6097; color: white;"
                         text
-                        v-if="editedItem.status == 'Resolved' || editedItem.status == 'Closed'"
+                        v-if="(editedItem.status == 'Resolved' || editedItem.status == 'Closed') && show_submit == true"
                         @click="submitRating(selectedOptionId)"
                         >
                           Submit Rating
                         </v-btn>
                         
-                        <!--
-                        <v-btn
-                        style="background-color: #388E3C; color: white;"
-                        text
-                        @click="updateTicket()"
-                        v-if="editedItem.status != 'Closed'"
-                        >
-                        Update
-                        </v-btn>
-
-                        <v-btn
-                        style="background-color:#0275d8; color: white;"
-                        class="color-primary"
-                        text
-                        v-if="editedItem.status != 'Resolved' && editedItem.status != 'Closed'"
-                        @click="settoResolved()"
-                        >
-                        Resolve Ticket
-                        </v-btn>
-
-
-                        <v-btn
-                        style="background-color: yellow; color: black;"
-                        text
-                        @click="settoClosed()"
-                        v-if="editedItem.status == 'Resolved'"
-                        >
-                        Close Ticket
-                        </v-btn>
-                        -->
                         
                         
                       </v-card-actions>
@@ -427,15 +693,15 @@ export default {
             rating:''
           },
           options:[
-            { id: 1, label: '5 (Outstanding)', value: 5 },
-            { id: 2, label: '4 (Very Satisfactory)', value: 4 },
-            { id: 3, label: '3 (Satisfactory)', value: 3 },
-            { id: 4, label: '2 (Unsatisfactory)', value: 2 },
-            { id: 5, label: '1 (Poor)', value: 1 },
+            { id: 1, label: '4 (Very Satisfactory)', value: 4 },
+            { id: 2, label: '3 (Satisfactory)', value: 3 },
+            { id: 3, label: '2 (Unsatisfactory)', value: 2 },
+            { id: 4, label: '1 (Poor)', value: 1 },
           ],
           tickets: [
             //Deleted na yung nilagay ni ash
           ],
+          show_submit:false,
           items: [
             'Ticket No.',
             'Requestor',
@@ -630,8 +896,20 @@ export default {
     font-size:130%;
     margin-top: 2vh;
   }
-  .radio{
-    font-size:110%;
-    margin-right: 20px;
+  .review-text{
+    font-size: 100%;
   }
+  .labels{
+    font-weight: bold;
+  }
+  .review-text label {
+    font-size: 90%;
+  }
+
+  .ticket-resolved{
+    font-size: 100%;
+    color:green;
+    text-align: right;
+  }
+
 </style>
