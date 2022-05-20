@@ -218,7 +218,7 @@
                             fab
                             small
                             dark
-                            @click="editItem(item)"
+                            @click="editItem(item, item.id)"
                           >
                             <v-icon>mdi-comment</v-icon>
                           </v-btn>
@@ -254,7 +254,7 @@
                 <v-btn
                         style="background-color: #D32F2F; color: white;"
                         text
-                        @click="updateModal = false;responseNotNaN = false">
+                        @click="updateModal = false;responseNotNaN = false; deletep()">
                         <v-icon
                           small
                         >
@@ -273,8 +273,11 @@
 
                       <v-col col=12>
                         <h2 v-if="editedItem.status != 'Resolved'">Comments</h2>
-                        <p v-if="editedItem.comments != '' && editedItem.status != 'Resolved'" class="comment-content">{{this.editedItem.comments}}</p> 
-                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p> 
+                        <div id="comm">
+                          
+                        
+                        </div>
+                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
 
                         <v-textarea
                         label="Comments"
@@ -620,6 +623,7 @@
                         style="background-color: #388E3C; color: white;"
                         text
                         v-if="editedItem.status != 'Resolved' || editedItem.status == 'Closed'"
+                        submitComment()
                         >
                           Submit Comment
                         </v-btn>
@@ -731,6 +735,30 @@ export default {
     },
 
     methods: {
+      submitComment(){
+          const myNode = document.getElementById("comm");
+        myNode.textContent = '';
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/submit_comment.php',
+                    {
+                        commentname: localStorage.getItem('name'),
+                        id: this.editedItem.id,
+                        comments: this.editedItem.comments,
+                        action: 'request'
+                    })
+                    .then((response)=>{
+                        alert(response.data.message);
+                        location.reload()
+                    })
+                    .catch((error)=> {
+                        console.log(error)
+                    });
+            
+            
+        },
+      deletep() {
+        const myNode = document.getElementById("comm");
+        myNode.textContent = '';
+      },
       openAddTicket(){
            this.ticketOpen =true; 
            console.log('openticket')
@@ -740,7 +768,7 @@ export default {
         }, 
       
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/get_requests.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -750,7 +778,7 @@ export default {
             })
        },
        getIssue(){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_issue.php')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_issue.php')
                 .then((response)=>{
                     console.log(response.data)
                     this.issues=response.data
@@ -769,7 +797,7 @@ export default {
               //IF FILE IS NOT EMPTY, THIS WILL EXECUTE (26-04-2022)
               if(this.addTicket.file != ''){
                 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/upload.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/upload.php',
                   formData,
                   {
                     headers:{
@@ -783,7 +811,7 @@ export default {
                       console.log(error)
                   });
 
-                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/addrequest_with-file.php',
+                axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/addrequest_with-file.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -818,7 +846,7 @@ export default {
               //ELSE IF FILE IS EMPTY/NULL/UNDEFINED, THIS WILL EXECUTE (26-04-2022)
               else if(this.addTicket.file == '' || this.addTicket.file == null || this.addTicket.file == undefined){
 
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/requests/add_request.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/add_request.php',
                     {
                         requestor:this.addTicket.requestor,
                         department:this.addTicket.department,
@@ -861,10 +889,35 @@ export default {
           this.imgFetcher = event.target.files[0].name;
 
         },
-        editItem (item) {
-
+        editItem (item, comid) {
+          axios.post(
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/request_comment.php',
+            {
+              id2:comid
+            })
+            .then((response2)=>{ 
+              if(this.editedItem.status != 'Resolved') {
+              this.convo = response2.data; 
+            var length = this.convo.length;
+            if (length != 0) {
+            var i = 1;
+            
+            while(length >= i) {
+              
+            var k = i-1;
+            const para = document.createElement("p");
+            const node = document.createTextNode(this.convo[k]);
+            para.appendChild(node);
+            const element = document.getElementById("comm");
+            element.appendChild(para);
+            i++;
+            }
+            }
+            }
+            })
           //assign values to editedItem
           this.editedItem = Object.assign({}, item)
+          this.editedItem.comments = '';
           //open update ticket modal
           this.updateModal = true;
         },

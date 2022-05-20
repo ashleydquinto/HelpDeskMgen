@@ -113,7 +113,7 @@ var getmonth = parseInt((current.getMonth()+1));
                 }
                 
         
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/export_tickets.php', {
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/export_tickets.php', {
           date1:firstdate,
           date2:seconddate
         })

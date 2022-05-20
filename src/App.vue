@@ -53,7 +53,7 @@ import axios from 'axios';
             
           },
           getstatus(username,password) {
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/login.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/login.php',
                     {
                         username:username,
                         password:password,

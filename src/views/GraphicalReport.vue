@@ -128,7 +128,7 @@ export default {
     },
     methods: {
       getTicketNum(){
-              axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/getanalytics.php')
+              axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/getanalytics.php')
                 .then((response)=>{
                     
                   console.log(response.data)

@@ -103,7 +103,7 @@
           </v-col>
         </v-row>
                   <!--UPDATE DIALOG-->
-          <v-dialog
+          <v-dialog persistent
           transition="dialog-bottom-transition"
           max-width="900"
           v-model="updateModal" 
@@ -543,7 +543,7 @@ export default {
         myNode.textContent = '';
       },
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -553,7 +553,7 @@ export default {
             })
        },
        getTicketNum(){
-        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_ticketno.php',{
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_ticketno.php',{
           action:'problem'
         })
           .then((response)=>{
@@ -567,10 +567,11 @@ export default {
           })
       },
        editItem (item, comid) {
-          this.convo.splice(0,this.convo.length);
          
+          
+          
           axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/problem_comment.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/problem_comment.php',
             {
               id2:comid
             })
@@ -593,11 +594,12 @@ export default {
             })
           //assign values to editedItem
           this.editedItem = Object.assign({}, item)
+          this.editedItem.comments = '';
           //open update ticket modal
           this.updateModal = true;
 
           axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get-closed-resolved.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get-closed-resolved.php',
             {
               id:this.editedItem.id
             })
@@ -661,7 +663,7 @@ export default {
         updateTicket(){
           const myNode = document.getElementById("comm");
         myNode.textContent = '';
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_ticket.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
                     {
                         commentname: localStorage.getItem('name'),
                         id: this.editedItem.id,
@@ -691,7 +693,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to close this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/close_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/close_ticket.php',
             {
               id:this.editedItem.id,
               action:'problem'
@@ -712,7 +714,7 @@ export default {
           console.log(this.editedItem.id)
           if(confirm('Are you sure you want to resolve this ticket?')){
             axios.post(
-            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/resolve_ticket.php',
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/resolve_ticket.php',
             {
               id:this.editedItem.id,
               action:'problem'
@@ -742,7 +744,7 @@ export default {
 
           
           if(this.activeness.new  == true){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=new ')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=new ')
               .then((response)=>{
                   console.log(response.data)
                   this.tickets=response.data;
@@ -772,7 +774,7 @@ export default {
           this.activeness.cancelled = false
 
           if(this.activeness.ongoing  == true){
-            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=ongoing')
+            axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=ongoing')
               .then((response)=>{
                   console.log(response.data)
                   this.tickets=response.data;
@@ -798,7 +800,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.pending  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=pending')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=pending')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -824,7 +826,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.resolved  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=resolved')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=resolved')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -850,7 +852,7 @@ export default {
         this.activeness.cancelled = false
 
         if(this.activeness.closed  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=closed')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=closed')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
@@ -876,7 +878,7 @@ export default {
         this.activeness.new = false
 
         if(this.activeness.cancelled  == true){
-          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/ticket-categories_php/problems/get_problems.php?action=cancelled')
+          axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php?action=cancelled')
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;

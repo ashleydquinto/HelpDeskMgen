@@ -20,13 +20,8 @@
 
     //assigning received data to variables
     $id = $received_data->id;
-    $assigned_engineer = $received_data->assigned_engineer;
-    $sla = $received_data->sla;
-    $status = $received_data->status;
-    $diagnostic = $received_data->diagnostic;
-    $resolution = $received_data->resolution;
+    
     $comments =  $received_data->commentname . ": " . $received_data->comments;
-    $priority = $received_data->priority;
 
     
     //to decide what to do
@@ -90,31 +85,12 @@
     array_push($commentarray, $comments);
     $savecomment = serialize($commentarray);
 
-    if($assigned_engineer !=''){
+    
             mysqli_query($conn,"UPDATE request_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
             comments= '".$savecomment."',
-            priority= '".$priority."',
-            date_responded = CURRENT_TIMESTAMP()
-            WHERE id = '".$id."'
-        ");
-        }
-        else{
-            mysqli_query($conn,"UPDATE request_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
-            comments= '".$savecomment."',
-            priority= '".$priority."'
             WHERE id = '".$id."'
             ");
-        }
+       
         
 
         
@@ -146,31 +122,12 @@
     array_push($commentarray, $comments);
     $savecomment = serialize($commentarray);
 
-    if($assigned_engineer !=''){
+      
             mysqli_query($conn,"UPDATE incident_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
             comments= '".$savecomment."',
-            priority= '".$priority."',
-            date_responded = CURRENT_TIMESTAMP()
-            WHERE id = '".$id."'
-        ");
-        }
-        else{
-            mysqli_query($conn,"UPDATE incident_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
-            comments= '".$savecomment."',
-            priority= '".$priority."'
             WHERE id = '".$id."'
             ");
-        }
+      
 
         $message = "Updated Successfully";
     }
@@ -200,32 +157,14 @@
     
 
 
-        if($assigned_engineer !=''){
+        
             mysqli_query($conn,"UPDATE problem_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
-            comments= '".$savecomment."',
-            priority= '".$priority."',
-            date_responded = CURRENT_TIMESTAMP()
+
+comments= '".$savecomment."'
             WHERE id = '".$id."'
         ");
-        }
-        else{
-            mysqli_query($conn,"UPDATE problem_table SET
-            assigned_engineer= '".$assigned_engineer."',
-            sla= '".$sla."',
-            status = '".$status."',
-            diagnostic= '".$diagnostic."',
-            resolution= '".$resolution."',
-            comments= '".$savecomment."',
-            priority= '".$priority."'
-            WHERE id = '".$id."'
-            ");
-        }
-
+      
+       
         $message = "Updated Successfully";
     }
     else{

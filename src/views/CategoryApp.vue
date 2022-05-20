@@ -150,7 +150,7 @@ export default {
     methods:{
         //get categories from database (axios http request)
         getCategories(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_categories.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_categories.php')
             .then((response)=>{
                 console.log(response.data)
                 this.categories=response.data;
@@ -162,7 +162,7 @@ export default {
         //submit data (axios http request)
         submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/add_issue-category.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/add_issue-category.php',
                     {
                         title:this.categoryData.title,
                     })
@@ -183,7 +183,7 @@ export default {
            console.log ("categorychuchu: " + this.categoryToBeDeleted.id )
 
            if(confirm('Are you sure you want to delete category ' + ' "' +this.categoryToBeDeleted.title + '" ' + '?')){
-               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/delete_issue-category.php',
+               axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/delete_issue-category.php',
                     {
                         id: this.categoryToBeDeleted.id
                     })

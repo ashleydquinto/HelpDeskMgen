@@ -319,7 +319,7 @@ export default {
 
       },
       getUsers(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/get_user.php')
+        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_user.php')
             .then((response)=>{
                 console.log(response.data)
                 console.log(response.data.status)
@@ -331,7 +331,7 @@ export default {
       },
           submitData: function(){
             
-            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/register.php',
+            axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/register.php',
                     {
                         username:this.FormData.username,
                         password:this.FormData.password,
@@ -374,7 +374,7 @@ export default {
           },
           updateUser(){
           
-          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen-main/php-files/update_user.php',
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_user.php',
                     {
                         id: this.editedUser.id,
                         name: this.editedUser.name,
