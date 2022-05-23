@@ -14,6 +14,8 @@
     $data = array();
 
     $title = $received_data->title;
+    $sub = $received_data->sub;
+    
     $checktitle = mysqli_query($conn, "select * FROM issue_category WHERE title = '".$title."';");
 
     if(mysqli_num_rows($checktitle) == 0)

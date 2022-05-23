@@ -261,7 +261,7 @@
                           
                         
                         </div>
-                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
+                        <p v-if="this.convo == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
 
                         <v-textarea
                         label="Comments"
@@ -269,6 +269,7 @@
                         outlined
                         clearable
                         no-resize
+                        v-model="editedItem.comments"
                         v-if="editedItem.status != 'Resolved'"
                         ></v-textarea> <!-- no v-model yet -->
                         
@@ -641,6 +642,7 @@ export default {
     //Data declaration
     data(){
         return{
+          convo: [],
           issues:'',
           priority:[
             'Low',

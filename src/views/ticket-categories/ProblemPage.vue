@@ -265,7 +265,7 @@
                           
                         
                         </div>
-                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
+                        <p v-if="this.convo == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
                           <v-textarea
                           label="Comments"
                           rows="3"

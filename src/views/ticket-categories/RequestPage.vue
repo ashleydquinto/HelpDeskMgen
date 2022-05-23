@@ -277,7 +277,7 @@
                           
                         
                         </div>
-                        <p v-if="editedItem.comments == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
+                        <p v-if="this.convo == '' && editedItem.status != 'Resolved'" class="comment-content">No comments yet.</p>
 
                         <v-textarea
                         label="Comments"
@@ -285,6 +285,7 @@
                         outlined
                         clearable
                         no-resize
+                        v-model="editedItem.comments"
                         v-if="editedItem.status != 'Resolved'"
                         ></v-textarea> <!-- no v-model yet -->
                         
@@ -623,7 +624,7 @@
                         style="background-color: #388E3C; color: white;"
                         text
                         v-if="editedItem.status != 'Resolved' || editedItem.status == 'Closed'"
-                        submitComment()
+                        @click="submitComment()"
                         >
                           Submit Comment
                         </v-btn>
@@ -662,6 +663,7 @@ export default {
 
     data(){
         return{
+          convo: [],
           issues:'',
           priority:[
             'Low',

@@ -101,7 +101,7 @@
                             fab
                             small
                             dark
-                            @click="editItem(item)"
+                            @click="editItem(item, item.id)"
                           >
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -372,10 +372,14 @@
                         -->
 
                         <!--Resolution pag closed/resolved na-->
-                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution Duration</h3>
-                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
-                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
-
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution</h3>
+                          <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
+                          <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
+                        <div id="comm">
+                          
+                        
+                        </div>
+                        <p v-if="this.convo == '' " class="comment-content">No comments yet.</p> 
 
 
                         <v-textarea
@@ -391,7 +395,7 @@
                         <!--Comment pag closed na-->
                         <h3 v-if="editedItem.status == 'Closed'" class="title  mb-1">Comments</h3>
                         <p v-if="(editedItem.status == 'Closed') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.comments}}</p>
-                        <p v-if="(editedItem.status == 'Closed') && this.editedItem.resolution == ''" class="body-2 update-font">No comment inserted.</p>
+                        <p v-if="(editedItem.status == 'Closed') && this.convo == ''" class="body-2 update-font">No comment inserted.</p>
 
                       </v-col>
 
@@ -474,6 +478,7 @@ export default {
     name: "IncidentsTab",
     data(){
         return{
+          convo: [],
              headers: [
                 { text: 'TICKET NO.', value: 'ticket' },
                 { text: 'PRIORITY', value: 'priority' },
@@ -674,6 +679,7 @@ export default {
         myNode.textContent = '';
           axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
                     {
+                      commentname: localStorage.getItem('name'),
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,
                         sla: this.editedItem.sla,

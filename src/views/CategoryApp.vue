@@ -35,11 +35,16 @@
                      >
                      <v-text-field
                      v-model="categoryData.title"
-                        label="Title"
+                        label="Category"
                         outlined
                         clearable
                         ></v-text-field>
-                    
+                    <v-text-field
+                     v-model="categoryData.sub"
+                        label="Sub-category"
+                        outlined
+                        clearable
+                        ></v-text-field>
                     </v-col>
                     </v-row>
 
@@ -165,6 +170,7 @@ export default {
             axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/add_issue-category.php',
                     {
                         title:this.categoryData.title,
+                        sub:this.categoryData.sub
                     })
                     
                     .then((response)=>{

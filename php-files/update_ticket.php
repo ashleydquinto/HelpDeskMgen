@@ -65,30 +65,25 @@
     */
 
     if($id != '' AND $action != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
-        $commentarray = array();
-    $get_data = mysqli_query($conn, "SELECT * FROM request_table where id = '$id'");
+        $get_data = mysqli_query($conn, "SELECT * FROM request_table where id = '$id'");
     if(mysqli_num_rows($get_data) > 0)
     {
         while($rowcom = mysqli_fetch_assoc($get_data))
         {
-            
-            
             if($rowcom['comments'] != '' || $rowcom['comments'] != null) {
-                $test = unserialize($rowcom['comments']);
-                array_push($test, $comments);
-                $savecomment = serialize($test);
-                 }
-                 else {
-                     $commentarray = array();
-                     array_push($commentarray, $comments);
-                     $savecomment = serialize($commentarray);
-                 }
-
+           $test = unserialize($rowcom['comments']);
+           array_push($test, $comments);
+           $savecomment = serialize($test);
+            }
+            else {
+                $commentarray = array();
+                array_push($commentarray, $comments);
+                $savecomment = serialize($commentarray);
+            }
         }
     }
     
-    array_push($commentarray, $comments);
-    $savecomment = serialize($commentarray);
+    
 
     if($assigned_engineer !=''){
             mysqli_query($conn,"UPDATE request_table SET
@@ -122,29 +117,25 @@
         $message = "Updated Successfully";
     }   
     elseif($id != '' AND $action != '' AND $action == 'incident' AND $action != 'request' AND $action != 'problem'){
-        $commentarray = array();
-    $get_data = mysqli_query($conn, "SELECT * FROM incident_table where id = '$id'");
+        $get_data = mysqli_query($conn, "SELECT * FROM incident_table where id = '$id'");
     if(mysqli_num_rows($get_data) > 0)
     {
         while($rowcom = mysqli_fetch_assoc($get_data))
         {
-            
             if($rowcom['comments'] != '' || $rowcom['comments'] != null) {
-                $test = unserialize($rowcom['comments']);
-                array_push($test, $comments);
-                $savecomment = serialize($test);
-                 }
-                 else {
-                     $commentarray = array();
-                     array_push($commentarray, $comments);
-                     $savecomment = serialize($commentarray);
-                 }
-
+           $test = unserialize($rowcom['comments']);
+           array_push($test, $comments);
+           $savecomment = serialize($test);
+            }
+            else {
+                $commentarray = array();
+                array_push($commentarray, $comments);
+                $savecomment = serialize($commentarray);
+            }
         }
     }
     
-    array_push($commentarray, $comments);
-    $savecomment = serialize($commentarray);
+   
 
     if($assigned_engineer !=''){
             mysqli_query($conn,"UPDATE incident_table SET

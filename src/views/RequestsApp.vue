@@ -92,7 +92,7 @@
                             fab
                             small
                             dark
-                            @click="editItem(item)"
+                            @click="editItem(item, item.id)"
                           >
                             <v-icon>mdi-pencil</v-icon>
                           </v-btn>
@@ -406,10 +406,14 @@
 
                       <v-col>
                         <!--Resolution pag closed/resolved na-->
-                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution Duration</h3>
-                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
-                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
-
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution</h3>
+                          <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
+                          <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
+                        <div id="comm">
+                          
+                        
+                        </div>
+                        <p v-if="this.convo == '' " class="comment-content">No comments yet.</p> 
 
                         <v-textarea
                         label="Comments"
@@ -507,6 +511,7 @@ export default {
     name: "AllTicketsTab",
     data(){
         return{
+          convo: [],
              headers: [
                 { text: 'TICKET NO.', value: 'ticket' },
                 //changed from request-category to priority (05-04)
@@ -770,12 +775,11 @@ export default {
 
       },
       updateTicket(){
-          /* console.log(this.editedItem.id, this.editedItem.requestor, this.editedItem.contact_no, this.editedItem.issue, this.editedItem.description,this.editedItem.diagnostic)
-          alert("Update functionality" + " "+ this.editedItem.id); */
           const myNode = document.getElementById("comm");
         myNode.textContent = '';
           axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/update_ticket.php',
                     {
+                      commentname: localStorage.getItem('name'),
                         id: this.editedItem.id,
                         assigned_engineer: this.editedItem.assigned_engineer,
                         sla: this.editedItem.sla,
