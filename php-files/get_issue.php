@@ -6,14 +6,32 @@
 
     include 'connection.php';
 
-    $sel = $conn -> query('SELECT title FROM issue_category');
+    $sel = $conn -> query('SELECT * FROM issue_category');
 
     $temporal = array();
     $response = array();
-
+    $array1 = array();
     while($row = $sel -> fetch_assoc()){
-        $temporal = $row;
+        if($row['sub_category'] != null || $row['sub_category'] != '') {
+            $array1 = unserialize($row['sub_category']);
+        }
+        $length = sizeof($array1);
+        
+        
+        
+        
+        $i = 0;
+        
+        while($length > $i) {
+            $temporal = array("title"=>$row['title'] . " - " . $array1[$i]);
+                array_push($response, (object)$temporal);
+                $i++;
+        }
+        if($length == 0) {
+            $temporal = $row;
         array_push($response, $temporal);
+        }
+        
     }
 
     echo json_encode($response);

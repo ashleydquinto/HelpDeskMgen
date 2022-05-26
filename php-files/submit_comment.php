@@ -58,7 +58,7 @@
         echo "Proceeding to other statements";
     }
     */
-
+    if($received_data->comments != '' || $received_data->commentname != '') {
     if($id != '' AND $action != '' AND $action == 'request' AND $action != 'incident' AND $action != 'problem'){
         $get_data = mysqli_query($conn, "SELECT * FROM request_table where id = '$id'");
     if(mysqli_num_rows($get_data) > 0)
@@ -167,7 +167,10 @@ comments= '".$savecomment."'
         $message = 'Will not proceed';
     }
 
-    
+}
+else {
+    $message = "Comment is null";
+}
     
     
     //creating response which will be sent to VUE file

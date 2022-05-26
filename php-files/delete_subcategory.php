@@ -17,21 +17,38 @@
     
     //assigning received data to variables
     $id = $received_data->id;
-    $sub = $received_data->id;
- 
+    $sub = $received_data->sub;
+    
+
 
     if($id != ''){
-        mysqli_query($conn,"DELETE FROM issue_category WHERE id = '".$id."'
+        $get_data = mysqli_query($conn, "SELECT * FROM issue_category where id = '$id'");
+    
+        while($rowcom = mysqli_fetch_assoc($get_data))
+        {
+            
+            $data = unserialize($rowcom['sub_category']);
+            $key = array_search($sub, $data);
+            array_splice($data,$key,1);
+            $savesub = serialize($data);
+        }
+ 
+
+
+        mysqli_query($conn,"UPDATE issue_category SET
+
+            sub_category= '".$savesub."'
+            WHERE id = '".$id."'
         ");
 
-        $message = 'Category has been deleted';
+        $message = 'Sub-category has been deleted';
     }   
     else{
         $message = 'Will not proceed';
     }
 
     
-    
+ 
     
     //creating response which will be sent to VUE file
     $response = array(
