@@ -115,9 +115,20 @@
                     <v-select
                       :items="issues"
                       item-text="title"
+                      item-value="id"
                       label="Issue"
                       outlined
                       v-model="addTicket.issue" 
+                      @input="selectCategory()"
+                    ></v-select>
+                     
+
+                    <!--Issue-->
+                    <v-select
+                      :items="sub"
+                      label="Sub-category"
+                      outlined
+                      v-model="addTicket.sub" 
                     ></v-select>
 
                     <!--
@@ -644,6 +655,7 @@ export default {
         return{
           convo: [],
           issues:'',
+          sub: [],
           priority:[
             'Low',
             'Medium',
@@ -658,6 +670,7 @@ export default {
             { text: 'REQUESTOR', value: 'requestor' },
             { text: 'DEPARTMENT', value: 'department' },
             { text: 'CATEGORY', value: 'category' },
+            { text: 'SUB-CATEGORY', value: 'sub' },
             { text: 'DESCRIPTION', value: 'description', align:' d-none' },
             { text: 'JUSTIFICATION', value: 'justification', align:' d-none'}, //' d-none' hides the column but is still part of the array
             { text: 'STATE', value: 'state' },
@@ -715,6 +728,22 @@ export default {
     },
 
     methods: {
+      selectCategory() {
+
+        
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_sub.php',
+                    {
+                        
+                        id:this.addTicket.issue
+                        
+                    })
+                    .then((response)=>{
+                        this.sub = response.data;
+                        
+                    })
+      }
+      
+      ,
       submitComment(){
           const myNode = document.getElementById("comm");
         myNode.textContent = '';
@@ -805,7 +834,8 @@ export default {
                         justification:this.addTicket.justification,
                         status:this.addTicket.status,
                         priority:this.addTicket.priority,
-                        attached_file:this.imgFetcher
+                        attached_file:this.imgFetcher,
+                        sub:this.addTicket.sub
                     })
                     .then((response)=>{
                       alert(response.data.message);
@@ -817,7 +847,7 @@ export default {
                       this.addTicket.description=""
                       this.addTicket.priority=""
                       this.$refs.fileupload.value=null;
-
+                        this.addTicket.sub=""
                       location.reload()
                     })
                     .catch((error)=> {
@@ -839,7 +869,8 @@ export default {
                         description:this.addTicket.description,
                         justification:this.addTicket.justification,
                         status:this.addTicket.status,
-                        priority:this.addTicket.priority
+                        priority:this.addTicket.priority,
+                        sub:this.addTicket.sub
                         
                     })
                     .then((response)=>{
@@ -851,7 +882,7 @@ export default {
                         this.addTicket.issue=""
                         this.addTicket.description=""
                         this.addTicket.priority=""
-                        
+                        this.addTicket.sub=""                        
                         
                         location.reload()
                     })
@@ -915,8 +946,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
-/* no css yet for this component */
+/*css*/
+#comm {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-size: 16px;
+  }
 
 </style>

@@ -160,18 +160,33 @@
                       <!--Requestor-->
                       <h3 class="title  mb-1">Requestor</h3>
                       <p class="body-2 update-font">{{this.editedItem.requestor}}</p>
-
+                      <!--Issue-->
+                      <h3 class="title  mb-1">Issue</h3>
+                      <p class="body-2 update-font">{{this.editedItem.issue}}</p>
                       <!--Department-->
 
                       <!-- use this pag kailangan pa 
                       <h3 class="title  mb-1">Department</h3>
                       <p class="body-2 update-font">{{this.editedItem.department}}</p>
                       -->
-
+                      
                       <h3 class="title  mb-1">Department</h3>
                       <p class="body-2 update-font">{{this.editedItem.department}}</p>
-
                       
+                      
+
+                      <!--Description
+                      <v-textarea
+                      label="Description"
+                      class="mr-1"
+                      rows="3"
+                      outlined
+                      no-resize
+                      v-model="editedItem.description"
+                      >
+                      
+                      </v-textarea>
+                      -->
 
                       
 
@@ -188,11 +203,11 @@
                       <h3 class="title  mb-1">Contact Number</h3>
                       <p class="body-2 update-font">{{this.editedItem.contact_no}}</p>
 
-                      <!--Issue-->
-                      <h3 class="title  mb-1">Issue</h3>
-                      <p class="body-2 update-font">{{this.editedItem.issue}}</p>
-
-
+                      
+                      <!--Sub-Category-->
+                      <h3 class="title  mb-1">Sub-Category</h3>
+                      <p class="body-2 update-font">{{this.editedItem.sub}}</p>
+                      
                       
                       </v-col>
 
@@ -485,6 +500,7 @@ export default {
                 { text: 'REQUESTOR', value: 'requestor' },
                 { text: 'DEPARTMENT', value: 'department' },
                 { text: 'CATEGORY', value: 'category' },
+                { text: 'SUB-CATEGORY', value: 'sub' },
                 { text: 'DESCRIPTION', value: 'description', align:' d-none' },
                 { text: 'STATE', value: 'state' },
                 { text: 'CREATED', value: 'date_created' },
@@ -935,7 +951,11 @@ export default {
 </script>
 
 <style>
-
+#comm {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-size: 16px;
+  }
 .active{
   background-color:rgb(206, 204, 204);
 }

@@ -24,15 +24,46 @@
     $justification = $received_data->justification;
     $status = $received_data->status;
     $priority = $received_data->priority;
+    $sub = $received_data->sub;
 
     //query executed if fields are not empty    
 
     if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != ''){
         //PREVIOUS QUERY (DI NA GAGAMITIN)
         //mysqli_query($conn,"INSERT INTO ticket(requestor,department,contact_no,issue,description,justification,status,assigned_engineer, sla, diagnostic,resolution,comments) VALUES('".$requestor."','".$department."','".$contact_no."','".$issue."','".$description."','".$justification."','','','','','','')");
-
+        $sel = $conn -> query("SELECT * FROM issue_category WHERE id = '$issueid'");
+        while($row = mysqli_fetch_assoc($sel)){
+            $issue = $row['title'];
+        }
         //MGA DI NA LALAGYAN
         //request_category, status, assigned_engineer, sla, diagnostic, resolution, comments
+        if ($sub != '' || $sub != null) {
+            mysqli_query($conn,"INSERT INTO incident_table(
+                requestor,
+                department,
+                contact_no,
+                issue,
+                description,
+                justification,
+                status,
+                priority,
+                sub
+                ) 
+                VALUES(
+                '".$requestor."',
+                '".$department."',
+                '".$contact_no."',
+                '".$issue."',
+                '".$description."',
+                '".$justification."',
+                '".$status."',
+                '".$priority."'
+                '".$sub."'
+                )
+            ");
+
+        }
+        else {
         mysqli_query($conn,"INSERT INTO incident_table(
             requestor,
             department,
@@ -54,7 +85,7 @@
             '".$priority."'
             )
         ");
-
+    }
         $message = 'Form Inserted';
     }   
     else{

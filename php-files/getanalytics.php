@@ -35,24 +35,84 @@
     $sel7 = $conn -> query('SELECT * FROM incident_table');
     $sel8 = $conn -> query('SELECT * FROM problem_table');
     $sel9 = $conn -> query('SELECT * FROM request_table');
-    $temporal = array();
+   
     $response2 = array();
-    $try = array();
+    $response3 = array();
     $title1 = $conn -> query('SELECT `issue`, count(*) as NUM FROM `problem_table` GROUP BY `issue` UNION ALL SELECT `issue`, count(*) as NUM FROM `incident_table` GROUP BY `issue` UNION ALL SELECT `issue`, count(*) as NUM FROM `request_table` GROUP BY `issue`');
     while($rowcom = mysqli_fetch_assoc($title1)) {
         
-       
-        $key = array_search($rowcom['issue'], array_column($response2, 'issue'));
-        if ($key != false || $response2[$key]["issue"] == $rowcom['issue']) {
-            $response2[$key]["num"] = $response2[$key]["num"] + $rowcom['NUM'];
+        
+        $key = array_search($rowcom['issue'], array_column($response2, 'x'));
+        
+        if($response2 != null) {
+            $check = $response2[$key]["x"] == $rowcom['issue'];
+        if ($check == true) {
+            $response2[$key]["y"] = $response2[$key]["y"] + $rowcom['NUM'];
         }
-        elseif ($key == false) {
-            $temporal = array("issue"=>$rowcom['issue'], 
-            "num"=>$rowcom['NUM']);
+        elseif ($check == false) {
+            $temporal = array("x"=>$rowcom['issue'], 
+            "y"=>$rowcom['NUM']);
             array_push($response2, $temporal);
+            
         }
         
+     
+        
     }
+    elseif($response2 == null) {
+        $temporal = array("x"=>$rowcom['issue'], 
+            "y"=>$rowcom['NUM']);
+            array_push($response2, $temporal);
+    }
+    }   
+    
+
+    $title2 = $conn -> query('SELECT `sub`, count(*) as NUM FROM `problem_table` GROUP BY `sub` UNION ALL SELECT `sub`, count(*) as NUM FROM `incident_table` GROUP BY `sub` UNION ALL SELECT `sub`, count(*) as NUM FROM `request_table` GROUP BY `sub`');
+    while($rowsub = mysqli_fetch_assoc($title2)) {
+        
+        
+        $key = array_search($rowsub['sub'], array_column($response3, 'x'));
+        $key2 = array_search("No sub-category", array_column($response3, 'x'));
+        if($response3 != null) {
+            $check = $response3[$key]["x"] == $rowsub['sub'];
+            $check2 = $response3[$key]["x"] == "No sub-category";
+            if(($rowsub['sub'] == '' || $rowsub['sub'] == null) & $check2 == true) {
+                $response3[$key2]["y"] = $response3[$key2]["y"] + $rowsub['NUM'];
+            }
+            elseif(($rowsub['sub'] == '' || $rowsub['sub'] == null) & $check2 == false) {
+                $temporal = array("x"=>"No sub-category", 
+            "y"=>$rowsub['NUM']);
+            array_push($response3, $temporal);
+            }
+
+        elseif ($check == true) {
+            $response3[$key]["y"] = $response3[$key]["y"] + $rowsub['NUM'];
+        }
+        elseif ($check == false) {
+            $temporal = array("x"=>$rowsub['sub'], 
+            "y"=>$rowsub['NUM']);
+            array_push($response3, $temporal);
+            
+        }
+        
+     
+        
+    }
+    elseif($response3 == null) {
+        if($rowsub['sub'] == '' || $rowsub['sub'] == null) {
+            $temporal = array("x"=>"No sub-category", 
+            "y"=>$rowsub['NUM']);
+            array_push($response3, $temporal);
+        }
+        else {
+        $temporal = array("x"=>$rowsub['sub'], 
+            "y"=>$rowsub['NUM']);
+            array_push($response3, $temporal);
+        }
+    }
+   
+    
+    }   
     /* mali fuck
     $sel7 = $conn -> query('SELECT * FROM ticket WHERE (requestor !="") AND status LIKE "New" AND (request_category = "Request")');
     $sel8 = $conn -> query('SELECT * FROM ticket WHERE (requestor !="") AND status LIKE "resolved" AND (request_category = "Request")');
@@ -176,7 +236,8 @@
         "incident" => $incidentrows,
         "problem" => $problemrows,
         "requests" => $requestrows,
-        "response2" => $response2
+        "response2" => $response2,
+        "response3" => $response3
      //mali   "categ_stat" => $categstat
     );
     echo json_encode($response);

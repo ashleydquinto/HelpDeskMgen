@@ -6,21 +6,24 @@
 
     include 'connection.php';
 
-    $sel = $conn -> query('SELECT * FROM issue_category');
+    $json = file_get_contents("php://input");
+    $received_data = json_decode($json);
+    $id = $received_data->id;
+    $sel = $conn -> query("SELECT * FROM issue_category WHERE id = '$id'");
 
     $temporal = array();
     $response = array();
     $array1 = array();
-    while($row = $sel -> fetch_assoc()){
+    while($row = mysqli_fetch_assoc($sel)){
         if($row['sub_category'] != null || $row['sub_category'] != '') {
-            $array1 = unserialize($row['sub_category']);
+            $response = unserialize($row['sub_category']);
+        }
+        else {
+            $response = null;
         }
         
-        
        
-            $temporal = array("title"=>$row['title'],
-            "id"=>$row['id']);
-                array_push($response, (object)$temporal);
+            
                
     }
 

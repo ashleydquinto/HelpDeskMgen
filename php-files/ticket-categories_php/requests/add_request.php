@@ -24,7 +24,7 @@
     $justification = $received_data->justification;
     $status = $received_data->status;
     $priority = $received_data->priority;
-
+    $sub = $received_data->sub;
     //query executed if fields are not empty    
 
     if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != ''){
@@ -33,6 +33,32 @@
 
         //MGA DI NA LALAGYAN
         //request_category, status, assigned_engineer, sla, diagnostic, resolution, comments
+        if ($sub != '' || $sub != null) {
+            mysqli_query($conn,"INSERT INTO request_table(
+                requestor,
+                department,
+                contact_no,
+                issue,
+                description,
+                justification,
+                status,
+                priority,
+                sub
+                ) 
+                VALUES(
+                '".$requestor."',
+                '".$department."',
+                '".$contact_no."',
+                '".$issue."',
+                '".$description."',
+                '".$justification."',
+                '".$status."',
+                '".$priority."',
+                '".$sub."'
+                )
+            "); 
+        }
+        else {
         mysqli_query($conn,"INSERT INTO request_table(
             requestor,
             department,
@@ -54,7 +80,7 @@
             '".$priority."'
             )
         ");
-
+    }
         $message = 'Form Inserted';
     }   
     else{

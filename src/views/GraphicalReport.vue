@@ -74,6 +74,24 @@
                     </v-card-text>
                 </v-card>
             </v-col>
+            <v-col lg="12" cols="8" v-for="(item,index) in total" :key="index">
+                <v-card elevation="2" class="rounded-lg" style="background-color: #EEEEEE; color: #FFFFFF;">
+                    <v-card-text class="d-flex justify-space-between align-center">
+                       
+                            <canvas id="isschart" width="900" height="400"></canvas>
+                        
+                    </v-card-text>
+                </v-card>
+            </v-col>
+            <v-col lg="12" cols="8" v-for="(item,index) in total" :key="index">
+                <v-card elevation="2" class="rounded-lg" style="background-color: #EEEEEE; color: #FFFFFF;">
+                    <v-card-text class="d-flex justify-space-between align-center">
+                       
+                            <canvas id="subchart" width="900" height="400"></canvas>
+                        
+                    </v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
        
         <br>  
@@ -87,6 +105,8 @@ var yValues = [];
 var yValues2 = [7 ,4, 15];
 
 var yValues4 = [];
+var issuecat = [];
+var issuesub = [];
 export default {
     name: "GraphicalReport",
     data(){
@@ -121,8 +141,8 @@ export default {
         460,
         250,
         240,
-      ], 
-   
+      ],
+      
                     
         }
     },
@@ -151,8 +171,14 @@ export default {
                   yValues4[1] = response.data.problem;
                   yValues4[2] = response.data.requests;
                   
+                  issuecat = response.data.response2;
+                  issuesub = response.data.response3;
+                  
                   console.log(this.yValues.total);
                 })
+                
+                  
+                  
       }
     },
     
@@ -195,6 +221,157 @@ var barColors4 = [
   "#0170c1",
   "#7030a2",
   "#ff6600",
+];
+var barColors5 = [
+  "#ADFDA2",
+  "#9CF8AB",
+  "#8AF4B4",
+  "#79EFBD",
+  "#68EAC6",
+  "#56E6CF",
+  "#45E1D8",
+  "#34DCE1",
+  "#22D8EA",
+  "#11D3F3",
+  "#3FC1C0",
+  "#20BAC5",
+  "#00B2CA",
+  "#04A6C2",
+  "#0899BA",
+  "#0F80AA",
+  "#16679A",
+  "#1A5B92",
+  "#1C558E",
+  "#1D4E89",
+  "#2D00F7",
+  "#6A00F4",
+  "#BC00DD",
+  "#D100D1",
+  "#DB00B6",
+  "#E500A4",
+  "#F20089",
+  "#FF8FA3",
+  "#FF4D6D",
+  "#C9184A",
+  "#641220",
+  "#6E1423",
+  "#85182A",
+  "#A11D33",
+  "#A71E34",
+  "#B21E35",
+  "#BD1F36",
+  "#C71F37",
+  "#DA1E37",
+  "#E01E37",
+  "#FF4800",
+  "#FF6000",
+  "#FF8500",
+  "#FF9100",
+  "#FF9E00",
+  "#FFAA00",
+  "#FFB600",
+  "#FFC300",
+  "#FFD000",
+  "#FFEA00",
+  "#FFE169",
+  "#FAD643",
+  "#EDC531",
+  "#DBB42C",
+  "#C9A227",
+  "#B69121",
+  "#A47E1B",
+  "#926C15",
+  "#805B10",
+  "#76520E",
+  "#036666",
+  "#14746F",
+  "#248277",
+  "#358F80",
+  "#469D89",
+  "#56AB91",
+  "#67B99A",
+  "#78C6A3",
+  "#88D4AB",
+  "#99E2B4",
+
+  
+
+   
+];
+var barColors6 = [
+  "#2D00F7",
+  "#6A00F4",
+  "#BC00DD",
+  "#D100D1",
+  "#DB00B6",
+  "#E500A4",
+  "#F20089",
+  "#FF8FA3",
+  "#FF4D6D",
+  "#C9184A",
+  "#641220",
+  "#6E1423",
+  "#85182A",
+  "#A11D33",
+  "#A71E34",
+  "#B21E35",
+  "#BD1F36",
+  "#C71F37",
+  "#DA1E37",
+  "#E01E37",
+  "#FF4800",
+  "#FF6000",
+  "#FF8500",
+  "#FF9100",
+  "#FF9E00",
+  "#FFAA00",
+  "#FFB600",
+  "#FFC300",
+  "#FFD000",
+  "#FFEA00",
+  "#FFE169",
+  "#FAD643",
+  "#EDC531",
+  "#DBB42C",
+  "#C9A227",
+  "#B69121",
+  "#A47E1B",
+  "#926C15",
+  "#805B10",
+  "#76520E",
+  "#036666",
+  "#14746F",
+  "#248277",
+  "#358F80",
+  "#469D89",
+  "#56AB91",
+  "#67B99A",
+  "#78C6A3",
+  "#88D4AB",
+  "#99E2B4",
+  "#ADFDA2",
+  "#9CF8AB",
+  "#8AF4B4",
+  "#79EFBD",
+  "#68EAC6",
+  "#56E6CF",
+  "#45E1D8",
+  "#34DCE1",
+  "#22D8EA",
+  "#11D3F3",
+  "#3FC1C0",
+  "#20BAC5",
+  "#00B2CA",
+  "#04A6C2",
+  "#0899BA",
+  "#0F80AA",
+  "#16679A",
+  "#1A5B92",
+  "#1C558E",
+  "#1D4E89",
+  
+
+   
 ];
 new Chart("satischart", {
   type: "pie",
@@ -296,6 +473,62 @@ new Chart("categchart", {
       title: {
             display: true,
             text: 'Count of Category by Request Category'
+        },
+        legend: {display: false},
+         },
+      
+    
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+    }
+  }
+});
+
+new Chart("isschart", {
+  type: "bar",
+  data: {
+    datasets: [{
+      backgroundColor: barColors5,
+      data: issuecat
+    }]
+  },
+  options: {
+      plugins: {
+      title: {
+            display: true,
+            text: 'Ticket Analytics by Issue Category'
+        },
+        legend: {display: false},
+         },
+      
+    
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+    }
+  }
+});
+
+new Chart("subchart", {
+  type: "bar",
+  data: {
+    datasets: [{
+      backgroundColor: barColors6,
+      data: issuesub
+    }]
+  },
+  options: {
+      plugins: {
+      title: {
+            display: true,
+            text: 'Ticket Analytics by Sub-Category'
         },
         legend: {display: false},
          },

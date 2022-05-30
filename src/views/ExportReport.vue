@@ -6,6 +6,39 @@
         <v-header>
             <h2 class="pr-10 header-text">Export Report</h2>
         </v-header><br>
+        <v-row> 
+          <v-col class="pl-12"
+      cols="12"
+      
+    >
+    <v-radio-group
+              v-model="radiobtn"
+              row
+              
+            >
+              <v-radio
+              style="font-family: 'Roboto', sans-serif"
+                label="Requests"
+                color="#ff6600"
+                value="Requests"
+              ></v-radio>
+              <v-radio
+              style="font-family: 'Roboto', sans-serif"
+                label="Incidents"
+                color="#0170c1"
+                value="Incidents"
+              ></v-radio>
+              <v-radio
+              style="font-family: 'Roboto', sans-serif"
+                label="Problems"
+                color="#7030a2"
+                value="Problems"
+              ></v-radio>
+
+    </v-radio-group>
+
+          </v-col>
+        </v-row>
         <v-row>
     <v-col class="pl-12"
       cols="12"
@@ -46,6 +79,7 @@
 </JsonExcel>
 </v-btn>
 
+
       
     </v-col>
   </v-row>
@@ -74,25 +108,27 @@ var getmonth = parseInt((current.getMonth()+1));
     data: () => ({
       dates: [],
       currentdate: date,
+      radiobtn: '',
     
 
       tickets: [],
       headers: 
             {
-       'TICKET NO.': 'ticket',
-             'REQUESTOR': 'requestor' ,
-             'DEPARTMENT': 'department' ,
-             'CATEGORY': 'category' ,
-             'DESCRIPTION':'description' ,
-             'JUSTIFICATION':'justification', //' d-none' hides the column but keeps the search ability
-             'STATE': 'state' ,
-             'CREATED':'date_created' ,
-             'RESOLVED':'resolved' ,
-             'ASSIGNED ENGR': 'assigned_engineer' ,
-             'SLA': 'sla',
-             'DIAGNOSTIC': 'diagnostic',
-             'RESOLUTION': 'resolution',
-            'COMMENTS': 'comments',
+            'TICKET NO.':'ticket',
+            'REQUESTOR':'requestor',
+            'DEPARTMENT':'department',
+            'CATEGORY':'category',
+            'SUB-CATEGORY':'sub',
+            'DESCRIPTION':'description',
+            'JUSTIFICATION':'justification', 
+            'STATUS':'status',
+            'CREATED':'date_created',
+            'RESPONDED':'date_responded',
+            'RESOLVED':'date_resolved',
+            'ASSIGNED ENGR':'assigned_engineer',
+            'SLA':'sla',
+            'DIAGNOSTIC':'diagnostic',
+            'RESOLUTION':'resolution',
     },
             //{ text: 'ACTION', value: 'action', align: 'center'},
           
@@ -112,10 +148,11 @@ var getmonth = parseInt((current.getMonth()+1));
                   
                 }
                 
-        
+        if (this.radiobtn != '' || this.radiobtn != undefined) {
         axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/export_tickets.php', {
           date1:firstdate,
-          date2:seconddate
+          date2:seconddate,
+          categ:this.radiobtn
         })
         
             .then((response)=>{
@@ -129,6 +166,10 @@ var getmonth = parseInt((current.getMonth()+1));
             .catch((error)=> {
                 console.log(error)
             })
+            }
+            else {
+              alert("Please select a category");
+            }
         },
        successCheck(){
          if(this.tickets == null || this.tickets == '') {

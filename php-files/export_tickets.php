@@ -13,20 +13,20 @@
     include 'connection.php';
     $json = file_get_contents("php://input");
     $received_data = json_decode($json);
-    $action = 'show';
+    
 
     
     $date1 = $received_data->date1 . " 00:00:00";
     $date2 = $received_data->date2 . " 23:59:59";
-    
+    $categ = $received_data->categ;
         
        
      
     $temporal = array();
     $response = array();
     
-    if($action == 'show'){
-        $sel = $conn -> query(' SELECT * FROM ticket WHERE requestor !="" AND date_created BETWEEN "'.$date1.'" AND "'.$date2.'" ORDER BY date_created DESC ');//AND status ="available"
+    if($categ == 'Requests'){
+        $sel = $conn -> query(' SELECT * FROM request_table WHERE requestor !="" AND date_created BETWEEN "'.$date1.'" AND "'.$date2.'" ORDER BY date_created DESC ');//AND status ="available"
        
         while($row = $sel -> fetch_assoc()){
             $temporal = $row;
@@ -35,7 +35,26 @@
         }
 
     }
+    elseif($categ == 'Incidents'){
+        $sel = $conn -> query(' SELECT * FROM incident_table WHERE requestor !="" AND date_created BETWEEN "'.$date1.'" AND "'.$date2.'" ORDER BY date_created DESC ');//AND status ="available"
+       
+        while($row = $sel -> fetch_assoc()){
+            $temporal = $row;
+            array_push($response, $temporal);
+            
+        }
 
+    }
+    elseif($categ == 'Problems'){
+        $sel = $conn -> query(' SELECT * FROM problem_table WHERE requestor !="" AND date_created BETWEEN "'.$date1.'" AND "'.$date2.'" ORDER BY date_created DESC ');//AND status ="available"
+       
+        while($row = $sel -> fetch_assoc()){
+            $temporal = $row;
+            array_push($response, $temporal);
+            
+        }
+
+    }
    
 
 
