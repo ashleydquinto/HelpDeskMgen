@@ -39,7 +39,8 @@
             $response = array(
                 "loginstatus" => "true",
                 "name"=> $row['name'],
-                "role"=> $row['role']
+                "role"=> $row['role'],
+                "id"=> $row['id']
                 
                 
             );

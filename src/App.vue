@@ -70,6 +70,8 @@ import axios from 'axios';
                               localStorage.setItem('ses', 'true');
                               localStorage.setItem('uRole', response.data.role);
                               localStorage.setItem('name', response.data.name);
+                              localStorage.setItem('id', response.data.id);
+                              
                             }
                             else{
                               alert(response.data.message);
@@ -94,6 +96,8 @@ import axios from 'axios';
             this.loggedin = "false";
             localStorage.setItem('ses', 'false');
             localStorage.setItem('name', '');
+            localStorage.setItem('uRole', '');
+            localStorage.setItem('id', '');
             this.name_of_user = "";
             this.user_role = "";
             

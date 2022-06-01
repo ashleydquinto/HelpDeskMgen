@@ -663,6 +663,7 @@ export default {
           },
           headers: [
             { text: 'TICKET NO.', value: 'ticket' },
+            { text: 'rid', value: 'rid', align:' d-none' },
             { text: 'REQUESTOR', value: 'requestor' },
             { text: 'DEPARTMENT', value: 'department' },
             { text: 'CATEGORY', value: 'category' },
@@ -775,10 +776,16 @@ export default {
         this.ticketOpen =false;
         }, 
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php')
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/problems/get_problems.php',
+        {
+          rid:localStorage.getItem('id'),
+          role:localStorage.getItem('uRole')
+        }
+        )
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;
+                
             })
             .catch((error)=> {
                 console.log(error)
@@ -829,7 +836,8 @@ export default {
                         status:this.addTicket.status,
                         priority:this.addTicket.priority,
                         attached_file:this.imgFetcher,
-                        sub:this.addTicket.sub
+                        sub:this.addTicket.sub,
+                        rid:localStorage.getItem('id')
                     })
                     .then((response)=>{
                       alert(response.data.message);
@@ -865,7 +873,8 @@ export default {
                         justification:this.addTicket.justification,
                         status:this.addTicket.status,
                         priority:this.addTicket.priority,
-                        sub:this.addTicket.sub
+                        sub:this.addTicket.sub,
+                        rid:localStorage.getItem('id')
                         
                     })
                     .then((response)=>{

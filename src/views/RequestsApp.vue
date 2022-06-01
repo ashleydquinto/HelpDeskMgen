@@ -517,6 +517,7 @@ export default {
           convo: [],
              headers: [
                 { text: 'TICKET NO.', value: 'ticket' },
+                { text: 'rid', value: 'rid', align:' d-none' },
                 //changed from request-category to priority (05-04)
                 { text: 'PRIORITY', value: 'priority' },
                 { text: 'REQUESTOR', value: 'requestor' },
@@ -605,7 +606,12 @@ export default {
         myNode.textContent = '';
       },
       getPosts(){
-        axios.get('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php')
+        axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/ticket-categories_php/requests/get_requests.php',
+        {
+          rid:localStorage.getItem('id'),
+          role:localStorage.getItem('uRole')
+        }
+        )
             .then((response)=>{
                 console.log(response.data)
                 this.tickets=response.data;

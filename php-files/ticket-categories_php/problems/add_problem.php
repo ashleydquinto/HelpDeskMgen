@@ -19,16 +19,17 @@
     $requestor = $received_data->requestor;
     $department = $received_data->department;
     $contact_no = $received_data->contact_no;
-    $issue = $received_data->issue;
+    $issueid = $received_data->issue;
     $description = $received_data->description;
     $justification = $received_data->justification;
     $status = $received_data->status;
     $priority = $received_data->priority;
     $sub = $received_data->sub;
+    $rid = $received_data->rid;
 
     //query executed if fields are not empty    
 
-    if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != ''){
+    if($requestor != '' && $department != '' && $contact_no != '' && $description != '' && $justification != '' && $sub != ''){
         //PREVIOUS QUERY (DI NA GAGAMITIN)
         //mysqli_query($conn,"INSERT INTO ticket(requestor,department,contact_no,issue,description,justification,status,assigned_engineer, sla, diagnostic,resolution,comments) VALUES('".$requestor."','".$department."','".$contact_no."','".$issue."','".$description."','".$justification."','','','','','','')");
 
@@ -38,7 +39,7 @@
         while($row = mysqli_fetch_assoc($sel)){
             $issue = $row['title'];
         }
-        if ($sub != '' || $sub != null) {
+        
             mysqli_query($conn,"INSERT INTO problem_table(
                 requestor,
                 department,
@@ -48,7 +49,8 @@
                 justification,
                 status,
                 priority,
-                sub
+                sub,
+                rid
                 ) 
                 VALUES(
                 '".$requestor."',
@@ -59,33 +61,12 @@
                 '".$justification."',
                 '".$status."',
                 '".$priority."',
-                '".$sub."'
+                '".$sub."',
+                '".$rid."'
                 )
             ");
-        }
-        else {
-        mysqli_query($conn,"INSERT INTO problem_table(
-            requestor,
-            department,
-            contact_no,
-            issue,
-            description,
-            justification,
-            status,
-            priority
-            ) 
-            VALUES(
-            '".$requestor."',
-            '".$department."',
-            '".$contact_no."',
-            '".$issue."',
-            '".$description."',
-            '".$justification."',
-            '".$status."',
-            '".$priority."'
-            )
-        ");
-            }
+        
+       
         $message = 'Form Inserted';
     }   
     else{

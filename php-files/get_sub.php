@@ -19,7 +19,7 @@
             $response = unserialize($row['sub_category']);
         }
         else {
-            $response = null;
+            $response = "No sub-category";
         }
         
        

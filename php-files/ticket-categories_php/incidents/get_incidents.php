@@ -11,6 +11,10 @@
     
 
     include '../../connection.php';
+    $json = file_get_contents("php://input");
+    $received_data = json_decode($json);
+    $rid = $received_data->rid;
+    $role = $received_data->role;
 
     $action = 'show';
 
@@ -20,7 +24,94 @@
 
     $temporal = array();
     $response = array();
+    if($role == 'Users') { 
+        if($action == 'show'){
+            $sel = $conn -> query('SELECT * FROM incident_table WHERE (requestor !="" AND rid = "'.$rid.'") ORDER BY date_created DESC');//WHERE requestor !="" ORDER BY date_created DESC 
+    
+            if(mysqli_num_rows($sel) == 0){
+                $response = 'No data.';
+            }
+            else{
+                while($row = $sel -> fetch_assoc()){
+                    $temporal = $row;
+                    array_push($response, $temporal);
+                    
+                }
+            }
+    
+            
+    
+        }
+    
+        if($action == 'new'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "New" AND rid = "'.$rid.'") ORDER BY date_created DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+    
+        if($action == 'ongoing'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "Ongoing" AND rid = "'.$rid.'") ORDER BY date_created DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+    
+        if($action == 'pending'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "Pending" AND rid = "'.$rid.'") ORDER BY date_created DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+        
+        if($action == 'resolved'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "Resolved" AND rid = "'.$rid.'") ORDER BY date_resolved DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+    
+        if($action == 'closed'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "Closed" AND rid = "'.$rid.'") ORDER BY date_created DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+    
+        if($action == 'cancelled'){
+            $sel = $conn -> query(' SELECT * FROM incident_table WHERE (requestor !="" AND status = "Cancelled" AND rid = "'.$rid.'") ORDER BY date_created DESC');//AND status ="available"
+    
+            while($row = $sel -> fetch_assoc()){
+                $temporal = $row;
+                array_push($response, $temporal);
+                
+            }
+    
+        }
+    }
+    else {
 
+    
     if($action == 'show'){
         $sel = $conn -> query('SELECT * FROM incident_table WHERE requestor !="" ORDER BY date_created DESC');//WHERE requestor !="" ORDER BY date_created DESC 
 
@@ -104,7 +195,7 @@
         }
 
     }
-    
+}
 
     echo json_encode($response);
 
