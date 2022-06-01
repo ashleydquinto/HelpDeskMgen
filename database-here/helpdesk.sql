@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2022 at 08:36 AM
+-- Generation Time: Jun 01, 2022 at 04:30 AM
 -- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.11
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,10 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `incident_table` (
   `id` int(10) NOT NULL,
+  `rid` int(10) NOT NULL,
   `requestor` varchar(50) NOT NULL,
   `department` varchar(60) NOT NULL,
   `contact_no` varchar(80) NOT NULL,
   `issue` varchar(60) NOT NULL,
+  `sub` varchar(255) DEFAULT NULL,
   `description` varchar(255) NOT NULL,
   `justification` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
@@ -52,14 +54,14 @@ CREATE TABLE `incident_table` (
 -- Dumping data for table `incident_table`
 --
 
-INSERT INTO `incident_table` (`id`, `requestor`, `department`, `contact_no`, `issue`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
-(1, 'sample-incident', 'sample-incident', '09209542323', 'Laptop', 'sample-incident', 'sample-incident', 'Resolved', 'Medium', 'ticket1-incident', '', '', '', '', '2022-05-02 17:11:54', '2022-05-05 11:55:11', NULL, NULL),
-(2, 'sample-2323', 'asdsad', '21312312312', 'sample_category2', 'describe this sample describe this sampledescribe this sampledescribe this sample', 'describe this sample describe this sample describe this sample describe this sample', 'Pending', 'High', 'Engineer1-forticket2', '1 hour', 'diagnosis', 'asdasd', 'asdasd', '2022-05-02 17:16:44', '2022-05-05 10:43:17', NULL, NULL),
-(3, 'sample-343434', 'asdasd', '23232323231', 'Laptop', ' describe this sample vdescribe this sample describe this sample describe this sample', 'describe this sample describe this sample describe this sample  describe this sample describe this sample', 'Closed', 'High', 'John Eric Diwa', '2 hours', 'working on it.', 'this has been done', 'help us ', '2022-05-02 17:17:18', '2022-05-05 11:00:32', NULL, 'Pics.png'),
-(4, 'incident-4', 'sadasd', '09343423232', 'Television_sample', 'asdasda', 'asdasdasd', 'New', 'Medium', 'asdasd', '', '', 'could not proceed', '', '2022-05-04 14:04:00', NULL, '2022-05-12 17:52:57', 'mypic-cropped .jpeg'),
-(5, 'incident-5', 'cdasda', '09232343242', 'sample_category3', 'describe-me', 'justify-me', 'Resolved', 'High', 'hello1', '', '', 'could not proceed', '', '2022-05-12 17:27:48', '2022-05-12 17:29:52', '2022-05-12 17:28:33', NULL),
-(6, 'download-trial', 'dept-secret', '09342323423', 'Wifi', 'description', 'justification', 'New', 'High', '', '', '', '', '', '2022-05-16 17:35:26', NULL, NULL, NULL),
-(7, 'download-trial-2', 'asdasd', '09234234234', 'Laptop', 'asdasd', 'asdasd', 'New', 'Critical', '', '', '', 'could not proceed', 'testing-comment', '2022-05-16 17:35:48', NULL, NULL, 'github-proof.PNG');
+INSERT INTO `incident_table` (`id`, `rid`, `requestor`, `department`, `contact_no`, `issue`, `sub`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
+(1, 0, 'sample-incident', 'sample-incident', '09209542323', 'Laptop', '', 'sample-incident', 'sample-incident', 'Resolved', 'Medium', 'ticket1-incident', '', '', '2.78 days ', '', '2022-05-02 17:11:54', '2022-05-05 11:55:11', '2022-05-17 04:24:46', NULL),
+(2, 0, 'sample-2323', 'asdsad', '21312312312', 'sample_category2', '', 'describe this sample describe this sampledescribe this sampledescribe this sample', 'describe this sample describe this sample describe this sample describe this sample', 'Pending', 'High', 'Engineer1-forticket2', '1 hour', 'diagnosis', 'asdasd', '', '2022-05-02 17:16:44', '2022-05-05 10:43:17', NULL, NULL),
+(3, 0, 'sample-343434', 'asdasd', '23232323231', 'Laptop', '', ' describe this sample vdescribe this sample describe this sample describe this sample', 'describe this sample describe this sample describe this sample  describe this sample describe this sample', 'Closed', 'High', 'John Eric Diwa', '2 hours', 'working on it.', 'this has been done', '', '2022-05-02 17:17:18', '2022-05-05 11:00:32', NULL, 'Pics.png'),
+(4, 0, 'incident-4', 'sadasd', '09343423232', 'Television_sample', '', 'asdasda', 'asdasdasd', 'New', 'Medium', 'asdasd', '', '', 'could not proceed', 'a:3:{i:0;s:5:\": try\";i:1;s:13:\"Admin 1: try2\";i:2;s:13:\"Admin 1: try2\";}', '2022-05-04 14:04:00', NULL, '2022-05-23 11:38:51', 'mypic-cropped .jpeg'),
+(5, 0, 'incident-5', 'cdasda', '09232343242', 'sample_category3', '', 'describe-me', 'justify-me', 'Resolved', 'High', 'hello1', '', '', '2.07 minutes ', '', '2022-05-12 17:27:48', '2022-05-12 17:29:52', '2022-05-23 11:24:28', NULL),
+(7, 1, 'test', 'test', 'test', 'sample_category1', '', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 09:25:47', NULL, NULL, NULL),
+(8, 1, 'test', 'test', 'test', 'Laptop12', 'Slow', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 10:23:32', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -70,7 +72,7 @@ INSERT INTO `incident_table` (`id`, `requestor`, `department`, `contact_no`, `is
 CREATE TABLE `issue_category` (
   `id` int(10) NOT NULL,
   `title` varchar(30) NOT NULL,
-  `sub_category` varchar(30) NOT NULL
+  `sub_category` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -78,12 +80,15 @@ CREATE TABLE `issue_category` (
 --
 
 INSERT INTO `issue_category` (`id`, `title`, `sub_category`) VALUES
-(1, 'sample_category1', 'this_is_a_sub'),
-(2, 'sample_category2', ''),
-(3, 'sample_category3', ''),
-(5, 'Laptop', ''),
-(6, 'Wifi', ''),
-(7, 'Television_sample', '');
+(1, 'sample_category1', NULL),
+(2, 'sample_category2', NULL),
+(3, 'sample_category3', NULL),
+(5, 'Laptop', NULL),
+(6, 'Wifi', NULL),
+(7, 'Television_sample', NULL),
+(8, 'Mobile', NULL),
+(10, 'Laptop12', 'a:2:{i:0;s:4:\"Slow\";i:1;s:4:\"Test\";}'),
+(12, 'Test', 'a:3:{i:0;s:3:\"bug\";i:1;s:4:\"test\";i:2;s:3:\"try\";}');
 
 -- --------------------------------------------------------
 
@@ -93,10 +98,12 @@ INSERT INTO `issue_category` (`id`, `title`, `sub_category`) VALUES
 
 CREATE TABLE `problem_table` (
   `id` int(10) NOT NULL,
+  `rid` int(10) NOT NULL,
   `requestor` varchar(50) NOT NULL,
   `department` varchar(60) NOT NULL,
   `contact_no` varchar(80) NOT NULL,
   `issue` varchar(60) NOT NULL,
+  `sub` varchar(255) DEFAULT NULL,
   `description` varchar(255) NOT NULL,
   `justification` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
@@ -105,7 +112,7 @@ CREATE TABLE `problem_table` (
   `sla` varchar(20) NOT NULL,
   `diagnostic` varchar(255) NOT NULL,
   `resolution` varchar(255) NOT NULL,
-  `comments` varchar(255) NOT NULL,
+  `comments` text NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_resolved` datetime DEFAULT NULL,
   `date_responded` datetime DEFAULT NULL,
@@ -116,13 +123,15 @@ CREATE TABLE `problem_table` (
 -- Dumping data for table `problem_table`
 --
 
-INSERT INTO `problem_table` (`id`, `requestor`, `department`, `contact_no`, `issue`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
-(1, 'problem#1', 'problem-no1', '09324214234', 'Laptop', 'asdasd', 'asdasdasd', 'Closed', 'Medium', 'engineer-for-problem1', '', '', '', '', '2022-05-04 14:19:17', '2022-05-05 11:57:30', NULL, NULL),
-(2, 'problem#2-withpic', 'problem-no2', '09343232323', 'sample_category3', 'asdasdasd', 'asdasdasd', 'Resolved', 'Low', 'ticket-2-i- need-engineer', '2 hours', 'please resolve', 'please resolve', 'please resolve', '2022-05-04 14:28:36', '2022-05-12 17:46:17', NULL, NULL),
-(3, 'problem#3', 'problem-no3', '09232324234', 'Laptop', 'asdasas', 'asdasdasd', 'Resolved', 'Medium', 'hello123', '2 hours', 'diagnosis3', 'resolution3', 'hello ', '2022-05-04 14:30:18', '2022-05-12 17:44:43', NULL, 'jules-portrait.jpg'),
-(4, 'problem#4', 'problem-dept', '09232413123', 'Laptop', 'adasd', 'asdasd', 'Resolved', 'Medium', 'Jules Stephen L. Mayo', '2 hours', 'asdasd', 'could not proceed', 'asdasd', '2022-05-12 17:51:09', '2022-05-12 17:54:41', '2022-05-12 17:54:20', NULL),
-(5, 'Problem#5', 'dept#5', '09234234234', 'Television_sample', 'dept5', 'pprob5', 'Pending', 'Medium', 'Mark', '', '', 'could not proceed', '', '2022-05-12 19:22:46', NULL, '2022-05-12 19:23:20', NULL),
-(6, 'download-test', 'dept-download', '09324234232', 'Laptop', 'asdasd', 'asdasdasd', 'New', 'Medium', '', '', '', 'could not proceed', 'hello', '2022-05-16 17:38:37', NULL, NULL, 'fb_db.PNG');
+INSERT INTO `problem_table` (`id`, `rid`, `requestor`, `department`, `contact_no`, `issue`, `sub`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
+(1, 0, 'problem#1', 'problem-no1', '09324214234', 'Laptop', '', 'asdasd', 'asdasdasd', 'Closed', 'Medium', 'engineer-for-problem1', '', '', '', '', '2022-05-04 14:19:17', '2022-05-05 11:57:30', NULL, NULL),
+(2, 0, 'problem#2-withpic', 'problem-no2', '09343232323', 'sample_category3', '', 'asdasdasd', 'asdasdasd', 'Resolved', 'Low', 'ticket-2-i- need-engineer', '2 hours', 'please resolve', 'please resolve', '', '2022-05-04 14:28:36', '2022-05-12 17:46:17', NULL, NULL),
+(3, 0, 'problem#3', 'problem-no3', '09232324234', 'Laptop', '', 'asdasas', 'asdasdasd', 'Resolved', 'Medium', 'hello123', '2 hours', 'diagnosis3', 'resolution3', '', '2022-05-04 14:30:18', '2022-05-12 17:44:43', NULL, 'jules-portrait.jpg'),
+(4, 0, 'problem#4', 'problem-dept', '09232413123', 'Laptop', '', 'adasd', 'asdasd', '', '', '', '', '', '', 'a:2:{i:0;s:12:\"Admin 1: try\";i:1;s:9:\"Admin 1: \";}', '2022-05-12 17:51:09', '2022-05-12 17:54:41', '2022-05-20 10:12:59', NULL),
+(5, 0, 'Problem#5', 'dept#5', '09234234234', 'Television_sample', '', 'dept5', 'pprob5', 'Pending', 'Medium', 'Mark', '30 days', 'qqweqwewq', 'could not proceed', 'a:15:{i:0;s:25:\"<b>Admin 1</b>: test1<br>\";i:1;s:24:\"<b>Admin 1</b>: next<br>\";i:2;s:9:\"Admin 1: \";i:3;s:13:\"Admin 1: okay\";i:4;s:9:\"Admin 1: \";i:5;s:14:\"Admin 1: test2\";i:6;s:9:\"Admin 1: \";i:7;s:9:\"Admin 1: \";i:8;s:9:\"Admin 1: \";i:9;s:14:\"Admin 1: test2\";i:10;s:16:\"Admin 1: test434\";i:11;s:18:\"Admin 1: asdasdasd\";i:12;s:12:\"Admin 1: add\";i:13;s:17:\"Admin 1: qeqweqwe\";i:14;s:12:\"Admin 1: aye\";}', '2022-05-12 19:22:46', NULL, '2022-05-23 11:25:53', NULL),
+(9, 1, 'test', 'tester', '09168803224', 'Laptop12', 'Test', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 09:22:56', NULL, NULL, NULL),
+(10, 1, 'test', 'tset', 'test', 'sample_category1', 'No sub-category', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 09:48:20', NULL, NULL, NULL),
+(11, 1, 'test', 'test', 'test', 'Test', 'test', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 10:25:21', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -132,10 +141,12 @@ INSERT INTO `problem_table` (`id`, `requestor`, `department`, `contact_no`, `iss
 
 CREATE TABLE `request_table` (
   `id` int(10) NOT NULL,
+  `rid` int(10) NOT NULL,
   `requestor` varchar(50) NOT NULL,
   `department` varchar(60) NOT NULL,
   `contact_no` varchar(80) NOT NULL,
   `issue` varchar(60) NOT NULL,
+  `sub` varchar(255) DEFAULT NULL,
   `description` varchar(255) NOT NULL,
   `justification` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
@@ -155,26 +166,22 @@ CREATE TABLE `request_table` (
 -- Dumping data for table `request_table`
 --
 
-INSERT INTO `request_table` (`id`, `requestor`, `department`, `contact_no`, `issue`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
-(1, 'Test-requestor', 'Test-department', '09209546233', 'asdasd', 'testing testing testin', 'testing testing testintesting testing testintesting testing testin', 'Resolved', 'Medium', 'ticket1-request', '', '', '', '', '2022-05-02 16:18:09', '2022-05-05 11:55:19', NULL, NULL),
-(2, 'hello', 'test-dept', 'helloeeee', 'sample_category3', 'asdasdasd', 'its a justification', 'Closed', '', '', '2 hours', 'cannot be done', '', '', '2022-05-02 16:23:06', '2022-05-05 10:59:20', NULL, NULL),
-(3, 'requestor3', 'asdasd', '09333333333', 'Laptop', 'asdasd', 'asdasdasd', 'Resolved', '', '', '8 hours', '', '', '', '2022-05-02 16:26:38', '2022-05-05 11:21:59', NULL, 'mgen-black.png'),
-(4, 'request#4', '4th-request', '09203543434', 'sample_category3', 'asdasd', 'asdasdasd', 'Closed', 'Critical', '', '', '', '', '', '2022-05-04 13:59:12', '2022-05-05 10:43:44', NULL, 'MEME HINA.png'),
-(5, 'Request#5', 'department#5', '09343242342', 'Wifi', 'dept5', 'dept5', 'Resolved', 'Critical', '', '', '', '', '', '2022-05-05 10:04:42', '2022-05-05 15:08:09', NULL, NULL),
-(6, 'another-request', 'asdasd', '09434234234', 'sample_category3', 'qweqwe', 'qweqwe', 'Resolved', 'High', '', '', '', '', '', '2022-05-06 12:52:43', '2022-05-06 13:00:04', NULL, NULL),
-(7, 'requestor-7', 'asdasdas', '09322131231', 'Television_sample', 'describe-me', 'describe-me', 'New', 'Medium', '', '2 hours', '', '', '', '2022-05-06 13:40:12', NULL, NULL, 'university.png'),
-(8, 'sample-requestor-8', 'Development Team', '09204343434', 'Laptop', 'Description', 'Justification', 'Closed', 'High', 'assigned-engineer1', '14 days', 'diagnostic-1', 'resolution', 'comments', '2022-05-06 16:14:51', '2022-05-06 16:19:08', NULL, 'image1.png'),
-(9, 'test-for-time', 'DFA', '09322323232', 'Wifi', 'asdasd', 'asdasdasd', 'Resolved', 'Medium', 'Jules Stephen Mayo', '2 hours', 'diagnosis', '0 minutes ', 'help us', '2022-05-12 15:08:24', '2022-05-12 21:25:24', NULL, NULL),
-(10, 'test-responded', 'trying-21', '09232323232', 'sample_category3', 'trying-21', 'trying-21', 'New', 'High', 'try-this-one', '', '', 'NaN hours ', '', '2022-05-12 17:05:07', NULL, '2022-05-12 17:06:13', NULL),
-(11, 'test-responded2', 'test-123', '09342342342', 'Laptop', 'test-me', 'test-me', 'New', 'Low', '', '', '', 'NaN hours ', '', '2022-05-12 17:07:03', NULL, NULL, NULL),
-(12, 'request#12', 'requestor-dept', '09232342342', 'sample_category3', 'description#2', 'justify#NN', 'Resolved', 'Medium', 'asdasd', '', '', 'NaN hours ', '', '2022-05-13 10:46:03', '2022-05-13 12:23:19', '2022-05-13 10:46:09', NULL),
-(13, 'request#13', 'dept13', '09342323123', 'Wifi', 'describe-me', 'describe-me', 'New', 'High', '', '', '', '', '', '2022-05-13 11:15:09', NULL, NULL, NULL),
-(14, 'request#14', 'sample-department', '09432343433', 'Laptop', 'description', 'justification', 'Pending', 'Medium', 'Jules Stephen L. Mayo', '2 hours', 'diagnostic', 'NaN hours ', 'comment', '2022-05-13 14:20:12', NULL, '2022-05-13 14:20:57', NULL),
-(15, 'request#15', 'dept#15', '09204353434', 'Television_sample', 'need to fix the wifi', 'ethernet cable is broken', 'New', 'Medium', '', '', '', '', '', '2022-05-16 11:26:17', NULL, NULL, 'skills.png'),
-(16, 'trying-download-feature', 'depart-download', '09224234234', 'Wifi', 'trying-download-feature', 'trying-download-feature', 'New', 'High', '', '', '', '', '', '2022-05-16 17:01:12', NULL, NULL, 'push-success.PNG'),
-(17, 'download-part-2', 'asdasd', '09342342342', 'Laptop', 'laptop', 'computer', 'New', 'High', '', '', '', '', '', '2022-05-16 17:08:58', NULL, NULL, NULL),
-(18, 'download-part-3', 'asdasd', '23231231231', 'Laptop', 'asdasd', 'asdasd', 'New', 'High', 'hello', '', '', 'NaN hours ', 'asdasda', '2022-05-16 17:09:27', NULL, '2022-05-16 18:50:12', 'WPR14-Mayo.docx'),
-(19, 'download-request#19', 'Depart-download', '0905622523', 'sample_category3', 'any description', 'any justification', 'Pending', 'High', 'jules', '2 hours', 'sample diagnostic', 'NaN hours ', 'a:2:{i:0;s:17:\": sample comments\";i:1;s:17:\": sample comments\";}', '2022-05-18 09:09:58', NULL, '2022-05-18 10:08:20', 'image.png');
+INSERT INTO `request_table` (`id`, `rid`, `requestor`, `department`, `contact_no`, `issue`, `sub`, `description`, `justification`, `status`, `priority`, `assigned_engineer`, `sla`, `diagnostic`, `resolution`, `comments`, `date_created`, `date_resolved`, `date_responded`, `attached_file`) VALUES
+(1, 1, 'Test-requestor', 'Test-department', '09209546233', 'asdasd', '', 'testing testing testin', 'testing testing testintesting testing testintesting testing testin', 'Resolved', 'Medium', 'ticket1-request', '', '', '', '', '2022-05-02 16:18:09', '2022-05-05 11:55:19', NULL, NULL),
+(2, 0, 'hello', 'test-dept', 'helloeeee', 'sample_category3', '', 'asdasdasd', 'its a justification', 'Closed', '', '', '2 hours', 'cannot be done', '', '', '2022-05-02 16:23:06', '2022-05-05 10:59:20', NULL, NULL),
+(3, 0, 'requestor3', 'asdasd', '09333333333', 'Laptop', '', 'asdasd', 'asdasdasd', 'Resolved', '', '', '8 hours', '', '', '', '2022-05-02 16:26:38', '2022-05-05 11:21:59', NULL, 'mgen-black.png'),
+(4, 0, 'request#4', '4th-request', '09203543434', 'sample_category3', '', 'asdasd', 'asdasdasd', 'Closed', 'Critical', '', '', '', '', '', '2022-05-04 13:59:12', '2022-05-05 10:43:44', NULL, 'MEME HINA.png'),
+(5, 0, 'Request#5', 'department#5', '09343242342', 'Wifi', '', 'dept5', 'dept5', 'Resolved', 'Critical', '', '', '', '', '', '2022-05-05 10:04:42', '2022-05-05 15:08:09', NULL, NULL),
+(6, 0, 'another-request', 'asdasd', '09434234234', 'sample_category3', '', 'qweqwe', 'qweqwe', 'Resolved', 'High', '', '', '', '', '', '2022-05-06 12:52:43', '2022-05-06 13:00:04', NULL, NULL),
+(7, 0, 'requestor-7', 'asdasdas', '09322131231', 'Television_sample', '', 'describe-me', 'describe-me', 'New', 'Medium', '', '2 hours', '', '', '', '2022-05-06 13:40:12', NULL, NULL, 'university.png'),
+(8, 0, 'sample-requestor-8', 'Development Team', '09204343434', 'Laptop', '', 'Description', 'Justification', 'Closed', 'High', 'assigned-engineer1', '14 days', 'diagnostic-1', 'resolution', '', '2022-05-06 16:14:51', '2022-05-06 16:19:08', NULL, 'image1.png'),
+(9, 0, 'test-for-time', 'DFA', '09322323232', 'Wifi', '', 'asdasd', 'asdasdasd', 'Resolved', 'Medium', 'Jules Stephen Mayo', '2 hours', 'diagnosis', '6.28 hours ', 'a:1:{i:0;s:5:\": add\";}', '2022-05-12 15:08:24', '2022-05-12 21:25:24', '2022-05-23 09:29:06', NULL),
+(10, 0, 'test-responded', 'trying-21', '09232323232', 'sample_category3', '', 'trying-21', 'trying-21', 'New', 'High', 'try-this-one', '', '', 'NaN hours ', 'a:1:{i:0;s:13:\"Admin 1: test\";}', '2022-05-12 17:05:07', NULL, '2022-05-23 11:44:06', NULL),
+(11, 0, 'test-responded2', 'test-123', '09342342342', 'Laptop', 'test', 'test-me', 'test-me', 'New', 'Low', '', '', '', 'NaN hours ', '', '2022-05-12 17:07:03', NULL, NULL, NULL),
+(14, 1, 'test', 'tset', 'test', 'Laptop12', 'Slow', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 09:22:03', NULL, NULL, NULL),
+(15, 1, 'test', 'test', '09168803224', 'Laptop', '', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 09:26:23', NULL, NULL, NULL),
+(16, 1, 'test', 'test', 'test', 'sample_category1', NULL, 'test', 'test', 'New', '', '', '', '', '', '', '2022-06-01 09:31:40', NULL, NULL, NULL),
+(17, 1, 'test', 'test', 'test', 'Test', 'bug', 'test', 'test', 'New', 'Low', '', '', '', '', '', '2022-06-01 10:24:34', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -278,7 +285,7 @@ CREATE TABLE `user_management` (
 --
 
 INSERT INTO `user_management` (`id`, `name`, `email`, `role`, `status`, `username`, `password`, `datecreated`) VALUES
-(1, 'Admin 1', 'admin@gmail.com', 'administrator', 'Disabled', 'admin', 'admin', '2022-04-22 11:46:31'),
+(1, 'Admin 1', 'admin@gmail.com', 'Administrator', 'Active', 'admin', 'c0cba06f0350f6ded419ad1855a80d736522d393', '2022-04-22 11:46:31'),
 (2, 'asdasdasd', 'asdasd@gmail.com', 'Administrator', 'Active', 'jules11', 'd6893b6e03230bd6d13aadda6c3c25', '2022-04-22 11:46:31'),
 (3, 'jules', 'julesmayo15@gmail.com', 'Administrator', 'Active', 'julesmayo', '09c1feae48bdc8d94d007d362f14d2', '2022-04-22 11:46:31'),
 (4, 'administrator', 'admin@email.com', 'Administrator', 'Active', 'administrator', 'b3aca92c793ee0e9b1a9b0a5f5fc04', '2022-04-22 13:16:46'),
@@ -292,19 +299,6 @@ INSERT INTO `user_management` (`id`, `name`, `email`, `role`, `status`, `usernam
 (12, 'testing-manager', 'manager@test.com', 'Manager', 'Active', 'testing-manager', '024247fe63da4e19ee34da93d4e08dae6c410ad0', '2022-04-23 19:49:40'),
 (13, 'hello-admin', 'hello-admin@admin.com', 'Administrator', 'Active', 'hello-admin', 'fa98de29b7a2b4a10fb2d592501925747d1d9061', '2022-04-23 19:51:41'),
 (14, 'test-user', 'test-user@user.com', 'Users', 'Active', 'test-user', 'c56486f8b638f63e04251d0c8ab0b4fbfee8e06b', '2022-05-10 11:52:49');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_rating`
---
-
-CREATE TABLE `user_rating` (
-  `id` int(50) NOT NULL,
-  `requestor` varchar(100) NOT NULL,
-  `assigned_engineer` varchar(100) NOT NULL,
-  `rating` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -347,12 +341,6 @@ ALTER TABLE `user_management`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user_rating`
---
-ALTER TABLE `user_rating`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -360,25 +348,25 @@ ALTER TABLE `user_rating`
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `issue_category`
 --
 ALTER TABLE `issue_category`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `problem_table`
 --
 ALTER TABLE `problem_table`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `request_table`
 --
 ALTER TABLE `request_table`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ticket`
@@ -391,12 +379,6 @@ ALTER TABLE `ticket`
 --
 ALTER TABLE `user_management`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `user_rating`
---
-ALTER TABLE `user_rating`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
