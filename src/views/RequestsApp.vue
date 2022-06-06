@@ -412,6 +412,21 @@
                         <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Resolution</h3>
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution != ''" class="body-2 update-font">{{this.editedItem.resolution}}</p>
                           <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.editedItem.resolution == ''" class="body-2 update-font">No resolution.</p>
+                        
+                        <h3 v-if="editedItem.status == 'Closed' || editedItem.status == 'Resolved'" class="title  mb-1">Employee Rating</h3>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Timely Coordination with the User:</b> {{this.eRating.r1}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>SLA Awareness:</b> {{this.eRating.r2}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Resiliency Plan:</b> {{this.eRating.r3}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Proper use of Channel of Communications:</b> {{this.eRating.r4}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Overall Comprehension of the Problem:</b> {{this.eRating.qow1}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>1st Call Resolution:</b> {{this.eRating.qow2}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Root Cause Analysis and Quality Assurance:</b> {{this.eRating.qow3}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>No Task Overdue:</b> {{this.eRating.d1}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Proper utilization of Tools:</b> {{this.eRating.d2}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Customer Management:</b> {{this.eRating.ss1}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating != ''" class="body-2 update-font"><b>Relationship and Conflict Management:</b> {{this.eRating.ss2}}</p>
+                        <p v-if="(editedItem.status == 'Closed' || editedItem.status == 'Resolved') && this.eRating == ''" class="body-2 update-font">No rating.</p>
+                        
                         <div id="comm">
                           
                         
@@ -515,6 +530,7 @@ export default {
     data(){
         return{
           convo: [],
+          eRating: [],
              headers: [
                 { text: 'TICKET NO.', value: 'ticket' },
                 { text: 'rid', value: 'rid', align:' d-none' },
@@ -635,7 +651,15 @@ export default {
           })
       },
        editItem (item, comid) {
-         
+         axios.post(
+            'http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/get_rating.php',
+            {
+              id3:comid,
+              action:'Request'
+            })
+            .then((response3)=>{ 
+              this.eRating = response3.data;
+            })
           
           
           axios.post(

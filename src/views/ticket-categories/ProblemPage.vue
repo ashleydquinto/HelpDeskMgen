@@ -331,11 +331,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="responsiveness1" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -352,11 +352,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="responsiveness2" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -374,11 +374,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="responsiveness3" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -395,11 +395,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="responsiveness4" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -427,11 +427,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="qow1" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -448,11 +448,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="qow2" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -470,11 +470,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="qow3" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -504,11 +504,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="delivery1" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -525,11 +525,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="delivery2" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -561,11 +561,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="ss1" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -582,11 +582,11 @@
                                 <v-col cols="10">
 
                                   <v-radio-group
-                                  v-model="selectedOptionId" mandatory
+                                  v-model="ss2" mandatory
                                   row
                                   v-if="editedItem.status == 'Resolved'"
                                   >
-                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.id"></v-radio>
+                                    <v-radio class="review-text" v-for="option in options" :key="option.id" :label="option.label" :value="option.label"></v-radio>
                                   </v-radio-group>
 
                                 </v-col>
@@ -622,7 +622,7 @@
                         style="background-color: #1e6097; color: white;"
                         text
                         v-if="(editedItem.status == 'Resolved' || editedItem.status == 'Closed') && show_submit == true"
-                        @click="submitRating(selectedOptionId)"
+                        @click="submitRating()"
                         >
                           Submit Rating
                         </v-btn>
@@ -649,6 +649,17 @@ export default {
 
     data(){
         return{
+          responsiveness1: '',
+          responsiveness2: '',
+          responsiveness3: '',
+          responsiveness4: '',
+          qow1: '',
+          qow2: '',
+          qow3: '',
+          delivery1: '',
+          delivery2: '',
+          ss1: '',
+          ss2: '',
           convo: [],
           issues:'',
           sub: [],
@@ -687,10 +698,10 @@ export default {
             rating:''
           },
           options:[
-            { id: 1, label: '4 (Very Satisfactory)', value: 4 },
-            { id: 2, label: '3 (Satisfactory)', value: 3 },
-            { id: 3, label: '2 (Unsatisfactory)', value: 2 },
-            { id: 4, label: '1 (Poor)', value: 1 },
+            { id: 1, label: '4 (Very Satisfactory)', value: '4 (Very Satisfactory)' },
+            { id: 2, label: '3 (Satisfactory)', value: '3 (Satisfactory)' },
+            { id: 3, label: '2 (Unsatisfactory)', value: '2 (Unsatisfactory)' },
+            { id: 4, label: '1 (Poor)', value: '1 (Poor)' },
           ],
           show_submit:false,
           tickets: [
@@ -726,6 +737,28 @@ export default {
     },
 
     methods: {
+      submitRating(){
+          axios.post('http://localhost/HelpDeskMgen-main2/HelpDeskMgen/php-files/submit_rating.php',
+                    {
+                        r1:this.responsiveness1,
+                        r2:this.responsiveness2,
+                        r3:this.responsiveness3,
+                        r4:this.responsiveness4,
+                        qow1:this.qow1,
+                        qow2:this.qow2,
+                        qow3:this.qow3,
+                        d1:this.delivery1,
+                        d2:this.delivery2,
+                        ss1:this.ss1,
+                        ss2:this.ss2,
+                        id: this.editedItem.id,
+                        action:"Problem"
+                    })
+                    .then((response)=>{
+                      alert(response.data.message);
+                      
+                    })
+        },
       selectCategory() {
 
         
